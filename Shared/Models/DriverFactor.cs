@@ -23,7 +23,7 @@ namespace DAL
 
         [Display(Name ="سرویس")]
         [ForeignKey(nameof(TaxiCab))]
-        public int taxiCabeid { get; set; }
+        public int? taxiCabeid { get; set; }
         [Display(Name = "سرویس")]
         public virtual TaxiCab TaxiCab { get; set; }
 

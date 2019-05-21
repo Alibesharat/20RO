@@ -55,7 +55,7 @@ namespace DAL
           .Property(C => C.DriverPercent).HasDefaultValue(80);
             #endregion
 
-
+           
 
             #region SeedData
             //تنظیمات عمومی
