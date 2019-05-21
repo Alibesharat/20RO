@@ -1,6 +1,5 @@
 ﻿using AutoHistoryCore;
 using Newtonsoft.Json;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,14 +27,15 @@ namespace DAL
         [Display(Name = "والدین")]
         public virtual StudentParent studentParent { get; set; }
 
-        [Display(Name = "نام و نام خانوداگی")]
+        [Display(Name = " نام و نام خادنوادگی دانش آموز")]
         public string FullName { get; set; }
+
+        [Display(Name = "کد ملی دانش آموز")]
+        public string IrIdCod { get; set; }
 
         [Display(Name = "تصویر مسافر")]
         public string IamgePath { get; set; }
 
-        [Display(Name = "جنسیت")]
-        public bool gender { get; set; }
 
         [Display(Name = "سن")]
         public int Age { get; set; }
@@ -56,13 +56,9 @@ namespace DAL
         public string Note { get; set; }
         //=========
 
-        [Display(Name = "دوره")]
-        [ForeignKey(nameof(course))]
-        public int CourseId { get; set; }
+       
 
-        [Display(Name = "دوره")]
-        public virtual Course course { get; set; }
-
+       
         [Display(Name = "قیمت")]
         public int price { get; set; }
 
@@ -94,6 +90,13 @@ namespace DAL
         public ICollection<Payment> payments { get; set; }
 
         public virtual ICollection<DriverFactor> DriverFactors { get; set; }
+
+
+        [Display(Name = "آموزشگاه")]
+        [ForeignKey(nameof(Academy))]
+        public int? AcademyId { get; set; }
+        [Display(Name = "آموزشگاه")]
+        public Academy Academy { get; set; }
 
 
         [NotMapped]

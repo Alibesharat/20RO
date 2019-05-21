@@ -29,8 +29,7 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
             var _driverFactors = _context.driverFactors.Undelited().AsQueryable();
             _driverFactors = _driverFactors.Include(d => d.ServiceRequset)
-                .ThenInclude(d => d.course)
-                .ThenInclude(d => d.Academy)
+                .ThenInclude(se => se.Academy)
                 .Include(d => d.TaxiCab)
                 .ThenInclude(t => t.Driver)
                 .Where(c => c.TaxiCab.DriverId == DriverId && c.TaxiCab.TaxiCabState==TaxiCabState.Ready);

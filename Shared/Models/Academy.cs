@@ -61,13 +61,12 @@ namespace DAL
         [Display(Name = "آموزشگاه")]
         public string ClassName { get; }
 
-        [JsonIgnore]
-        public virtual ICollection<Course> Courses { get; set; }
 
-      
+
+
 
         [JsonIgnore]
-        public virtual ICollection<StudentParent> StudentParents { get; set; }
+        public virtual ICollection<ServiceRequset> ServiceRequsets { get; set; }
 
         [JsonIgnore]
 

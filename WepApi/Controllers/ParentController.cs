@@ -148,8 +148,10 @@ namespace WepApi.Controllers
                 var user = await _context.studentParents.FirstOrDefaultAsync(c => c.PhoneNubmber == model.PhoneNubmber);
                 if (user != null)
                 {
-                    List<string> numbers = new List<string>();
-                    numbers.Add(user.PhoneNubmber);
+                    List<string> numbers = new List<string>
+                    {
+                        user.PhoneNubmber
+                    };
                     _sms.phoneNumbers = numbers;
                     _sms.message = $"رمز ایلیکار شما   : {user.Password}";
                     await _sms.SendNotifyAsync();
@@ -180,13 +182,12 @@ namespace WepApi.Controllers
 
 
                 var requset = model.Adapt<ServiceRequset>();
-                var studentparrent = await _context.studentParents.FirstOrDefaultAsync(c => c.Id == requset.StudentParrentId);
-                if (studentparrent != null)
+                if (requset != null)
                 {
-                    if (studentparrent.AcademyId != model.AcademyId)
+                    if (requset.AcademyId != model.AcademyId)
                     {
-                        studentparrent.AcademyId = model.AcademyId;
-                        _context.Update(studentparrent);
+                        requset.AcademyId = model.AcademyId;
+                        _context.Update(requset);
                     }
                     requset.price = CalcPrice(requset);
                     if (requset.price == 0)
@@ -224,8 +225,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var course = _context.Courses.Include(c => c.Academy).ThenInclude(c => c.district).FirstOrDefault(c => c.Id == requset.CourseId);
-                var Academy = course.Academy;
+                var Academy = requset.Academy;
                 if (Academy == null) throw new Exception("Academy IS Null");
 
                 decimal Distance = requset.Distance;
@@ -246,7 +246,7 @@ namespace WepApi.Controllers
                 double price = (priceModel.ConstPrice + distancPerKilometer);
                 var commision = (price * priceModel.Comission);
                 price = price + (commision / 100);
-                double trafficPercent = price * course.trafficPercent;
+                double trafficPercent = 0;
                 price = price + (trafficPercent / 100);
                 price = price * (numberOfSeasion * 2);
                 int fp = (int)price;
@@ -276,8 +276,8 @@ namespace WepApi.Controllers
             {
                 var data = await _context.serviceRequsets
 
-                    .Include(c => c.course)
-                    .ThenInclude(course => course.Academy)
+                    .Include(c => c.Academy)
+
                     .Where(c => c.StudentParrentId == model.ParrentId && c.RequsetState == model.RequsetSate)
                     .ToListAsync();
                 return Ok(new ResultContract<List<ServiceRequset>> { statuse = true, Data = data });
@@ -303,8 +303,8 @@ namespace WepApi.Controllers
             try
             {
                 var data = await _context.serviceRequsets
-                    .Include(c => c.course)
-                    .ThenInclude(course => course.Academy)
+                    .Include(c => c.Academy)
+
                     .Include(c => c.cabAsFirst).ThenInclude(cf => cf.Driver)
                     .Include(c => c.cabAsSecond).ThenInclude(cs => cs.Driver)
                     .Include(c => c.cabAsThird).ThenInclude(ct => ct.Driver)
@@ -475,145 +475,25 @@ namespace WepApi.Controllers
         }
 
 
-        /// <summary>
-        /// دریافت یک آموزشگاه 
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("GetAcademyByCourse")]
-        public async Task<IActionResult> GetAcademyByCourse([FromBody] getDetailViewModel model)
-        {
-            try
-            {
-                _context.ChangeTracker.LazyLoadingEnabled = false;
-                Course data = await _context.Courses.Undelited().Include(c => c.Academy).FirstOrDefaultAsync(c => c.Id == model.Id);
-                var ac = data.Academy;
-                if (data == null || data.Academy == null)
-                    return Ok(new ResultContract<Academy> { statuse = false, message = "یافت نشد" });
-
-                return Ok(new ResultContract<Academy> { statuse = true, Data = ac });
-
-
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<Academy> { statuse = false, message = "خطایی بوجود آمد" });
-
-            }
-        }
+       
 
 
 
 
 
 
-        /// <summary>
-        /// دریافت دوره ها
-        /// </summary>
-        /// <returns></returns>
 
-        [HttpPost("GetCourses")]
-        public async Task<IActionResult> GetCourses()
-        {
-            try
-            {
-                _context.ChangeTracker.LazyLoadingEnabled = false;
-                List<Course> data = await _context.Courses.Undelited().ToListAsync();
-                return Ok(new ResultContract<List<Course>> { statuse = true, Data = data });
+     
+
+       
 
 
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<List<Course>> { statuse = false, message = "خطایی بوجود آمد" });
-
-            }
-        }
-
-        /// <summary>
-        /// دریافت دوره های یک آموزشگاه
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost("GetCourseByAcademy")]
-        public async Task<IActionResult> GetCourseByAcademy([FromBody]getDetailViewModel model)
-        {
-            try
-            {
-                _context.ChangeTracker.LazyLoadingEnabled = false;
-                List<Course> data = await _context.Courses.Undelited().Where(c => c.AcademyId == model.Id).ToListAsync();
-                return Ok(new ResultContract<List<Course>> { statuse = true, Data = data });
-
-
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<List<Course>> { statuse = false, message = "خطایی بوجود آمد" });
-
-            }
-        }
-
-
-
-        /// <summary>
-        /// دریافت  یک دوره
-        /// </summary>
-        /// <returns></returns>
-
-        [HttpPost("GetCourse")]
-        public async Task<IActionResult> GetCourse([FromBody]getDetailViewModel model)
-        {
-            try
-            {
-                _context.ChangeTracker.LazyLoadingEnabled = false;
-                Course data = await _context.Courses.Undelited().FirstOrDefaultAsync(c => c.Id == model.Id);
-                if (data == null)
-                    return Ok(new ResultContract<Course> { statuse = false, message = "یافت نشد" });
-                return Ok(new ResultContract<Course> { statuse = true, Data = data });
-
-
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<Course> { statuse = false, message = "خطایی بوجود آمد" });
-
-            }
-        }
+    
         #endregion
 
 
-        /// <summary>
-        /// دریافت دوره های  آموزشگاهی که کاربر ثبت نام کرده است
-        /// </summary>
-        /// <returns></returns>
+       
 
-        [HttpPost("GetCoursesByUser")]
-        public async Task<IActionResult> GetCoursesByUser([FromBody]getDetailViewModel model)
-        {
-            try
-            {
-                _context.ChangeTracker.LazyLoadingEnabled = false;
-                var studentParent = await _context.studentParents.Undelited().Include(c => c.academy).ThenInclude(ac => ac.Courses).FirstOrDefaultAsync(c => c.Id == model.Id);
-                ICollection<Course> data = null;
-                if (studentParent != null && studentParent.academy.Courses != null)
-                {
-                    data = studentParent.academy.Courses;
-                }
-                //List<Course> data = await _context.Courses.Undelited().Include(c=>c.Academy).ThenInclude(ac=>ac.StudentParents).Where(c=>c.Academy.stu.Id==Userid).ToListAsync();
-                return Ok(new ResultContract<ICollection<Course>> { statuse = true, Data = data });
-
-
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<List<Course>> { statuse = false, message = "خطایی بوجود آمد" });
-
-            }
-        }
 
 
 

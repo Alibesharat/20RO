@@ -84,8 +84,6 @@ namespace DAL
         
        
 
-        public DbSet<Course> Courses { get; set; }
-        public DbSet<Section> sections { get; set; }
         public DbSet<ServiceRequset> serviceRequsets { get; set; }
         public DbSet<TaxiCab> taxiCabs { get; set; }
         public DbSet<Pricing> pricings { get; set; }

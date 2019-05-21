@@ -56,9 +56,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.PhoneNubmber)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.StudentCode)
-                        </th>
+                      
 
 
                         <th></th>
@@ -84,9 +82,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.PhoneNubmber)
                         </td>
-                        <th>
-                            @Html.DisplayFor(modelItem => item.StudentCode)
-                        </th>
+
                         <td>
                             <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id">ویرایش</a> |
                             <a title="حذف" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@item.Id">حذف</a> |

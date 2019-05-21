@@ -310,19 +310,19 @@ namespace Panel.Controllers
             }
             if (!Id.HasValue)
                 return NotFound();
-            var Passengers = await _context.serviceRequsets.Include(c => c.course)
-                .ThenInclude(cu => cu.Academy)
+            var Passengers = await _context.serviceRequsets
+                .Include(cu => cu.Academy)
                 .Where(c => c.RequsetState == RequsetSate.pending).ToListAsync();
             if (academyid.HasValue)
             {
-                Passengers = Passengers.Where(c => c.course.AcademyId == academyid).ToList();
+                Passengers = Passengers.Where(c => c.AcademyId == academyid).ToList();
             }
-            Passengers = Passengers.Where(c => c.course.Academy.ContractorId == contractor.Id).ToList();
+            Passengers = Passengers.Where(c => c.Academy.ContractorId == contractor.Id).ToList();
             var TaxiCab = await _context.taxiCabs
-                .Include(c => c.FirstPassnger).ThenInclude(cf => cf.course).ThenInclude(co => co.Academy)
-                .Include(c => c.SecondPassnger).ThenInclude(se => se.course).ThenInclude(co => co.Academy)
-                .Include(c => c.ThirdPassnger).ThenInclude(th => th.course).ThenInclude(co => co.Academy)
-                .Include(c => c.FourthPassnger).ThenInclude(fo => fo.course).ThenInclude(co => co.Academy)
+                .Include(c => c.FirstPassnger).ThenInclude(co => co.Academy)
+                .Include(c => c.SecondPassnger).ThenInclude(co => co.Academy)
+                .Include(c => c.ThirdPassnger).ThenInclude(co => co.Academy)
+                .Include(c => c.FourthPassnger).ThenInclude(co => co.Academy)
                 .FirstOrDefaultAsync(c => c.Id == Id);
             if (TaxiCab == null) return NotFound();
 

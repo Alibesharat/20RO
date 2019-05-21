@@ -34,13 +34,11 @@ namespace WepApplication.Controllers
             if (parrent == null)
                 return Json(new ResultContract<int>() { statuse = false, message = "برای استفاده از نرم افزار ابتدا وارد شوید" });
 
-            var courses = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<Course>>>(new getDetailViewModel() { Id = parrent.Id }, Const.GetCoursesByUser, ApiMethode.Post);
-            if (courses != null)
-                ViewData["courses"] = new SelectList(courses.Data, "Id", "FullTitle");
+        
 
             var academy = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<Academy>>>(new getDetailViewModel() { Id = parrent.Id }, Const.GetAcademies, ApiMethode.Post);
             if (academy != null)
-                ViewData["academy"] = new SelectList(academy.Data, "Id", "Name", parrent.AcademyId);
+                ViewData["academy"] = new SelectList(academy.Data, "Id", "Name");
 
 
             return View();
@@ -106,7 +104,7 @@ namespace WepApplication.Controllers
 
             if (data == null || data.statuse == false) return NotFound();
             if (data.Data.StudentParrentId != User.Getparrent()?.Id) return NotFound();
-            data.Data.Distination = $"{data.Data.course.Academy.Longtude},{data.Data.course.Academy.latitude}";
+            data.Data.Distination = $"{data.Data.Academy.Longtude},{data.Data.Academy.latitude}";
             data.Data.Origin = $"{data.Data.Longtude},{data.Data.latitue}";
             return View(data.Data);
         }
@@ -276,22 +274,6 @@ namespace WepApplication.Controllers
 
 
 
-        public async Task<IActionResult> getCoursesByAcademy([FromBody] getDetailViewModel model)
-        {
-            if (model != null)
-            {
-                var courses = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<Course>>>(model, Const.GetCourseByAcademy, ApiMethode.Post);
-                if (courses != null)
-                    ViewData["courses"] = new SelectList(courses.Data, "Id", "FullTitle");
-                return Json(new ResultContract<List<Course>>() { statuse = true, message = "یافت نشد", Data = courses.Data });
-
-            }
-            else
-            {
-                return Json(new ResultContract<Course>() { statuse = false, message = "یافت نشد" });
-            }
-
-        }
 
 
         [Route("terms")]

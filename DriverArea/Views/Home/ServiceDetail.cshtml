@@ -21,7 +21,7 @@
 
             <div class="card-content">
                 <button class="btn card-header">
-                    آموزشگاه  @Model.FirstPassnger?.FirstOrDefault()?.course?.Academy?.Name
+                    آموزشگاه  @Model.FirstPassnger?.FirstOrDefault()?.Academy?.Name
                     <i class="fa fa-empire"></i>
                 </button>
                 <br />
@@ -53,13 +53,13 @@
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.studentParent?.academy?.FullGeo)">
+                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.Academy?.FullGeo)">
                                                     مسیر آموزشگاه
                                                     <i class="fa fa-map-o"></i>
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.studentParent?.academy?.Address')">
+                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.Academy?.Address')">
                                                     آدرس پستی آموزشگاه
                                                     <i class="fa fa-envelope-o"></i>
                                                 </a>
@@ -112,13 +112,13 @@
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.studentParent?.academy?.FullGeo)">
+                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item?.Academy?.FullGeo)">
                                                     مسیر آموزشگاه
                                                     <i class="fa fa-map-o"></i>
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.studentParent?.academy?.Address')">
+                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item?.Academy?.Address')">
                                                     آدرس پستی آموزشگاه
                                                     <i class="fa fa-envelope-o"></i>
                                                 </a>
@@ -174,13 +174,13 @@
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.studentParent?.academy?.FullGeo)">
+                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item?.Academy?.FullGeo)">
                                                     مسیر آموزشگاه
                                                     <i class="fa fa-map-o"></i>
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.studentParent?.academy?.Address')">
+                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item?.Academy?.Address')">
                                                     آدرس پستی آموزشگاه
                                                     <i class="fa fa-envelope-o"></i>
                                                 </a>
@@ -235,13 +235,13 @@
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.studentParent?.academy?.FullGeo)">
+                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item?.Academy?.FullGeo)">
                                                     مسیر آموزشگاه
                                                     <i class="fa fa-map-o"></i>
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.studentParent?.academy?.Address')">
+                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item?.Academy?.Address')">
                                                     آدرس پستی آموزشگاه
                                                     <i class="fa fa-envelope-o"></i>
                                                 </a>

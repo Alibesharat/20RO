@@ -42,9 +42,8 @@ namespace Panel.Controllers
 
 
             var _serviceRequsets = _context.serviceRequsets.Undelited().AsQueryable();
-            _serviceRequsets = _serviceRequsets.
-                Include(s => s.course)
-                .ThenInclude(cu => cu.Academy)
+            _serviceRequsets = _serviceRequsets
+                .Include(c => c.Academy)
                 .Include(s => s.studentParent)
                 .Include(c => c.cabAsFirst).ThenInclude(fs => fs.Driver)
                 .Include(c => c.cabAsSecond).ThenInclude(cs => cs.Driver)
@@ -65,7 +64,7 @@ namespace Panel.Controllers
             }
             if (ContractorId.HasValue)
             {
-                _serviceRequsets = _serviceRequsets.Where(c => c.studentParent.academy.ContractorId == ContractorId);
+                _serviceRequsets = _serviceRequsets.Where(c => c.Academy.ContractorId == ContractorId);
                 AllRouteData.Add(nameof(ContractorId), ContractorId.Value.ToString());
             }
             ViewBag.AllRouteData = AllRouteData;
@@ -87,7 +86,6 @@ namespace Panel.Controllers
             }
 
             var serviceRequset = await _context.serviceRequsets
-                .Include(s => s.course)
                 .Include(s => s.studentParent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceRequset == null)
@@ -102,7 +100,6 @@ namespace Panel.Controllers
         // GET: ServiceRequsets/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
             ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name");
             return View();
         }
@@ -114,7 +111,7 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = nameof(RolName.Admin))]
 
-        public async Task<IActionResult> Create([Bind("Id,StudentParrentId,FullName,gender,Age,Address,Note,CourseId,RequsetState")] ServiceRequset serviceRequset)
+        public async Task<IActionResult> Create([Bind("Id,StudentParrentId,FullName,Age,Address,Note,RequsetState")] ServiceRequset serviceRequset)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +120,6 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", serviceRequset.CourseId);
             ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name", serviceRequset.StudentParrentId);
             return View(serviceRequset);
         }
@@ -143,7 +139,6 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", serviceRequset.CourseId);
             ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name", serviceRequset.StudentParrentId);
             return View(serviceRequset);
         }
@@ -155,7 +150,7 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = nameof(RolName.Admin))]
 
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentParrentId,FullName,gender,Age,Address,Note,CourseId,RequsetState")] ServiceRequset serviceRequset)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentParrentId,FullName,Age,Address,Note,CourseId,RequsetState")] ServiceRequset serviceRequset)
         {
             if (id != serviceRequset.Id)
             {
@@ -182,7 +177,6 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", serviceRequset.CourseId);
             ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name", serviceRequset.StudentParrentId);
             return View(serviceRequset);
         }
@@ -198,7 +192,6 @@ namespace Panel.Controllers
             }
 
             var serviceRequset = await _context.serviceRequsets
-                .Include(s => s.course)
                 .Include(s => s.studentParent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceRequset == null)

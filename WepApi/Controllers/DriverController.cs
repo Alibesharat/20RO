@@ -220,7 +220,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var TaxiCabs = _context.taxiCabs.Include(c=>c.FirstPassnger).ThenInclude(sf=>sf.course).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
+                var TaxiCabs = _context.taxiCabs.Include(c=>c.FirstPassnger).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
                 var setting = new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects
@@ -252,23 +252,20 @@ namespace WepApi.Controllers
             {
                 var TaxiCab = await _context.taxiCabs
                .Include(c => c.FirstPassnger)
-                .ThenInclude(c => c.studentParent)
-               .ThenInclude(cf => cf.academy)
+                .ThenInclude(c => c.Academy)
+               
            
 
                .Include(c => c.SecondPassnger)
-                 .ThenInclude(cs => cs.studentParent)
-                  .ThenInclude(cst => cst.academy)
+                  .ThenInclude(cst => cst.Academy)
               
 
                .Include(c => c.ThirdPassnger)
-                .ThenInclude(ct => ct.studentParent)
-                 .ThenInclude(cts => cts.academy)
+                 .ThenInclude(cts => cts.Academy)
              
 
                .Include(c => c.FourthPassnger)
-                  .ThenInclude(c => c.studentParent)
-                     .ThenInclude(cfs => cfs.academy)
+                     .ThenInclude(cfs => cfs.Academy)
               
 
                .FirstOrDefaultAsync(c => c.Id == model.TaxiCabId && c.DriverId == model.DriverId);
