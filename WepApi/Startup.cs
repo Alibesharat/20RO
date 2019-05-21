@@ -33,12 +33,12 @@ namespace WepApi
                     Version = "v1",
                     Title = "My API",
                     Description = "My Web API",
-                    TermsOfService = new Uri("http://taxi.ir"),
+                    TermsOfService = new Uri(""),
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact
                     {
                         Name = "Ali Besharati",
                         Email = "",
-                        Url = new Uri("http://taxi.ir"),
+                        Url = new Uri(""),
                     },
 
 
