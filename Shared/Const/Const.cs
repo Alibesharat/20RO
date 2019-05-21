@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 public class Const
 {
 
-    public const string WebSiteName = "ایلیکار ";
+    public const string WebSiteName = "20RO ";
 
     public const string kewords = "طراحی وبسایت";
 
@@ -16,10 +16,10 @@ public class Const
     /// آدرس وبسایت
     /// </summary>
     //public const string Apirootpath = "https://localhost:44353";
-    public const string Apirootpath = "http://system.ilicar.ir";
+    public const string Apirootpath = "http://system.20ro.net";
 
-    public const string StudentparrentPath = "https://web.ilicar.ir";
-    public const string Driverpath = "https://driver.ilicar.ir";
+    public const string StudentparrentPath = "https://web.20ro.net";
+    public const string Driverpath = "https://driver.20ro.net";
 
 
     /// <summary>
