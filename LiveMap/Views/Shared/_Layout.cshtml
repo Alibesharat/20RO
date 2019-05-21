@@ -1,0 +1,78 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=/noscript.html">
+    </noscript>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]  @Const.WebSiteName</title>
+    <link href="~/plugins/materialize/materialize.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/fonts/font.css" rel="stylesheet" />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.css' type='text/css' />
+
+</head>
+<body>
+
+    <divc class="row">
+        <div id="map"></div>
+    </divc>
+
+
+
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year -  @Const.WebSiteName</p>
+        </footer>
+    </div>
+
+    <script src="~/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="~/plugins/jquery.unobtrusive-ajax.js"></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.min.js'></script>
+    <script src="~/plugins/fastclick/fastclick.js"></script>
+    <script src="~/plugins/materialize/materialize.min.js"></script>
+    <script src="~/lib/signalr.js/jquery.signalR.min.js"></script>
+    <script src="~/plugins/SignalRJs/signalr.min.js"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYm5hbGluaWEiLCJhIjoiY2pzbGhlaW1iMnl6czN5bzY4aGtlNGRjMyJ9.w5OCvI1DM3vHw4iPcDsSPw';
+        mapboxgl.setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.0/mapbox-gl-rtl-text.js');
+
+        var coordinates = document.getElementById('coordinates');
+        var lat = "51.399735";
+        var long = "35.752308";
+        var currentPosition = [lat, long];
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/navigation-guidance-day-v4?optimize=true',
+            center: currentPosition,
+            zoom: 13,
+            maxTileCacheSize: 100,
+            localIdeographFontFamily: "'Shabnam', sans-serif"
+
+
+
+        });
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        connection.on("GetGeo", function (token, geo) {
+        //TODO
+        });
+
+
+        connection.start().then(function () {
+            console.log("SignalR Connected Succesfully");
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

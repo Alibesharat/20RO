@@ -1,0 +1,82 @@
+﻿@model IEnumerable<DAL.City>
+
+@{
+    var def = ViewData["Count"] ?? "0";
+    int count = int.Parse(def.ToString());
+    ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
+    ViewData["Title"] = $"لیست {ViewData["ClassName"]} ها";
+}
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="btn btn-warning">
+                @ViewData["Title"] -@ViewBag.searchterm
+                <span class="badge bg-aqua">
+                    @ViewData["Count"]
+                </span>
+            </span>
+        </h3>
+        <hr />
+        <div class="col-lg-12">
+            <div class="col-lg-1">
+                <a asp-action="Create" class="btn btn-microsoft "> افزودن <i class="fa fa-plus"></i></a>
+            </div>
+            <form>
+                <div class="col-lg-3">
+                    <input class="form-control" name="searchterm" type="text" value="@ViewBag.searchterm" />
+                </div>
+                <div class="col-lg-3">
+                    <select name="ProvinceId" class="form-control Select2" asp-items="ViewBag.ProvinceId">
+                        <option>همه استان ها</option>
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-success">
+                        جست و جو  <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-12">
+            <hr />
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Province)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Province.Name)
+                            </td>
+
+                            <td>
+                                <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id">ویرایش</a> |
+                                <a title="حذف" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@item.Id">حذف</a> |
+                                <a title="مناطق" asp-controller="Districts" asp-action="index" class="btn btn-sm btn-primary" asp-route-CityId="@item.Id">لیست مناطق</a>
+                                <a title="افزودن منطقه" asp-controller="Districts" asp-action="Create" class="btn btn-sm btn-success" asp-route-CityId="@item.Id">  +  افزودن منطقه</a> 
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="~/Views/Shared/_paging.cshtml" />
+    </div>
+</div>

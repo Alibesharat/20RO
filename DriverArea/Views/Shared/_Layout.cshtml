@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] -  ناحیه راننده </title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="Screen,projection">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.css' type='text/css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/site.css?v2" rel="stylesheet" />
+    <link href="~/css/materialize-rtl.css" rel="stylesheet" />
+    <link href="~/manifest.json" rel="manifest" />
+
+</head>
+<body>
+
+    <!-- #region Side navBar -->
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background" style="background-color:#27d720">
+
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="#name">
+                        <span class="white-text name"> @User.Identity.Name </span>
+                    </a>
+                    <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+
+                }
+            </div>
+        </li>
+
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">سوابق</a></li>
+        <li><a asp-action="Activeservice" asp-controller="Home"><i class="material-icons">local_taxi</i>سرویس های فعال  </a></li>
+        <li><a asp-action="WaitngService" asp-controller="Home"><i class="material-icons">local_taxi</i>سرویس های  در انتظار تایید  </a></li>
+
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">حساب</a></li>
+        @if (User.Identity.IsAuthenticated)
+        {
+
+            <li>
+                <form id="frmlogout" asp-action="Logout" asp-controller="Account" method="post"></form>
+                <a class="waves-effect" onclick="Logoff()"><i class="material-icons">exit_to_app</i> خروج   </a>
+
+            </li>
+        }
+        else
+        {
+            <li><a class="waves-effect" asp-action="Login" asp-controller="Account"><i class="material-icons">exit_to_app</i> ورود  </a></li>
+        }
+       
+    </ul>
+
+    <!-- #endregion -->
+    <!-- #region Float bottons -->
+    <div class="navbarmenu">
+        <a id="menu" href="#" data-target="slide-out" class="sidenav-trigger btn-small waves-effect waves-light teal lighten-2"><i class="material-icons">menu</i></a>
+    </div>
+    @*<div class="help">
+            <a onclick="help()" class="btn-small waves-effect waves-light red lighten-2">راهنما</a>
+        </div>*@
+
+    <div id="modalmessage" class="modal ">
+
+        <div class="modal-content">
+            <p>پیام سیستم</p>
+            <p id="message"></p>
+        </div>
+
+
+
+    </div>
+
+
+    <div id="modalLoader" class="modal bottom-sheet">
+        <div class="modal-content">
+            <div class="center">
+                <div class="row">
+                    <div id="loader" class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!-- #endregion -->
+
+    @RenderBody()
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.min.js'></script>
+    <script src="~/js/initmatrailcss.js?v1"></script>
+    <script>
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+         function SendData(url,data) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    return response;
+                },
+                failure: function (response) {
+                    console.log(response);
+                    return -1;
+                },
+            });
+         }
+
+         function Logoff()
+         {
+
+             $("#frmlogout").submit();
+         }
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

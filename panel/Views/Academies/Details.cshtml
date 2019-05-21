@@ -1,0 +1,178 @@
+﻿@model DAL.Academy
+
+@{
+    ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
+    ViewData["Title"] = $"جزییات {ViewData["ClassName"]} ";
+}
+
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="text-warning">
+                @ViewData["Title"]
+            </span>
+        </h3>
+        <hr />
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Name)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Name)
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.BossName)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.BossName)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Address)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Address)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.district)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.district.Name)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.category)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.category.Name)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.OtherPhoneNumber)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.OtherPhoneNumber)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.OfficeNumber)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.OfficeNumber)
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Password)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Password)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.PhoneNubmber)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.PhoneNubmber)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.IsMobielVerifed)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.IsMobielVerifed)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Email)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Email)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.IsEmailVerified)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.IsEmailVerified)
+
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.BeginDate)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.BeginDate)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.AllowActivity)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.AllowActivity)
+
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت به لیست</a>
+</div>

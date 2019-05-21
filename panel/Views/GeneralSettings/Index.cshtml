@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DAL.GeneralSetting>
+
+@{
+
+    
+    ViewData["Title"] = $"تنظیمات عمومی";
+}
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            @ViewData["Title"]
+
+        </h3>
+        <hr />
+      
+        <div class="col-lg-12">
+            <hr />
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SiteName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LogoPath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SeasionCount)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SiteName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LogoPath)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SeasionCount)
+                            </td>
+                            <td>
+                                <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> |
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

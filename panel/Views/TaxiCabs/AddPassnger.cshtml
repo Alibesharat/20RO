@@ -1,0 +1,350 @@
+﻿@model Panel.Models.TaxiCabViewModel
+
+@{
+    ViewData["Title"] = $"افزودن مسافر";
+}
+
+<div class="row">
+
+    <div class="row">
+        <hr />
+        <form id="frm">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <select class="select2" name="academyid" asp-items="@ViewBag.Academy" onchange="submit()"></select>
+                </div>
+            </div>
+
+        </form>
+        <hr />
+    </div>
+    <!-- #region Requset-area -->
+
+
+    <div class="col-lg-6">
+        <div class="box box-warning">
+            <div class="box-header">
+                <h4 class="text-center">درخواست ها</h4>
+                <hr />
+            </div>
+            <div class="box-body">
+                <div class="col-lg-7 passenger" ondrop="RemovePassenger(event)" ondragover="allowDrop(event)">
+                    @foreach (var item in Model.Passngers)
+                    {
+
+                        <div id="@item.Id" class="box box-primary box-shadow" draggable="true" ondragstart="drag(event,'@item.Id')" ondrop="EasyInvalidMessage(event, 'محدوده غیر مجاز');">
+                            <div class="box-header">
+                                <h5 class="text-center">آموزشگاه @item.course.Academy.Name , @item.course.TeacherName </h5>
+                            </div>
+                            <div class="box-body">
+                                <span>
+                                    @(item.gender ? "آقای" : "خانم") @item.FullName -
+                                    @item.Age ساله
+
+                                </span>
+
+
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- #endregion -->
+    <!-- #region Taxi-area -->
+
+    <div class="col-lg-6">
+        <div class="box box-danger">
+            <div class="box-header">
+                <h4 class="text-center"> @Model.TaxiCab.Name - به رانندگی  @ViewBag.TaxiCabDrvier  </h4>
+                <hr />
+            </div>
+
+            <div class="box-body">
+                <div class="col-lg-7" ondrop="drop(event)" ondragover="allowDrop(event)" style="background-color:antiquewhite;height:500px">
+                    @{
+                        if (Model.TaxiCab.FirstPassnger.Count > 0)
+                        {
+                            var item = Model.TaxiCab.FirstPassnger.FirstOrDefault();
+                            <div id="@item.Id" class="box box-primary box-shadow" draggable="true" ondragstart="drag(event,'@item.Id')" ondrop="EasyInvalidMessage(event, 'محدوده غیر مجاز');">
+                                <div class="box-header">
+                                    <h5 class="text-center"> آموزشگاه @item?.course?.Academy?.Name - @item.course.TeacherName </h5>
+                                </div>
+                                <div class="box-body">
+                                    <span>
+                                        @(item.gender ? "آقای" : "خانم") @item.FullName -
+                                        @item.Age ساله
+
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                        if (Model.TaxiCab.SecondPassnger.Count > 0)
+                        {
+                            var item = Model.TaxiCab.SecondPassnger.FirstOrDefault();
+                            <div id="@item.Id" class="box box-primary box-shadow" draggable="true" ondragstart="drag(event,'@item.Id')" ondrop="EasyInvalidMessage(event, 'محدوده غیر مجاز');">
+                                <div class="box-header">
+                                    <h5 class="text-center"> آموزشگاه @item?.course?.Academy?.Name - @item.course.TeacherName </h5>
+                                </div>
+                                <div class="box-body">
+                                    <span>
+                                        @(item.gender ? "آقای" : "خانم") @item.FullName -
+                                        @item.Age ساله
+
+
+                                    </span>
+
+
+                                </div>
+                            </div>
+                        }
+                        if (Model.TaxiCab.ThirdPassnger.Count > 0)
+                        {
+                            var item = Model.TaxiCab.ThirdPassnger.FirstOrDefault();
+                            <div id="@item.Id" class="box box-primary box-shadow" draggable="true" ondragstart="drag(event,'@item.Id')" ondrop="EasyInvalidMessage(event, 'محدوده غیر مجاز');">
+                                <div class="box-header">
+                                    <h5 class="text-center"> آموزشگاه @item?.course?.Academy?.Name - @item.course.TeacherName </h5>
+                                </div>
+                                <div class="box-body">
+                                    <span>
+                                        @(item.gender ? "آقای" : "خانم") @item.FullName -
+                                        @item.Age ساله
+
+                                    </span>
+
+
+                                </div>
+                            </div>
+                        }
+                        if (Model.TaxiCab.FourthPassnger.Count > 0)
+                        {
+                            var item = Model.TaxiCab.FourthPassnger.FirstOrDefault();
+                            <div id="@item.Id" class="box box-primary box-shadow" draggable="true" ondragstart="drag(event,'@item.Id')" ondrop="EasyInvalidMessage(event, 'محدوده غیر مجاز');">
+                                <div class="box-header">
+                                    <h5 class="text-center"> آموزشگاه @item?.course?.Academy?.Name - @item.course.TeacherName </h5>
+                                </div>
+                                <div class="box-body">
+                                    <span>
+                                        @(item.gender ? "آقای" : "خانم") @item.FullName -
+                                        @item.Age ساله
+
+                                    </span>
+
+
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <div id="formdialog"
+         data-iziModal-title=" تکمیل اطلاعات " data-iziModal-icon="icon-home">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="col-lg-12">
+                <br />
+                <div class="form-group">
+
+
+                    <input type="text" id="from" class="form-control" placeholder="شروع" onmouseover="clear()">
+
+                </div>
+                <div class="form-group">
+
+                    <input type="text" id="to" class="form-control" placeholder="پایان">
+
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" id="count" placeholder="تعداد جلسات" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="form-control btn btn-danger" id="submit" value="تایید" onclick="fillvalue()" />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- #endregion -->
+</div>
+
+
+@section Scripts{
+
+
+    <script>
+        var events = {
+            ev: "",
+            elementid:""
+            };
+        var formdialog = $('#formdialog').iziModal();
+       var datamodel =
+     {
+         requsetserviceid: "",
+          taxicabid: "@Model.TaxiCab.Id",
+     };
+        var addfactormodel = {
+            requsetserviceid: "",
+            taxicabid: "@Model.TaxiCab.Id",
+            from: "1/2/1992",
+            to: "2/3/541",
+            SeassionCount:"8"
+        }
+       //AddPassnger
+        function drop(ev) {
+            events.ev = ev;
+            EasyLoadingStart();
+            events.elementid= ev.dataTransfer.getData("elementid");
+            var requsetid = ev.dataTransfer.getData("requsetid");
+            datamodel.requsetserviceid = requsetid;
+            addfactormodel.requsetserviceid = requsetid;
+            ev.preventDefault();
+            formdialog.iziModal('open', {
+                transition: 'bounceInDown' // Here transitionIn is the same property.
+            });
+
+
+        }
+
+        function addfactor() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddFactorAjax", "TaxiCabs")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(addfactormodel),
+                success: function (response) {
+                    if (response.state == true) {
+                        formdialog.iziModal('close');
+                        EasyLoadingStart();
+                        addpassenger();
+                    } else {
+                        EasyMessage(response.message);
+                    }
+                },
+                failure: function (response) {
+                    EasyLodingEnd();
+                    EasyMessage("خطا در برقرای ارتباط با سرور");
+                    console.log(response);
+
+                    return false;
+                },
+            });
+        }
+
+
+        function addpassenger() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddPassngerAjax", "TaxiCabs")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(datamodel),
+                success: function (response) {
+                    EasyLoadingEnd();
+                    if (response.state == true) {
+                        events.ev.target.appendChild(document.getElementById(events.elementid));
+
+                    } else {
+                        EasyMessage(response.message);
+                    }
+                },
+                failure: function (response) {
+                    EasyLodingEnd();
+                    EasyMessage("خطا در برقرای ارتباط با سرور");
+                    console.log(response);
+
+                    return false;
+                },
+            });
+        }
+
+       //RemovePassenger
+        function RemovePassenger(ev) {
+            if (ev.dataTransfer == null) {
+                EasyMessage("محدوده غیر مجاز");
+                return;
+            }
+            EasyLoadingStart();
+
+           var elementid = ev.dataTransfer.getData("elementid");
+           var requsetid = ev.dataTransfer.getData("requsetid");
+           datamodel.requsetserviceid = requsetid;
+           ev.preventDefault();
+             $.ajax({
+               type: "POST",
+               url: '@Url.Action("RemovePassngerAjax", "TaxiCabs")',
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               data: JSON.stringify(datamodel),
+               success: function (response) {
+                   EasyLoadingEnd();
+                   if (response.state == true) {
+
+                       ev.target.appendChild(document.getElementById(elementid));
+                   } else {
+                       EasyMessage(response.message);
+                       return false;
+                   }
+               },
+               failure: function (response) {
+                   EasyLodingEnd();
+                   EasyMessage("خطا در برقرای ارتباط با سرور");
+                   console.log(response);
+                   return false;
+               },
+             });
+
+       }
+
+       //Allow Drop
+       function allowDrop(ev) {
+           ev.preventDefault();
+       }
+
+       //Drag
+       function drag(ev, id) {
+           ev.dataTransfer.setData("elementid", ev.target.id);
+           ev.dataTransfer.setData("requsetid", id);
+       }
+
+
+       function submit() {
+
+           $("#frm").submit();
+       }
+
+
+       function fillvalue() {
+           var from = $("#from").val();
+           var to = $("#to").val();
+           var count = $("#count").val();
+           addfactormodel.from = from;
+           addfactormodel.to = to;
+           addfactormodel.SeassionCount = count;
+           addfactor();
+       }
+    </script>
+
+}
+
+<style>
+    .passenger {
+        background-color: darkorchid;
+        height: 500px;
+        overflow: scroll;
+        padding: 20px;
+        padding-top: 50px;
+    }
+</style>
+

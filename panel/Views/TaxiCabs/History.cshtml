@@ -1,0 +1,72 @@
+﻿@model IEnumerable<AutoHistoryCore.HistoryViewModel>
+@using DNTPersianUtils.Core;
+@{
+    ViewData["Title"] = "تاریخچه تغیرات";
+}
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="btn btn-warning">
+              تاریخچه تغییرات
+            </span>
+        </h3>
+        <hr />
+        
+        
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>
+                            تاریخ
+                        </th>
+                        <th>
+                            سیستم عامل
+                        </th>
+                        <th>
+                            دستگاه
+                        </th>
+                        <th>
+                            آیپی
+                        </th>
+                        <th>
+                            نوع
+                        </th>
+
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @item.DateTime.Value.ToPersianDateTextify()
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Device)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AgentOs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AgentIp)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.State)
+                        </td>
+
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

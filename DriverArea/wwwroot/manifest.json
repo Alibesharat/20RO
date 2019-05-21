@@ -1,0 +1,29 @@
+﻿{
+  "lang": "fa",
+  "dir": "rtl",
+  "name": "راننده",
+  "short_name": "ilicar",
+  "description": "",
+  "theme_color": "#27d720",
+  "icons": [
+    {
+      "src": "logogr.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logogr.png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait",
+  "permissions": [
+    "notifications",
+    "webRequest",
+    "background",
+    "geolocation"
+  ],
+  "author": "tamam Co."
+
+}

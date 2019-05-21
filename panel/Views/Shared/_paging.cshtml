@@ -1,0 +1,93 @@
+﻿
+<nav class="text-center">
+
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="1" >ابتدا</a></li>
+        @if (ViewBag.curent <= 1)
+        {
+            <li class="active page-item"><a class="page-link">  @(ViewBag.curent) </a></li>
+            if (ViewBag.pageCount >= (ViewBag.curent + 4))
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+1)" > @((ViewBag.curent) + 1)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+2)"  > @((ViewBag.curent) + 2)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+3)"  > @((ViewBag.curent) + 3)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+4)"  > @((ViewBag.curent) + 4)  </a></li>
+            }
+            else if (ViewBag.pageCount >= (ViewBag.curent + 3))
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+1)" > @((ViewBag.curent) + 1)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+2)"  > @((ViewBag.curent) + 2)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+3)"  > @((ViewBag.curent) + 3)  </a></li>
+            }
+            else if (ViewBag.pageCount >= (ViewBag.curent + 2))
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+1)" > @((ViewBag.curent) + 1)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+2)"  > @((ViewBag.curent) + 2)  </a></li>
+            }
+            else if (ViewBag.pageCount >= (ViewBag.curent + 1))
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+1)"  > @((ViewBag.curent) + 1)  </a></li>
+
+            }
+
+
+        }
+        else if (ViewBag.curent >= ViewBag.pageCount)
+        {
+            if (ViewBag.curent > 4)
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-4)" > @((ViewBag.curent) - 4)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-3)" > @((ViewBag.curent) - 3)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-2)" > @((ViewBag.curent) - 2)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-1)" > @((ViewBag.curent) - 1)  </a></li>
+            }
+            else if (ViewBag.curent > 3)
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-3)" > @((ViewBag.curent) - 3)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-2)" > @((ViewBag.curent) - 2)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-1)" > @((ViewBag.curent) - 1)  </a></li>
+            }
+            else if (ViewBag.curent > 2)
+
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-2)" > @((ViewBag.curent) - 2)  </a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-1)" > @((ViewBag.curent) - 1)  </a></li>
+            }
+            else if (ViewBag.curent > 1)
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-1)" > @((ViewBag.curent) - 1)  </a></li>
+
+            }
+
+            <li class="active page-item"><a class="page-link">  @(ViewBag.curent) </a></li>
+        }
+        else
+        {
+            if (ViewBag.curent > 2)
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-2)" > @((ViewBag.curent) - 1)  </a></li>
+            }
+            if (ViewBag.current > 1)
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)-1)" > @((ViewBag.curent) - 1)  </a></li>
+
+            }
+            <li class="active page-item"><a class="page-link"> @(ViewBag.curent) </a></li>
+            @if (ViewBag.curent + 1 <= ViewBag.pageCount)
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+1)" > @((ViewBag.curent) + 1)  </a></li>
+            }
+            if (ViewBag.curent + 1 <= ViewBag.pageCount)
+            {
+                <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@((ViewBag.curent)+2)" > @((ViewBag.curent) + 2)  </a></li>
+            }
+        }
+
+        <li class="page-item"><a class="page-link" asp-all-route-data="@ViewBag.AllRouteData" asp-route-pageindex="@ViewBag.pageCount" >انتها</a></li>
+
+    </ul>
+
+
+</nav>
+
+

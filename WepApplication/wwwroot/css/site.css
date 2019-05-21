@@ -1,0 +1,331 @@
+﻿
+@font-face {
+    font-family: Shabnam;
+    src: url('../fonts/Shabnam-Bold-FD.eot');
+    src: url('../fonts/Shabnam-FD.eot?#iefix') format('embedded-opentype'), url('../fonts/Shabnam-FD.woff') format('woff'), url('../fonts/Shabnam-FD.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Shabnam;
+    src: url('../fonts/Shabnam-Light-FD.eot');
+    src: url('../fonts/Shabnam-Light-FD?#iefix') format('embedded-opentype'), url('../fonts/Shabnam-Light-FD.woff') format('woff'), url('../fonts/Shabnam-Light-FD.ttf') format('truetype');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Shabnam;
+    src: url('../fonts/Shabnam-Bold-FD.eot');
+    src: url('../fonts/Shabnam-Bold-FD.eot?#iefix') format('embedded-opentype'), url('../fonts/Shabnam-Bold-FD.woff') format('woff'), url('../fonts/Shabnam-Bold-FD.ttf') format('truetype');
+    font-weight: bold;
+}
+
+html, button {
+    font-family: "Shabnam" !important;
+    direction: rtl;
+}
+
+.rtl {
+    direction: rtl;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+
+
+
+.coordinates {
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    margin: 0;
+    font-size: 11px;
+    line-height: 18px;
+    border-radius: 3px;
+    display: none;
+}
+
+.serviceRequsert {
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 11px;
+    line-height: 18px;
+    border-radius: 3px;
+    position: fixed;
+    bottom: 7px;
+    left: 50%;
+    margin-left: -100px;
+}
+
+.currentPostion {
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 11px;
+    line-height: 18px;
+    border-radius: 3px;
+    position: fixed;
+    top: 7px;
+    left: 50%;
+    margin-left: -100px;
+}
+
+
+.mymarker {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    margin-top: -32px;
+}
+
+.markerimage {
+    z-index: 10;
+    width: 50px;
+}
+
+.navbarmenu {
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    padding: 5px 10px;
+    margin: 0;
+    font-size: 11px;
+    line-height: 18px;
+    border-radius: 3px;
+}
+
+
+
+
+
+.mapboxgl-ctrl-top-left {
+    background-color: #06000099;
+}
+
+.corner {
+    border-radius: 28px;
+    background-color: #009a59;
+    direction: rtl;
+    color: white;
+    font-family: Shabnam;
+}
+
+.no-action {
+    cursor: default !important;
+}
+
+.circle {
+    height: 3vw;
+    width: 3vw;
+    background-color: #009a59;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.center {
+    margin: auto;
+    /*width: 50%;*/
+}
+
+.form-group {
+    margin: 30px;
+}
+
+.entry {
+    border: 1px #0f010380 solid !important;
+    border-radius: 28px !important;
+    padding-right: 14px !important;
+    font-family: Shabnam;
+}
+
+    .entry::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: gray;
+        opacity: 1; /* Firefox */
+    }
+
+    .entry:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: gray;
+    }
+
+    .entry::-ms-input-placeholder { /* Microsoft Edge */
+        color: gray;
+    }
+
+.font-large {
+    font-size: 18px;
+}
+
+.select-wrapper input.select-dropdown {
+    padding-right: 31px !important;
+    border-bottom: none;
+    font-family: Shabnam;
+}
+
+    .select-wrapper input.select-dropdown:focus {
+        padding-right: 31px !important;
+        border-bottom: none;
+    }
+
+.dropdown-content li {
+    text-align: center;
+}
+
+.dropdown-content {
+    width: 83% !important;
+    right: 66px !important;
+}
+
+.sidenav {
+    padding-right: 0px !important;
+}
+
+    .sidenav .background {
+        background-color: #009a59;
+    }
+
+    .sidenav .user-view .center {
+        padding-top: 14%;
+        padding-left: 10px;
+    
+        
+    }
+
+.user-view {
+    height: 203px;
+}
+
+.card-map {
+    height: 63vh;
+}
+
+.card-header {
+    position: absolute;
+    top: -16px;
+    right: -2px;
+    cursor: default !important;
+    border-radius: 28px;
+    background-color: #009a59;
+    direction: rtl;
+    color: white;
+    font-family: Shabnam;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+    -webkit-transition: .3s ease-out;
+    transition: .3s ease-out;
+}
+
+.contant {
+    cursor: default !important;
+    border-radius: 28px;
+    background-color: #ffffff;
+    direction: rtl;
+    color: black;
+    font-family: Shabnam;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+    -webkit-transition: .3s ease-out;
+    transition: .3s ease-out;
+    width: 100%
+}
+
+.card-padding {
+    margin: 20px 0;
+}
+
+.card-click {
+    cursor: pointer;
+    transition: all .6s;
+}
+
+    .card-click:hover {
+        -webkit-box-shadow: 0px 12px 25px -5px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 12px 25px -5px rgba(0,0,0,0.75);
+        box-shadow: 0px 12px 25px -5px rgba(0,0,0,0.75);
+    }
+
+.fix-navbar-header {
+    height: 20vh;
+}
+
+.s12 {
+    margin-bottom: 12px;
+}
+
+.small-info {
+    background-color: #009a59;
+    padding: -66px;
+    border-radius: 65px;
+    float: right;
+    position: relative;
+    top: 0;
+    right: -87px;
+    float: right;
+    right: -16px;
+    padding: 0 9px;
+    color: white;
+}
+
+.large-info {
+    background-color: #009a59;
+    padding: -66px;
+    border-radius: 65px;
+    float: right;
+    position: relative;
+    top: 0;
+    right: -87px;
+    float: right;
+    right: -16px;
+    padding: 0 35px;
+    color: white;
+}
+
+.img-circle {
+    border-radius: 50%;
+    border: 7px solid #bfbbbb;
+    padding: 1px;
+    padding-top: 1px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+}
+.modal{
+    width:90%;
+}
+
+/*.tap-target {
+    left: 0px !important;
+    top: 0px !important;
+    width: 51% !important;
+    height: 51% !important;
+  
+}*/

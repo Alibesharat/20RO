@@ -1,0 +1,62 @@
+﻿@model DAL.Contractor
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+
+<h4>آیا شما از حذف این آیتم اطمینان دارید ؟</h4>
+<div>
+     <hr />
+    <p>
+        @Html.DisplayNameFor(model => model.Name) : @Html.DisplayFor(model => model.Name)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.LastName) : @Html.DisplayFor(model => model.LastName)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Age) : @Html.DisplayFor(model => model.Age)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Gender) : @Html.DisplayFor(model => model.Gender)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Password) : @Html.DisplayFor(model => model.Password)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.PhoneNubmber) : @Html.DisplayFor(model => model.PhoneNubmber)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.IsMobielVerifed) : @Html.DisplayFor(model => model.IsMobielVerifed)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Email) : @Html.DisplayFor(model => model.Email)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.IsEmailVerified) : @Html.DisplayFor(model => model.IsEmailVerified)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.AvatarPath) : @Html.DisplayFor(model => model.AvatarPath)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.BirthDay) : @Html.DisplayFor(model => model.BirthDay)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.BeginDate) : @Html.DisplayFor(model => model.BeginDate)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.AllowActivity) : @Html.DisplayFor(model => model.AllowActivity)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Hs_Change) : @Html.DisplayFor(model => model.Hs_Change)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.IsDeleted) : @Html.DisplayFor(model => model.IsDeleted)
+    </p>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <a asp-action="Index" class="btn btn-default">خیر لغو شود</a> 
+        <input type="submit" value="بله اطمینان دارم این آیتم  حذف شود " class="btn btn-danger" /> 
+    </form>
+</div>

@@ -1,0 +1,144 @@
+﻿@model IEnumerable<DAL.DriverFactor>
+@using DNTPersianUtils.Core
+
+@{
+    var def = ViewData["Count"] ?? "0";
+    int count = int.Parse(def.ToString());
+    ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
+    ViewData["Title"] = $"لیست {ViewData["ClassName"]} ها";
+}
+
+
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="btn btn-warning">
+                @ViewData["Title"] -@ViewBag.searchterm
+                <span class="badge bg-aqua">
+                    @ViewData["Count"]
+                </span>
+            </span>
+        </h3>
+        <hr />
+        <div class="col-lg-12">
+
+            <form id="driverform">
+
+                <div class="col-lg-6 col-lg-offset-3">
+                    <select class="form-control select2" name="DriverId" asp-items="@ViewBag.drivers" onchange="submit()"></select>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-12">
+            <hr />
+        </div>
+    </div>
+    @foreach (var grp in Model.GroupBy(c => c.taxiCabeid))
+    {
+
+        var driverFactor = grp.FirstOrDefault(c => c.taxiCabeid == grp.Key);
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                    <thead>
+                        <tr>
+                            <td colspan="5" style="background-color:royalblue;color:white">مشخصات سرویس</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                راننده
+                            </th>
+                            <th>
+                                سرویس
+                            </th>
+                            <th>آموزشگاه</th>
+                            <th colspan="2">
+                                دوره
+                            </th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+
+                        <tr>
+                            <td>
+                                @driverFactor.TaxiCab.Driver?.FullName
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => driverFactor.TaxiCab.Name)
+                            </td>
+                            <td>
+                                @driverFactor.ServiceRequset?.course?.Academy.FullName
+                            </td>
+                            <td colspan="2">
+                                @driverFactor.ServiceRequset?.course?.TeacherName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="background-color:burlywood">مشخصات مسافران</td>
+
+                            <td>
+
+                        <tr>
+                            <th>نام</th>
+                            <th>تاریخ شروع</th>
+                            <th>تاریخ پایان</th>
+                            <th>تعداد جلسات</th>
+                            <th> مبلغ پرداختی </th>
+                            @*<th> مبلغ واقعی </th>*@
+
+                        </tr>
+                        @foreach (var item in grp)
+                        {
+                        <tr>
+                            <td>@item.ServiceRequset?.FullName</td>
+                            <td>@item.From.ToPersianDateTextify()</td>
+                            <td>@item.To.ToPersianDateTextify()</td>
+                            <td>@item.SeassionCount</td>
+                            <td>@(((item.ServiceRequset?.price * driverFactor.TaxiCab.DriverPercent / 100) / 10).Value.ToString("N0")) تومان</td>
+
+                            @*<td>@((item.ServiceRequset.price / 10).ToString("N0"))</td>*@
+                        </tr>
+                        }
+                        <tr class="text-bold">
+                          
+                        </tr>
+                        <tr class="text-bold">
+                            <td colspan="4">جمع کل پرداختی</td>
+                            @{
+                                int total = grp.Sum(c => c.ServiceRequset.price) / 10;
+                            }
+                            <td> @((total * driverFactor.TaxiCab.DriverPercent/100).ToString("N0")) تومان </td>
+                            @*<td> @((total).ToString("N0")) تومان </td>*@
+                        </tr>
+
+
+                        </td>
+
+
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+        <hr />
+    }
+    <partial name="~/Views/Shared/_paging.cshtml" />
+</div>
+@section Scripts{
+    <script>
+        function submit() {
+            $("#driverform").submit();
+        }
+    </script>
+}

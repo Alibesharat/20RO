@@ -1,0 +1,21 @@
+﻿@model DAL.City
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+
+<h4>آیا شما از حذف این آیتم اطمینان دارید ؟</h4>
+<div>
+     <hr />
+    <p>
+        @Html.DisplayNameFor(model => model.Name) : @Html.DisplayFor(model => model.Name)
+    </p>
+  
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <a asp-action="Index" class="btn btn-default">خیر لغو شود</a> 
+        <input type="submit" value="بله اطمینان دارم این آیتم  حذف شود " class="btn btn-danger" /> 
+    </form>
+</div>

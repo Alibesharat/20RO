@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Templates\**" />
+    <Content Remove="Templates\**" />
+    <EmbeddedResource Remove="Templates\**" />
+    <None Remove="Templates\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="AlphaRest" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\AlphaLogger\AlphaCoreLogger.csproj" />
+    <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\NotifCore\NotifCore.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Templates\" />
+    <Folder Include="wwwroot\plugins\kamadatepicker\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Views\Shared\Components\Header\Default.cshtml" />
+  </ItemGroup>
+
+</Project>

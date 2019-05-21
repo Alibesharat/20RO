@@ -1,0 +1,13 @@
+https Redirection
+
+<rewrite>
+   <rules>
+      <rule name="HTTPS Rule behind AWS Elastic Load Balancer Rule" stopProcessing="true">
+         <match url="^(.*)$" ignoreCase="false" />
+         <conditions>
+            <add input="{HTTP_X_FORWARDED_PROTO}" pattern="^http$" ignoreCase="false" />
+         </conditions>
+         <action type="Redirect" url="https://{SERVER_NAME}{URL}" redirectType="Found" />
+      </rule>
+   </rules>
+</rewrite>

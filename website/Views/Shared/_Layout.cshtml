@@ -1,0 +1,116 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]  @Const.WebSiteName</title>
+    <link href="~/plugins/materialize/materialize.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/plugins/materialize/materialize-rtl.css" rel="stylesheet" />
+    <link href="~/fonts/font.css" rel="stylesheet" />
+    <link href="~/plugins/alphacore/alphacore.css?v3" rel="stylesheet" />
+</head>
+<body>
+
+    <nav>
+        <div class="navbar-fixed">
+            <a href="https://web.ilicar.ir" class="btn btn-small waves-effect waves-light green white-text serviceRequset ">درخواست سرویس</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
+
+            <ul class="hide-on-med-and-down">
+                <li><a onclick="gotodiv('#contact')"> تماس با ما </a></li>
+                <li><a href="~/statics/rahnama.png" target="_blank"> راهنما </a></li>
+                <li><a asp-action="faq">سوالات متداول</a></li>
+                <li><a href="https://driver.ilicar.ir">رانندگان</a></li>
+                <li><a href="https://web.ilicar.ir">نسخه وب اپلیکیشن</a></li>
+                <li><a onclick="gotodiv('#aboutus')">درباره ما</a></li>
+                <li><a asp-action="index">خانه</a></li>
+            </ul>
+
+
+
+            <a href="" class="brand-logo hide-on-med-and-down">
+                <img src="~/statics/512.png" width="50" height="50" class="right" />
+            </a>
+
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                </div>
+                <p class="center">
+
+                    <img src="~/statics/512.png" width="120" />
+                </p>
+            </div>
+        </li>
+        <li><a asp-action="index">خانه</a></li>
+        <li><a onclick="gotodiv('#aboutus')">درباره ما</a></li>
+        <li><a href="https://web.ilicar.ir">نسخه وب اپلیکیشن</a></li>
+        <li><a href="https://driver.ilicar.ir">رانندگان</a></li>
+        <li><a asp-action="faq">سوالات متداول</a></li>
+        <li><a href="~/statics/rahnama.png" target="_blank"> راهنما </a></li>
+        <li><a onclick="gotodiv('#contact')"> تماس با ما </a></li>
+    </ul>
+
+    @RenderSection("Sliders", false)
+
+    <div class="container">
+        @RenderBody()
+        
+    </div>
+
+    @RenderSection("nocontainer", false)
+
+    <div class="footer">
+       
+            <div class=" white-text">
+                <span class="card-title">  </span>
+                <p class="center">
+                  
+                    <img src="~/statics/logo-buttom.png" width="70" height="70"/>
+                </p>
+                <p class="center">
+                    تمامی حقوق مادی و معنوی  این سامانه ( وبسایت و اپلیکیشن ) برای شرکت توسعه مدیریت ارتباط ماندگار محفوظ می باشد
+                </p>
+
+            </div>
+
+      
+    </div>
+    <script src="~/plugins/fastclick/fastclick.js"></script>
+    <script src="~/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="~/plugins/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/plugins/wow/wow.js"></script>
+    <script src="~/plugins/materialize/materialize.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+                FastClick.attach(document.body);
+            });
+            var elems = document.querySelectorAll('.sidenav');
+            var options = { edge: 'right', draggable: true, closeOnClick: true };
+            var instance = M.Sidenav.init(elems, options);
+           
+            $('.collapsible').collapsible();
+        });
+
+        function gotodiv(id) {
+            if ($(id).offset() === undefined) {
+                window.location.href = "/"  + id;
+            } else {
+                $('html, body').animate({
+                    scrollTop: $(id).offset().top
+                }, 2000);
+            }
+         
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

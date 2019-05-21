@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "ورود";
+}
+
+<div class="fix-navbar-header">
+    <br />
+   
+</div>
+<div class="row">
+    <div class="col s12 m4 offset-m4">
+        <div class="card white lighten-1">
+            
+  <div class="center">
+      <br />
+      <img src="~/statatics/icons/512.png" width="100" height="100"/>
+      <p>ایلیکار</p>
+      <p>سامانه مدیریت تردد زبان آموزان</p>
+  </div>
+            <div class="card-content white-text">
+                <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                    <div class="form-group">
+                        <div class=" col s12 ">
+                            <input class="entry" id="number" name="PhoneNubmber" type="text" placeholder="تلفن همراه">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class=" col s12 ">
+                            <input class="entry" id="name" name="Password" type="password" placeholder="کد ملی یا رمز عبور">
+                        </div>
+                    </div>
+                 
+
+
+                    <p class="center">
+                        <button class="waves-effect btn corner" type="submit">
+                            ورود
+                        </button>
+                    </p>
+
+
+                </form>
+            </div>
+            
+            <div class="card-action">
+                <p class="red-text center">@ViewBag.msg</p>
+                <p >
+                    <a asp-action="ForgotPassowrd" asp-controller="Account" class="blue-text" >رمز عبور خود را فراموش کرده ام</a>
+                </p>
+                <p >
+                    <a href="http://register.ilicar.ir" class="blue-text" > ثبت نام نکرده ام</a>
+                </p>
+                <p>
+                    <a href="~/statatics/help.PNG" target="_blank">
+                        راهنما
+                        <i class="material-icons">info_outline</i>
+                    </a>
+                </p>
+
+            </div>
+          
+        </div>
+
+    </div>
+</div>
+

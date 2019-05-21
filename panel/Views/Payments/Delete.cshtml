@@ -1,0 +1,38 @@
+﻿@model DAL.Payment
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+
+<h4>آیا شما از حذف این آیتم اطمینان دارید ؟</h4>
+<div>
+     <hr />
+    <p>
+        @Html.DisplayNameFor(model => model.Ammount) : @Html.DisplayFor(model => model.Ammount)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.ServiceRequset) :   @Html.DisplayFor(model => model.ServiceRequset.Id)
+    </p> 
+    <p>
+        @Html.DisplayNameFor(model => model.Parent) :   @Html.DisplayFor(model => model.Parent.Id)
+    </p> 
+    <p>
+        @Html.DisplayNameFor(model => model.TrackingCode) : @Html.DisplayFor(model => model.TrackingCode)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Success) : @Html.DisplayFor(model => model.Success)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Hs_Change) : @Html.DisplayFor(model => model.Hs_Change)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.IsDeleted) : @Html.DisplayFor(model => model.IsDeleted)
+    </p>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <a asp-action="Index" class="btn btn-default">خیر لغو شود</a> 
+        <input type="submit" value="بله اطمینان دارم این آیتم  حذف شود " class="btn btn-danger" /> 
+    </form>
+</div>

@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            border-radius: 5px;
+            text-align: center;
+            margin: auto;
+            margin-top: 50vh;
+            background-color: #eff0e4;
+            font-family: Tahoma;
+            text-align: center;
+            color: #000c;
+            font-size: 2vh;
+            line-height: 49px;
+            width: 76vw;
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+
+
+        .container {
+            padding: 2px 16px;
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="card">
+        <div class="container">
+            <p> شما آفلاین هستید ، لطفا اینترنت خود را روشن کنید  </p>
+        </div>
+    </div>
+    <script>
+        if (navigator.onLine) {
+            window.location.href = "/";
+        }
+    </script>
+</body>
+</html>

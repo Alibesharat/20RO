@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoHistoryCore" Version="4.1.0" />
+    <PackageReference Include="DNTPersianUtils.Core" Version="3.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.6.0-preview3.19128.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>D:\System.Net.Http.Formatting\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

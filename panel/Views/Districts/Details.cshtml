@@ -1,0 +1,71 @@
+﻿@model DAL.District
+
+@{
+   ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
+    ViewData["Title"] = $"جزییات {ViewData["ClassName"]} ";
+}
+
+
+
+  <div class="box box-primary">
+    <div class="box-header">
+<h3 class="box-header text-center">
+   <span class="text-warning"> @ViewData["Title"]
+    </span>
+    </h3>
+    <hr />
+   </div>
+    <div class="box-body">
+    <div class="table-responsive">
+    <table class="table table-bordered table-condensed table-hover table-striped text-center">
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Name)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Name)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.City)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.City.Id)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Hs_Change)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Hs_Change)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.IsDeleted)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IsDeleted)
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+            </div>
+</div>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت به لیست</a>
+</div>

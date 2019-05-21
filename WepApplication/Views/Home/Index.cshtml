@@ -1,0 +1,346 @@
+﻿
+@{
+    ViewData["Title"] = "درخواست سرویس";
+}
+
+<div id='map'>
+
+</div>
+
+
+@*<div class="tap-target" data-target="marker">
+        <div class="tap-target-content">
+            <h5>  </h5>
+            <p>لطفا آدرس مبدا( منزل ) خود را بر روی نقشه مشخص کنید</p>
+        </div>
+    </div>*@
+
+
+<div class='serviceRequsert' id="serviceRequset">
+
+    <a onclick="serviceRequset()" class="btn-large waves-effect waves-light teal lighten-2">
+        تایید آدرس مبدا
+    </a>
+
+
+</div>
+
+<div class='currentPostion'>
+   
+    <a onclick="GetCurrentLocation()" class="btn-small waves-effect waves-light  red darken-1 ">
+        دریافت مکان  فعلی من
+    </a>
+</div>
+<div class="mymarker">
+    <img src="~/statatics/icons/loc3.png"
+         class="markerimage" onclick="serviceRequset()" id="marker" />
+</div>
+
+
+<!-- Modal Structure -->
+<div id="step1" class="modal modal-fixed-footer">
+
+    <div class="modal-content">
+        <div class="center">
+            <a class="waves-effect  btn corner  no-action"> آدرس مبدا  </a>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="input-field  col s12 ">
+                        <input class="" id="address" type="text" placeholder="آدرس مبدا را وارد کنید">
+                    </div>
+                </div>
+
+            </div>
+
+          
+
+
+            <div class="row">
+
+                <p class="center">
+                    <a class="waves-effect green  lighten-1 btn corner" onclick="next()">
+                        <span >مرحله بعد  </span>
+
+                    </a>
+                </p>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<div id="step2" class="modal modal-fixed-footer">
+
+    <div class="modal-content">
+        <div class="center">
+
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col s3">
+                        <p for="Academy">نام آموزشگاه</p>
+                    </div>
+                    <div class=" input-field  col s9 browser-default">
+                        <select class="browser-default" asp-items="ViewBag.academy" id="Academy" onchange="GetCourse()">
+                            <option value="" disabled selected style="color:red">نام آموزشگاه</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col s1">
+                        <p for="course">دوره</p>
+                    </div>
+                    <div class=" input-field  col s11 ">
+                        <select class="browser-default" asp-items="ViewBag.courses" id="course">
+                            <option value="" disabled selected style="color:red">دوره</option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <p class="center">
+                    <a class="waves-effect green  lighten-1 btn corner" onclick="send()">
+                        <span id="state">  ثبت درخواست  </span>
+
+                    </a>
+                </p>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+<div id="loader" class="progress" style="display:none">
+    <div class="indeterminate"></div>
+</div>
+
+
+
+
+@section Scripts{
+    <script src="~/js/mapbox.js?v4"></script>
+
+    <script>
+        var reqdata = {
+
+
+            FullName: "",
+            gender: "false",
+            PicturePath: "",
+            Age: "0",
+            Address: "",
+            Note: "",
+            CourseId: "0",
+            latitue: "",
+            Longtude: "",
+            AcademyId:"0"
+
+        };
+        $(document).ready(function () {
+            $('.modal').modal();
+            $('select').formSelect();
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(myps, showError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+              
+            }
+        });
+      
+        function next() {
+
+            $('#step1').modal('close');
+            $('#step2').modal('open');
+        }
+      
+        function GetCurrentLocation() {
+            LoadingStart();
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(myps, showError);
+            } else {
+                LoadingEnd();
+              
+
+            }
+
+        }
+
+        function myps(position) {
+            LoadingEnd();
+            map.flyTo({
+                center: [
+                position.coords.longitude,
+                position.coords.latitude]
+            });
+        }
+
+        function showError(error) {
+            LoadingEnd();
+            Error.innerHTML = error.message;
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    ShowMessage("لطفا مجوز دسترسی به موقعیت مکانی را فعال کنید");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    ShowMessage("اطلاعاتی یافت نشد، دستی موقعیت خود را مشخص کنید");
+                    break;
+                case error.TIMEOUT:
+                    ShowMessage("اطلاعاتی یافت نشد، دستی موقعیت خود را مشخص کنید");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    ShowMessage("اطلاعاتی یافت نشد، دستی موقعیت خود را مشخص کنید");
+                    break;
+            }
+        }
+
+        function serviceRequset() {
+            @{
+                if (!User.Identity.IsAuthenticated)
+                {
+                    @:ShowMessage("برای ثبت درخواست ابتدا باید ورود کنید");
+                    @:return;
+                }
+            }
+            var lngLat = map.getCenter();
+
+            $('#step1').modal('open');
+        }
+
+
+
+        function send() {
+           @{
+                if (!User.Identity.IsAuthenticated)
+                {
+                    @:ShowMessage("برای ثبت درخواست ابتدا باید ورود کنید");
+                    @:return;
+                }
+            }
+            LoadingStart();
+            $('#state').text('لطفا صبر کنید');
+            var lngLat = map.getCenter();
+
+
+            reqdata.latitue = lngLat.lat;
+            reqdata.Longtude = lngLat.lng;
+            reqdata.FullName = $("#name").val();
+            reqdata.Address = $("#address").val();
+            reqdata.Age = $("#age").val();
+            reqdata.gender = $('#gender').is(':checked');
+            reqdata.CourseId = $('#course').val();
+            reqdata.AcademyId = $("#Academy").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("RequsetService", "Home")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(reqdata),
+                success: function (response) {
+                    LoadingEnd();
+                    if (response.statuse == false) {
+                        $('#state').text("ثبت درخواست");
+                        ShowMessage(response.message);
+                    } else {
+                        location.replace("/ServiceDetail/"+response.data);
+                    }
+
+
+                },
+                failure: function (response) {
+                    console.log(response);
+                    LoadingEnd();
+                    ShowMessage("خطایی بوجودآمد");
+                    $('#state').text("ثبت درخواست");
+                },
+            });
+
+
+        }
+
+        function GetCourse() {
+            LoadingStart();
+            $('#state').text('لطفا صبر کنید');
+            var s = $("#Academy option:selected").val();
+            var getDetailViewModel = {
+                id: s
+            };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getCoursesByAcademy", "Home")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(getDetailViewModel),
+                success: function (response) {
+                    $('#state').text("ثبت درخواست");
+                    LoadingEnd();
+                    if (response.statuse == false) {
+
+                        ShowMessage(response.message);
+                    } else {
+
+                        $("#course").empty();
+                        $.each(response.data, function (i, item) {
+                            $('#course').append($('<option>', {
+                                value: item.id,
+                                text: item.fullTitle
+                            }));
+                        });
+                    }
+
+
+                },
+                failure: function (response) {
+                    console.log(response);
+                    LoadingEnd();
+                    ShowMessage("خطایی بوجودآمد");
+                    $('#state').text("ثبت درخواست");
+                },
+            });
+
+
+
+        }
+    </script>
+
+    @*<script>
+           $(document).ready(function () {
+               $('.tap-target').tapTarget();
+               $('.tap-target').tapTarget('open');
+
+           });
+
+
+        </script>*@
+
+
+
+}

@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "دسترسی غیر مجاز";
+}
+
+<div class="fix-navbar-header">
+    <br />
+
+</div>
+<div class="row">
+    <div class="col s12 m4 offset-m4">
+        <div class="card white lighten-1">
+
+            <div class="card-content red-text">
+                <p>شما به محتوای درخواست داده شده دسترسی ندارید</p>
+            </div>
+
+            <div class="card-action">
+                <form id="frmlogout" asp-action="Logout" asp-controller="Account" method="post"></form>
+
+                <p class="red-text center">@ViewBag.msg</p>
+                <p>
+                    <a onclick="Logoff()" class=" blue-text" href="#" hreflang="fa">   خروج از حساب کاربری    </a>
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+     function Logoff() {
+        
+         $("#frmlogout").submit();
+     }
+    </script>
+}

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kavenegar.Core" Version="1.0.1-alpha3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>D:\System.Net.Http.Formatting\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,272 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id='map'>
+
+</div>
+
+
+@*<div class="tap-target" data-target="marker">
+        <div class="tap-target-content">
+            <h5> منو </h5>
+            <p>برای مشاهده امکانات سامانه اینجا را لمس کنید</p>
+        </div>
+    </div>*@
+
+
+<div class='serviceRequsert'>
+
+    <a onclick="serviceRequset()" class="btn-large waves-effect waves-light teal lighten-2">
+       تایید آدرس مبدا
+    </a>
+
+
+</div>
+<div class="mymarker" onclick="help()">
+    <a id="marker" class="btn-floating btn-large waves-effect waves-light pulse  red lighten-1"><i class="material-icons">location_on</i></a>
+</div>
+
+
+<!-- Modal Structure -->
+<div id="step1" class="modal modal-fixed-footer">
+
+    <div class="modal-content">
+        <div class="center">
+            <a class="waves-effect  btn corner  no-action"> مشخصات دانش آموز </a>
+
+
+
+            <div class="form-group">
+                <div class=" col s12 ">
+                    <input class="entry" id="name" type="text" placeholder="نام و نام خانوداگی">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=" col s12 ">
+                    <input class="entry" id="age" type="text" placeholder="سن">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class=" col s12 ">
+                    <div class="switch">
+                        <label class="font-large">
+                            پسر
+                            <input type="checkbox" id="gender">
+                            <span class="lever"></span>
+                            دختر
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=" col s12 ">
+                    <input class="entry" id="eduction" type="text" placeholder="مقطع تحصیلی">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=" col s12 ">
+                    <input class="entry" id="address" type="text" placeholder="آدرس مبدا">
+                </div>
+            </div>
+
+            <p class="center">
+                <button class="waves-effect btn corner" onclick="next()">
+                    مرحله بعد
+                    <i class="fa fa-chevron-circle-left"></i>
+                </button>
+            </p>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+<div id="step2" class="modal modal-fixed-footer">
+
+    <div class="modal-content">
+        <div class="center">
+            @*<button class="">
+                    <img src="~/statatics/circled-right.svg" width="20" height="20" />
+                    بازگشت
+                </button>*@
+            <button class="waves-effect btn corner" onclick="back()">
+                <i class="fa fa-chevron-circle-right"></i>  مشخصات آموزشگاه
+            </button>
+
+            <div class="form-group">
+                <div class="entry input-field  col s12 ">
+                    <select class="" id="province">
+                        <option>تهران</option>
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="entry input-field  col s12 ">
+                    <select class="" id="city">
+
+                        <option>تهران</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="entry input-field  col s12 ">
+                    <select class="" asp-items="ViewBag.Academies" id="academy">
+                        <option value="" disabled selected>آموزشگاه</option>
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="entry input-field  col s12 ">
+                    <select class="" asp-items="ViewBag.courses" id="course">
+                        <option value="" disabled selected style="color:red">دوره</option>
+
+                    </select>
+
+                </div>
+            </div>
+
+
+
+            <div class="row">
+
+                <p class="center">
+                    <a class="waves-effect green  lighten-1 btn corner" onclick="send()">
+                        <span id="state">ثبت درخواست</span>
+
+                    </a>
+                </p>
+
+                <div id="loader" class="progress" style="display:none">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="~/js/mapbox.js?v1"></script>
+
+    <script>
+        var reqdata = {
+
+
+            FullName: "",
+            gender: "false",
+            PicturePath: "",
+            Age: "0",
+            Address: "",
+            Note: "",
+            CourseId: "0",
+            latitue: "",
+            Longtude: "",
+
+        };
+      
+        function serviceRequset() {
+            @{
+                if (!User.Identity.IsAuthenticated)
+                {
+                    @:ShowMessage("برای ثبت درخواست ابتدا باید ورود کنید");
+                    @:return;
+                }
+            }
+            var lngLat = map.getCenter();
+
+            $('#step1').modal('open');
+
+
+        }
+
+        function next() {
+            $('#step1').modal('close');
+            sleep(500).then(() => {
+                $('#step2').modal('open');
+            });
+        }
+
+        function back() {
+            $('#step2').modal('close');
+            sleep(500).then(() => {
+                $('#step1').modal('open');
+            });
+        }
+
+
+
+        function send() {
+           @{
+                if (!User.Identity.IsAuthenticated)
+                {
+                    @:ShowMessage("برای ثبت درخواست ابتدا باید ورود کنید");
+                    @:return;
+                }
+            }
+            $('#loader').show(1000);
+            $('#state').text('لطفا صبر کنید');
+            var lngLat = map.getCenter();
+
+
+            reqdata.latitue = lngLat.lat;
+            reqdata.Longtude = lngLat.lng;
+            reqdata.FullName = $("#name").val();
+            reqdata.Address = $("#address").val();
+            reqdata.Age = $("#age").val();
+            reqdata.gender = $('#gender').is(':checked');
+            reqdata.CourseId = $('#course').val();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("RequsetService", "Home")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(reqdata),
+                success: function (response) {
+                    $('#loader').hide(1000);
+                    if (response.statuse == false) {
+                        $('#state').text("ثبت درخواست");
+                        ShowMessage(response.message);
+                    } else {
+                        location.replace("/ServiceDetail/"+response.data);
+                    }
+
+
+                },
+                failure: function (response) {
+                    console.log(response);
+                    $('#loader').hide(1000);
+                    ShowMessage("خطایی بوجودآمد");
+                    $('#state').text("ثبت درخواست");
+                },
+            });
+
+
+        }
+    </script>
+
+
+   
+
+
+}

@@ -1,0 +1,81 @@
+﻿@model DAL.StudentParent
+
+<img src="~/Media/image/logogr.png" width="120" height="80" class="img-responsive center-block" />
+<br />
+<br />
+<div class="box box-primary ">
+    <div class="bg-gray-light">
+        <br />
+        <h4 class="text-center ">پیش ثبت نام سرویس </h4>
+        <h4 class="text-center">  ایاب  و ذهاب زبان آموزان </h4>
+        <br />
+    </div>
+
+    <hr />
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <form asp-action="Register">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label"></label>
+                        <select class="form-control" asp-for="Gender">
+                            <option value="true">مرد</option>
+                            <option value="false">زن</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IrIdCod" class="control-label"></label>
+                        <input asp-for="IrIdCod" class="form-control" />
+                        <span asp-validation-for="IrIdCod" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Age" class="control-label"></label>
+                        <input asp-for="Age" class="form-control" oninvalid="this.setCustomValidity('سن الزامی است')" oninput="this.setCustomValidity('')"/>
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StudentCode" class="control-label"></label>
+                        <input asp-for="StudentCode" class="form-control" />
+                        <span asp-validation-for="StudentCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNubmber" class="control-label"></label>
+                        <input asp-for="PhoneNubmber" class="form-control" />
+                        <span asp-validation-for="PhoneNubmber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AcademyId" class="control-label"></label>
+                        <select asp-for="AcademyId" class="form-control" asp-items="ViewBag.AcademyId"></select>
+                        <span asp-validation-for="AcademyId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+
+                        <input type="checkbox" asp-for="AccesptTerms" />
+                        <a href="@Const.StudentparrentPath/terms">قوانین و مقررات </a> را می پذیرم
+
+                        <br />
+                        <span asp-validation-for="AccesptTerms" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="ثبت نام" class="btn btn-success  btn-block" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

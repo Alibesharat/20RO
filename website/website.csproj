@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Description>AlphaCore</Description>
+    <Authors>MyCompany</Authors>
+    <Title>sas</Title>
+    <Summary>sas</Summary>
+    <Owners>sas</Owners>
+    <Copyright>asa</Copyright>
+    <PackageProjectUrl>asasa</PackageProjectUrl>
+    <PackageIconUrl>asas</PackageIconUrl>
+    <PackageLicenseUrl>asa</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <NeutralLanguage>sa</NeutralLanguage>
+    <PackageReleaseNotes>asa</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Extentions\**" />
+    <Compile Remove="wwwroot\Media\**" />
+    <Content Remove="Extentions\**" />
+    <Content Remove="wwwroot\Media\**" />
+    <EmbeddedResource Remove="Extentions\**" />
+    <EmbeddedResource Remove="wwwroot\Media\**" />
+    <None Remove="Extentions\**" />
+    <None Remove="wwwroot\Media\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+</Project>

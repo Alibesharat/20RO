@@ -1,0 +1,48 @@
+﻿{
+  "lang": "fa",
+  "dir": "rtl",
+  "name": "ilicar",
+  "short_name": "ilicar",
+  "description": "اپلیکیشن ایلیکار را به گوشی خود اضافه کنید",
+  "theme_color": "#009a59",
+  "background_color": "#009a59",
+  "categories": [ "kids", "education", "navigation", "travel" ],
+  "serviceworker": {
+    "scope": "/",
+    "src": "js/sw.js",
+    "use_cache": true
+  },
+  "icons": [
+
+    {
+      "src": "statatics/icons/92.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "statatics/icons/512.png",
+      "sizes": "512x512"
+    }
+
+
+  ],
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait",
+  "permissions": [
+    "notifications",
+    "webRequest",
+    "background",
+    "geolocation"
+  ],
+  "author": "tamam Co.",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=ir.ilicar.customer",
+      "id": "ir.ilicar.customer"
+    }
+   
+  ]
+
+}

@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=/noscript.html">
+    </noscript>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - ایلیکار</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="Screen,projection">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.css' type='text/css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/site.css?v9" rel="stylesheet" />
+    <link href="~/css/materialize-rtl.css?v8" rel="stylesheet" />
+    <link href="~/manifest.json?v8" rel="manifest" />
+
+</head>
+<body>
+
+    <!-- #region Side navBar -->
+    <ul id="slide-out" class="sidenav" onclick="Close()">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                </div>
+                <p class="center">
+
+                    <img src="~/statatics/icons/wh512.png" width="120" />
+                </p>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="#name">
+                        <span class="white-text name"> @User.Identity.Name </span>
+                    </a>
+
+                }
+            </div>
+        </li>
+        <li><a asp-action="index" asp-controller="Home"><i class="material-icons">new_releases</i>  درخواست سرویس جدید  </a></li>
+
+        <li><div class="divider"></div></li>
+
+        <li><a asp-action="Activeservice" asp-controller="Home"><i class="material-icons">local_taxi</i>  سرویس های فعال     </a></li>
+        <li class="add-button"><a><i class="material-icons">star</i>نصب برنامه </a></li>
+
+        <li><a asp-action="pending" asp-controller="Home"><i class="material-icons">local_taxi</i>  سرویس های  در دست بررسی       </a></li>
+        <li><a asp-action="AwaitingPayment" asp-controller="Home"><i class="material-icons">local_taxi</i>  سرویس های در انتظار پرداخت     </a></li>
+        <li><a asp-action="Cancel" asp-controller="Home"><i class="material-icons">local_taxi</i>  سرویس های لغو شده       </a></li>
+        <li><div class="divider"></div></li>
+        <li>
+            <a asp-action="Terms" asp-controller="Home">
+                قوانین و مقررات
+                <i class="material-icons">assignment</i>
+            </a>
+        </li>
+        <li>
+            <a href="~/statatics/help.PNG" target="_blank">
+               راهنما
+                <i class="material-icons">info_outline</i>
+            </a>
+        </li>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+
+            <li>
+                <form id="frmlogout" asp-action="Logout" asp-controller="Account" method="post"></form>
+                <a class="waves-effect" onclick="Logoff()"><i class="material-icons">exit_to_app</i> خروج   </a>
+
+            </li>
+        }
+        else
+        {
+            <li><a class="waves-effect" asp-action="Login" asp-controller="Account"><i class="material-icons">exit_to_app</i> ورود  </a></li>
+            <li><a class="waves-effect" href="http://register.ilicar.ir"><i class="material-icons">plus_one</i> ثبت نام  </a></li>
+        }
+
+    </ul>
+
+    <!-- #endregion -->
+    <!-- #region Float bottons -->
+    <div class="navbarmenu">
+        <a id="menu" href="#" data-target="slide-out" class="sidenav-trigger btn-small waves-effect waves-light teal lighten-2"><i class="material-icons">menu</i></a>
+    </div>
+   
+    <div id="modalmessage" class="modal ">
+
+        <div class="modal-content">
+            <p>پیام سیستم</p>
+            <p id="message"></p>
+        </div>
+
+
+
+    </div>
+
+
+    <div id="modalLoader" class="modal bottom-sheet">
+        <div class="modal-content">
+            <div class="center">
+                <div class="row">
+                    <div id="loader" class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- #endregion -->
+
+    @RenderBody()
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.min.js'></script>
+    <script src="~/js/initmatrailcss.js?v5"></script>
+    <script src="~/js/fastclick.js"></script>
+   
+
+    <script>
+
+     
+
+        if ('serviceWorker' in navigator) {
+            // Register a service worker hosted at the root of the
+            // site using the default scope.
+            navigator.serviceWorker.register('/js/sw.js').then(function (registration) {
+                console.log('Service worker registration succeeded:', registration);
+            }, /*catch*/ function (error) {
+                console.log('Service worker registration failed:', error);
+            });
+        } else {
+            console.log('Service workers are not supported.');
+        }
+        let deferredPrompt;
+        const addBtn = document.querySelector('.add-button');
+        addBtn.style.display = 'none';
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI to notify the user they can add to home screen
+            addBtn.style.display = 'block';
+
+            addBtn.addEventListener('click', (e) => {
+                // hide our user interface that shows our A2HS button
+                addBtn.style.display = 'none';
+                // Show the prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    } else {
+                        console.log('User dismissed the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
+        if (!navigator.onLine) {
+            window.location.href = "/offline.html";
+        }
+        function help() {
+
+        }
+
+       
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+
+        function ShowMessage(message) {
+
+            $("#message").text(message);
+            $('#modalmessage').modal('open');
+        }
+
+         function SendData(url,data) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    return response;
+                },
+                failure: function (response) {
+                    console.log(response);
+                    return -1;
+                },
+            });
+         }
+
+         function Logoff()
+         {
+
+             $("#frmlogout").submit();
+         }
+
+         $(function () {
+             FastClick.attach(document.body);
+         });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<DAL.ServiceRequset>
+
+@{
+    ViewData["Title"] = "سرویس های در انتظار پرداخت";
+}
+
+<div class="fix-navbar-header">
+    <br />
+    <p class="center">
+        <a class="waves-effect  btn corner  no-action">  سوابق سرویس های در انتظار پرداخت  </a>
+
+    </p>
+</div>
+
+<div class="row ">
+    @if (Model != null && Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="col s12 m6 offset-5 ">
+                <div class="card red lighten-5 card-padding  card-click " onclick="getDetail(@item.Id)">
+                    <div class="card-content  white-text ">
+                        <button class="btn card-header">
+                            آموزشگاه  @item.course?.Academy?.Name
+                            <i class="fa fa-empire"></i>
+                        </button>
+                        <br />
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s12 ">
+
+                                    <span class="btn contant">
+
+                                     @item.course?.TeacherName
+
+                                    </span>
+                                </div>
+                                @*<div class="col s12 m6 ">
+                                    <span class="btn contant">
+
+                                        خاتمه : 1397/05/01
+
+                                    </span>
+                                </div>*@
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col s12">
+            <div class="card  lighten-5 card-padding ">
+                <div class="card-content white-text">
+                    <div class="card-action">
+                        <p class="center black-text">شما هیچ سرویس در انتظار پرداختی ندارید</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+@section Scripts {
+    <script>
+        function getDetail(id) {
+            location.href = '/ServiceDetail/' + id;
+        }
+    </script>
+}

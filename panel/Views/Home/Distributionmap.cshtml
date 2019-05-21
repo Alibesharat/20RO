@@ -1,0 +1,140 @@
+﻿@model IEnumerable<DAL.ServiceRequset>
+@{
+    ViewData["Title"] = "Distributionmap";
+}
+
+@*<div class="box box-danger">
+    <form id="frm" asp-action="Distributionmap">
+        <select class="select2" name="state" asp-items="@Html.GetEnumSelectList<RequsetSate>()" onchange="submit()">
+            <option selected="selected" value="@ViewBag.state">@ViewBag.state</option>
+</select>
+
+    </form>
+
+</div>*@
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h4>نمودار پراکندگی سرویس های در دست بررسی</h4>
+        
+    </div>
+    </div>
+
+<div class="box box-danger">
+    <div class="box-body">
+
+        <div id='map'>
+
+        </div>
+
+    </div>
+</div>
+
+@section Styles{
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.css' type='text/css' />
+    <style>
+        .box-body {
+            height: 640px;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 95%;
+            height: 95%;
+        }
+    </style>
+}
+@section Scripts{
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.min.js'></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYm5hbGluaWEiLCJhIjoiY2pzbGhlaW1iMnl6czN5bzY4aGtlNGRjMyJ9.w5OCvI1DM3vHw4iPcDsSPw';
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/navigation-guidance-day-v4',
+            zoom: 10,
+            maxTileCacheSize: 100,
+            localIdeographFontFamily: "'Shabnam', sans-serif"
+        });
+        mapboxgl.setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.0/mapbox-gl-rtl-text.js');
+            var latlang = {
+                lat: "35.717402",
+                long: "51.397745"
+            };
+            map.flyTo({
+                center: [
+                 latlang.long,
+               latlang.lat]
+            });
+       
+        @{
+              var iconpath = Url.Content("https://localhost:44328/");
+              }
+
+        var fullgeos = [
+@foreach (var item in Model)
+            {
+                @if(!string.IsNullOrWhiteSpace(item.Longtude))
+                {
+                       @:{id:'@item.Id',long:'@item.Longtude',lat:'@item.latitue',Name:'@item.Id'},
+                }
+
+            }
+        ];
+
+        map.on('load', function () {
+            map.loadImage('../Media/image/Circle_Yellow.png', function (error, image) {
+                if (error) throw error;
+                map.addImage('icon', image);
+            });
+
+        
+                var arrayLength = fullgeos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    var long = fullgeos[i].long;
+                    var lat = fullgeos[i].lat;
+                    var id = fullgeos[i].id;
+                    var Name = fullgeos[i].Name;
+              
+                    //Do something
+                    map.addLayer({
+                        "id": id,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [long,lat]
+                                    }
+                                }]
+                            }
+                        },
+                        
+                        "layout": {
+
+                            "icon-image": 'icon',
+                            "icon-size": 0.2,
+                            "text-field": Name,
+                            "text-size": 10
+                        }
+                    });
+
+                }
+
+
+        });
+    </script>
+
+    @*<script>
+        function submit()
+        { $("#frm").submit(); }
+    </script>*@
+}
