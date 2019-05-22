@@ -10,13 +10,11 @@ public class Const
 
     public const string kewords = "طراحی وبسایت";
 
-
-
     /// <summary>
     /// آدرس وبسایت
     /// </summary>
-    //public const string Apirootpath = "https://localhost:44353";
-    public const string Apirootpath = "http://system.20ro.net";
+    public const string Apirootpath = "https://localhost:44353";
+    //public const string Apirootpath = "http://system.20ro.net";
 
     public const string StudentparrentPath = "https://web.20ro.net";
     public const string Driverpath = "https://driver.20ro.net";
@@ -163,6 +161,13 @@ public class Const
     {
         return Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
     }
+
+    public static string GeneratRandomNumber()
+    {
+        Random r = new Random();
+        return r.Next(1342, 9895).ToString();
+
+    }
 }
 
 
@@ -216,7 +221,7 @@ public enum RequsetSate
 /// </summary>
 public enum NotifState
 {
-  
+
     [Display(Name = "حرکت به سمت مبدا")]
     drivingToSource,
     [Display(Name = "حاضر در مبدا")]

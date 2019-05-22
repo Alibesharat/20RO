@@ -60,7 +60,12 @@ namespace WepApplication
                 options.RedirectStatusCode = StatusCodes.Status302Found;
             });
             services.AddSingleton<ISMS<List<SendResult>>, kaveSMS>();
-          
+            services.AddDistributedSqlServerCache(opt => {
+                opt.ConnectionString = Configuration.GetConnectionString("cashdb");
+                opt.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
+                opt.SchemaName = "dbo";
+                opt.TableName = "Cache";
+                });
            
         }
 
@@ -69,7 +74,6 @@ namespace WepApplication
         {
             if (env.IsDevelopment())
             {
-
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
@@ -79,11 +83,9 @@ namespace WepApplication
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
               
             }
-
             app.UseHsts();
             app.UseHttpsRedirection();
             app.UseAuthentication();
-
             app.UseStaticFiles(new StaticFileOptions()
             {
                 OnPrepareResponse = context =>

@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace NotifCore
 {
+
     public class kaveSMS : ISMS<List<SendResult>>
     {
         public List<string> phoneNumbers { get; set; }
         public string message { get; set; }
         public string template { get; set; }
 
-
+        static HttpClient client = new HttpClient();
 
         public async Task<(bool statuse, string ErrorMessage, List<SendResult> result)> SendNotifyAsync()
         {
@@ -42,9 +43,9 @@ namespace NotifCore
         }
 
 
-        public async Task<Exception> SendNotifyWithTemplateAsync(string phonenumber, string link,MessageTemplate template)
+        public async Task<Exception> SendNotifyWithTemplateAsync(string phonenumber, string link, MessageTemplate template)
         {
-            HttpClient client = new HttpClient();
+
             try
             {
                 string Key = "6E657A6A752B7A59734773667A7236427168645A48513D3D";
@@ -71,13 +72,14 @@ namespace NotifCore
 
         }
 
-        
+
     }
 
     public enum MessageTemplate
     {
-       kanoonverify,
-       ilicarbrief
-            
+        kanoonverify,
+        ilicarbrief,
+        Bisroverify
+
     }
 }

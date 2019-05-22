@@ -1,38 +1,50 @@
 ﻿using DAL;
 using DNTPersianUtils.Core;
+using Kavenegar.Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using NotifCore;
 using Shared;
 using Shared.Contracts;
 using Shared.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using WepApplication.Util;
 
 namespace WepApplication.Controllers
 {
     [AllowAnonymous]
-  
+
     public class AccountController : Controller
     {
 
+        private readonly ISMS<List<SendResult>> _notify;
+        private readonly IDistributedCache _cache;
+        public string CachedTimeUTC { get; set; }
 
-     
+        public AccountController(ISMS<List<SendResult>> notify, IDistributedCache cache)
+        {
+            _notify = notify;
+            _cache = cache;
+        }
 
 
         [HttpGet]
-      
+
         public IActionResult Login(string ReturnUrl)
         {
             var parrent = User.Getparrent();
             if (parrent != null)
                 return RedirectToLocal(ReturnUrl);
-                ViewData["ReturnUrl"] = ReturnUrl;
+            ViewData["ReturnUrl"] = ReturnUrl;
             return View();
         }
 
@@ -72,50 +84,89 @@ namespace WepApplication.Controllers
 
 
         [HttpGet]
-      
+
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        
-        public async Task<IActionResult> Register([FromForm]RegisterStudentParrentViewModel model)
+
+        public async Task<IActionResult> Register(string phoneNumber)
         {
 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+          
 
-            if (!model.PhoneNubmber.IsValidIranianMobileNumber())
+            if (!phoneNumber.IsValidIranianMobileNumber())
             {
-                ModelState.AddModelError(nameof(model.PhoneNubmber), "شماره موبایل  وارد شده معتبر نیست");
-                return View(model);
-            }
-            var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
-                (model, Const.RegisterStudentParent, ApiMethode.Post);
-            if (data == null)
-            {
-
-                ModelState.AddModelError("", "ارتباط با سرور میسر نشد !");
+                ViewBag.msg = "شماره تلفن همراه معتبر نمی باشد";
                 return View();
             }
-            if (data.statuse)
+            string token = Const.GeneratRandomNumber();
+
+
+            var options = new DistributedCacheEntryOptions()
             {
-                await AddAuthAsync(data);
-                return RedirectToLocal("");
+                AbsoluteExpiration = DateTime.Now.AddMinutes(1)
+            };
+            await _cache.SetStringAsync(phoneNumber, token, options);
+            await _notify.SendNotifyWithTemplateAsync(phoneNumber, token, MessageTemplate.Bisroverify);
+            return RedirectToAction(nameof(ValidateingNumber), new {phoneNumber });
+        }
+
+        public IActionResult ValidateingNumber(string phoneNumber)
+        {
+            ViewBag.phoneNumber = phoneNumber;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ValidateingNumber(string phoneNumber, string vierfiyCode)
+        {
+            var c = await _cache.GetStringAsync(phoneNumber);
+            if (c == vierfiyCode)
+            {
+                var model = new RegisterStudentParrentViewModel()
+                {
+                    PhoneNubmber = phoneNumber
+
+                };
+                return RedirectToAction(nameof(Complete), model);
             }
-            ModelState.AddModelError("", data.message);
-            return View(model);
-
-
-
+            ViewBag.msg = "کد وارد شده معتبر نمی باشد";
+            return View();
         }
 
 
+        public async Task<IActionResult> Complete(RegisterStudentParrentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
+             (model, Const.RegisterStudentParent, ApiMethode.Post);
+                if (data == null)
+                {
+
+                    ModelState.AddModelError("", "ارتباط با سرور میسر نشد !");
+                    return View(model);
+                }
+                if (data.statuse)
+                {
+                    await AddAuthAsync(data);
+                    return RedirectToLocal("");
+                }
+                ModelState.AddModelError("", data.message);
+            }
+
+            return View(model);
+        }
+
+
+
+
+
         [HttpGet]
-      
+
         public IActionResult ForgotPassowrd()
         {
 
@@ -123,7 +174,7 @@ namespace WepApplication.Controllers
         }
 
         [HttpPost]
-      
+
         public async Task<IActionResult> ForgotPassowrd([FromForm]string phoneNumber)
         {
             LoginStudentParrentViewModel lm = new LoginStudentParrentViewModel()
@@ -150,7 +201,7 @@ namespace WepApplication.Controllers
 
         }
 
-      
+
         public IActionResult Denied()
         {
             return View();
@@ -203,7 +254,7 @@ namespace WepApplication.Controllers
         }
 
 
-        
+
 
     }
 }

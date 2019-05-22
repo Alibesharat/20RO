@@ -16,49 +16,23 @@
     <div class="col s12 m4 offset-m4">
         <div class="card white lighten-1">
             <div class="center">
-
+                <p class="red-text">@ViewBag.msg</p>
             </div>
+            
             <div class="card-content white-text">
                 <div asp-validation-summary="ModelOnly" class="red-text"></div>
               
-                <form asp-action="Register" asp-controller="Account">
+                <form asp-action="Register" asp-controller="Account" method="post">
                     <div class="form-group">
                         <div class=" col s12 ">
-                            <th:lable asp-for="PhoneNumber"></th:lable>
-                            <input class="entry" asp-for="PhoneNubmber" placeholder="تلفن همراه">
-                            <span class="red-text" asp-validation-for="PhoneNubmber"></span>
+                            <lable asp-for="PhoneNumber">شماره تلفن همراه خود را وارد کنید</lable>
+                            <input class="entry" name="phoneNumber" placeholder="تلفن همراه">
+                          
 
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class=" col s12 ">
-                            <input class="entry" asp-for="Name" placeholder="نام">
-                            <span class="red-text" asp-validation-for="Name"></span>
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class=" col s12 ">
-                            <input class="entry" asp-for="LastName" name="LastName" placeholder="نام خانوداگی">
-                            <span class="red-text" asp-validation-for="LastName"></span>
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class=" col s12 ">
-                            <input class="entry" asp-for="Password" placeholder="رمز عبور">
-                            <span class="red-text" asp-validation-for="Password"></span>
-
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class=" col s12 ">
-                            <input class="entry" asp-for="Repassword" name="RePassword" placeholder="تکرار رمز عبور">
-                            <span class="red-text" asp-validation-for="Repassword"></span>
-
-                        </div>
-                    </div>
+              
+                 
 
                     <p class="center">
                         <button class="waves-effect btn corner" type="submit">

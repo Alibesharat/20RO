@@ -80,14 +80,7 @@ namespace Shared.ViewModels
         [Required(ErrorMessage = "{0}  الزامی است")]
         public string LastName { get; set; }
 
-        [Display(Name = "رمز عبور")]
-        [Required(ErrorMessage = "{0}  الزامی است")]
-        public string Password { get; set; }
-
-
-        [Display(Name = "تکرار رمز عبور")]
-        [Compare(nameof(Password), ErrorMessage = "رمز عبور و تکرار آن برابر نیستند")]
-        public string Repassword { get; set; }
+      
 
     }
 

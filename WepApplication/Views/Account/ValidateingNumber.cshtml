@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "ValidateingNumber";
+}
+<div class="row">
+    <div class="col s12 m4 offset-m4">
+        <div class="card white lighten-1">
+            <div class="center">
+                <br />
+                <p>کد تایید برای شماره @ViewBag.phoneNumber  پیامک شد</p>
+                <p>این کد فقط سه دقیقه اعتبار دارد</p>
+                <p class="red-text">@ViewBag.msg</p>
+            </div>
+
+            <div class="card-content white-text">
+                <form asp-action="ValidateingNumber" method="post">
+                    <input type="hidden" value="@ViewBag.phoneNumber" name="phoneNumber" />
+                    <div class="form-group">
+                        <div class=" col s12 ">
+                            <lable>کد تایید را اینجا وارد کنید</lable>
+                            <input class="entry" name="vierfiyCode" placeholder="کد تایید ">
+                        </div>
+                    </div>
+                    <p class="center">
+                        <button class="waves-effect btn corner" type="submit">
+                            تایید
+                        </button>
+                    </p>
+                </form>
+
+            </div>
+            <div class="card-action">
+
+                <p>
+                    <a asp-action="Register" asp-controller="Account">شماره موبایل اشتباه است ؟</a>
+                </p>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
