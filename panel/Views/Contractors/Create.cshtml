@@ -20,27 +20,17 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">نام شرکت</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
+                <label asp-for="Age" class="control-label">سابقه شرکت</label>
                 <input asp-for="Age" class="form-control" />
                 <span asp-validation-for="Age" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Gender" /> @Html.DisplayNameFor(model => model.Gender)
-                    </label>
-                </div>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
@@ -51,59 +41,39 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
                 <input asp-for="PhoneNubmber" class="form-control" />
                 <span asp-validation-for="PhoneNubmber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsMobielVerifed" /> @Html.DisplayNameFor(model => model.IsMobielVerifed)
-                    </label>
-                </div>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsEmailVerified" /> @Html.DisplayNameFor(model => model.IsEmailVerified)
-                    </label>
-                </div>
+                <label asp-for="RelaseDate" class="control-label"></label>
+                <input asp-for="RelaseDate" class="form-control" />
+                <span asp-validation-for="RelaseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AvatarPath" class="control-label"></label>
-                <input asp-for="AvatarPath" class="form-control" />
-                <span asp-validation-for="AvatarPath" class="text-danger"></span>
+                <label asp-for="ExpireDate" class="control-label"></label>
+                <input asp-for="ExpireDate" class="form-control" />
+                <span asp-validation-for="ExpireDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="BirthDay" class="control-label"></label>
-                <input asp-for="BirthDay" class="form-control" />
-                <span asp-validation-for="BirthDay" class="text-danger"></span>
+                <label asp-for="NIdCode" class="control-label"></label>
+                <input asp-for="NIdCode" class="form-control" />
+                <span asp-validation-for="NIdCode" class="text-danger"></span>
             </div>
+
+
+
             <div class="form-group">
-                <label asp-for="BeginDate" class="control-label"></label>
-                <input asp-for="BeginDate" class="form-control" />
-                <span asp-validation-for="BeginDate" class="text-danger"></span>
+                <label asp-for="RegisterCompanyNumber" class="control-label"></label>
+                <input asp-for="RegisterCompanyNumber" class="form-control" />
+                <span asp-validation-for="RegisterCompanyNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="AllowActivity" /> @Html.DisplayNameFor(model => model.AllowActivity)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Hs_Change" class="control-label"></label>
-                <input asp-for="Hs_Change" class="form-control" />
-                <span asp-validation-for="Hs_Change" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                    </label>
-                </div>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="ثبت" class="btn btn-success  btn-block" />
             </div>

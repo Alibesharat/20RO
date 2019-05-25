@@ -69,7 +69,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,LastName,Age,Gender,Password,PhoneNubmber,IsMobielVerifed,Email,IsEmailVerified,AvatarPath,BirthDay,BeginDate,AllowActivity,Hs_Change,IsDeleted")] Contractor contractor)
+        public async Task<IActionResult> Create([Bind("Id,Name,Age,Password,PhoneNubmber,Age,Email,AllowActivity,RegisterCompanyNumber,RelaseDate,ExpireDate")] Contractor contractor)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,LastName,Age,Gender,Password,PhoneNubmber,IsMobielVerifed,Email,IsEmailVerified,AvatarPath,BirthDay,BeginDate,AllowActivity,Hs_Change,IsDeleted")] Contractor contractor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Password,PhoneNubmber,Age,Email,AllowActivity,RegisterCompanyNumber,RelaseDate,ExpireDate")] Contractor contractor)
         {
             if (id != contractor.Id)
             {
