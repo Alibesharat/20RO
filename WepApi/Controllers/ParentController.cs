@@ -56,20 +56,25 @@ namespace WepApi.Controllers
         /// <summary>
         /// آیا والدین از قبل ثبت نام کرده است ؟
         /// </summary>
-        /// <param name="phoneNumber"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("IsExistStudentparrent")]
-        public IActionResult IsExistStudentparrent([FromBody] string phoneNumber)
+        [HttpPost(nameof(IsExistStudentparrent))]
+        public IActionResult IsExistStudentparrent([FromBody] RegisterStudentParrentViewModel model)
         {
             try
             {
-                bool state = CheckStudentparrent(phoneNumber);
-                return Ok(new ResultContract<bool>() { statuse = true, Data = state });
+                var parrent = _context.studentParents.FirstOrDefault(c => c.PhoneNubmber == model.PhoneNubmber);
+                if (parrent != null)
+                {
+                    return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent });
+                }
+                return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null,message="این شماره موبایل از قبل ثبت نام کرده است" });
+
             }
             catch (Exception ex)
             {
                 _logger.Log(HttpContext, ex);
-                return Ok(new ResultContract<bool>() { statuse = true, message = "مشکلی بوجود آمد" });
+                return Ok(new ResultContract<bool>() { statuse = false, message = "مشکلی بوجود آمد" });
 
 
             }
@@ -89,11 +94,6 @@ namespace WepApi.Controllers
         {
             try
             {
-                if (!model.Password.Equals(model.Repassword))
-                {
-                    return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "رمز عبور و تکرار آن برابر نیستند" });
-
-                }
                 if (CheckStudentparrent(model.PhoneNubmber))
                 {
                     return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "این شماره موبایل قبلا ثبت نام کرده است" });
@@ -135,39 +135,7 @@ namespace WepApi.Controllers
 
         }
 
-        /// <summary>
-        /// بازیابی رمز عبور
-        /// </summary>
-        /// <param name="phoneNumber"></param>
-        /// <returns></returns>
-        [HttpPost("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword([FromBody]LoginStudentParrentViewModel model)
-        {
-            try
-            {
-                var user = await _context.studentParents.FirstOrDefaultAsync(c => c.PhoneNubmber == model.PhoneNubmber);
-                if (user != null)
-                {
-                    List<string> numbers = new List<string>
-                    {
-                        user.PhoneNubmber
-                    };
-                    _sms.phoneNumbers = numbers;
-                    _sms.message = $"رمز ایلیکار شما   : {user.Password}";
-                    await _sms.SendNotifyAsync();
-
-                }
-                return Ok(new ResultContract<bool>() { statuse = true, Data = true, message = "چناچه شماره موبایل شما در سامانه ثبت شده باشد ، راهنمای بازیابی رمز عبور برای شما ارسال می شود" });
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(HttpContext, ex);
-                return Ok(new ResultContract<bool>() { statuse = true, message = "مشکلی بوجود آمد" });
-            }
-
-        }
-
+      
 
         /// <summary>
         /// درخواست سرویس
@@ -475,7 +443,6 @@ namespace WepApi.Controllers
         }
 
 
-       
 
 
 
@@ -483,16 +450,17 @@ namespace WepApi.Controllers
 
 
 
-     
-
-       
 
 
-    
+
+
+
+
+
         #endregion
 
 
-       
+
 
 
 

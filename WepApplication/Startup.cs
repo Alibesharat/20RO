@@ -39,9 +39,9 @@ namespace WepApplication
             }).AddCookie(option =>
             {
                 option.AccessDeniedPath = "/Account/Denied";
-                option.LoginPath = "/Account/Login";
+                option.LoginPath = "/Account/UerChalenge";
                 option.SlidingExpiration = true;
-                option.Cookie.Name = "newalphacore";
+                option.Cookie.Name = "bistrophacore";
                 option.ExpireTimeSpan = TimeSpan.FromDays(15);
 
             });

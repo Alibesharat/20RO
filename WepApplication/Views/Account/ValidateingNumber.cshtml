@@ -30,17 +30,11 @@
 
             </div>
             <div class="card-action">
-
                 <p>
-                    <a asp-action="Register" asp-controller="Account">شماره موبایل اشتباه است ؟</a>
+                    @{ string msg = ViewBag.newrequset ? "درخواست کد جدید" : "شماره موبایل اشتباه است ؟"; }
+                    <a asp-action="UerChalenge" asp-controller="Account" class="blue-text"> @msg </a>
                 </p>
-
-
-
             </div>
-
-
-
         </div>
     </div>
 </div>

@@ -39,63 +39,16 @@ namespace WepApplication.Controllers
 
         [HttpGet]
 
-        public IActionResult Login(string ReturnUrl)
-        {
-            var parrent = User.Getparrent();
-            if (parrent != null)
-                return RedirectToLocal(ReturnUrl);
-            ViewData["ReturnUrl"] = ReturnUrl;
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromForm]LoginStudentParrentViewModel model, string ReturnUrl)
-        {
-            var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
-                (model, Const.LoginStudentParrent, ApiMethode.Post);
-            if (data == null)
-            {
-                ViewBag.msg = "ارتباط با سرور میسر نشد !";
-                return View();
-            }
-
-            if (data.statuse)
-            {
-                await AddAuthAsync(data);
-
-
-
-                return RedirectToLocal(ReturnUrl);
-
-            }
-            else
-            {
-                ViewBag.msg = "نام کاربری یا رمز عبور اشتباه است";
-                return View();
-            }
-
-
-
-
-
-        }
-
-
-
-        [HttpGet]
-
-        public IActionResult Register()
+        public IActionResult UerChalenge()
         {
             return View();
         }
 
         [HttpPost]
-
-        public async Task<IActionResult> Register(string phoneNumber)
+        public async Task<IActionResult> UerChalenge(string phoneNumber)
         {
 
-          
+
 
             if (!phoneNumber.IsValidIranianMobileNumber())
             {
@@ -111,12 +64,13 @@ namespace WepApplication.Controllers
             };
             await _cache.SetStringAsync(phoneNumber, token, options);
             await _notify.SendNotifyWithTemplateAsync(phoneNumber, token, MessageTemplate.Bisroverify);
-            return RedirectToAction(nameof(ValidateingNumber), new {phoneNumber });
+            return RedirectToAction(nameof(ValidateingNumber), new { phoneNumber });
         }
 
         public IActionResult ValidateingNumber(string phoneNumber)
         {
             ViewBag.phoneNumber = phoneNumber;
+            ViewBag.newrequset = false;
             return View();
         }
 
@@ -124,20 +78,52 @@ namespace WepApplication.Controllers
         public async Task<IActionResult> ValidateingNumber(string phoneNumber, string vierfiyCode)
         {
             var c = await _cache.GetStringAsync(phoneNumber);
+            ViewBag.newrequset = false;
+            if (c == null)
+            {
+                ViewBag.msg = "این کد منقضی شده است لطفا یک کد دیگر درخواست کنید";
+                ViewBag.phoneNumber = phoneNumber;
+                ViewBag.newrequset = true;
+                return View();
+            }
             if (c == vierfiyCode)
             {
                 var model = new RegisterStudentParrentViewModel()
                 {
-                    PhoneNubmber = phoneNumber
+                    PhoneNubmber = phoneNumber,
+                    Name = "user",
+                    LastName = "Name"
 
                 };
+                var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
+           (model, Const.IsExistStudentparrent, ApiMethode.Post);
+                if (data == null)
+                {
+
+                    ViewBag.msg = "ارتباط با سرور برقرار نشد ، لطفا بعد امتحان کنید";
+                    ViewBag.phoneNumber = phoneNumber;
+                    ViewBag.newrequset = true;
+                    return View();
+                }
+                if (data.statuse == true)
+                {
+                    await AddAuthAsync(data);
+                    return RedirectToLocal("");
+                }
+                model.Name = "";
+                model.LastName = "";
                 return RedirectToAction(nameof(Complete), model);
             }
             ViewBag.msg = "کد وارد شده معتبر نمی باشد";
+            ViewBag.phoneNumber = phoneNumber;
             return View();
         }
 
+       
 
+
+
+        [AllowAnonymous]
         public async Task<IActionResult> Complete(RegisterStudentParrentViewModel model)
         {
             if (ModelState.IsValid)
@@ -165,41 +151,7 @@ namespace WepApplication.Controllers
 
 
 
-        [HttpGet]
-
-        public IActionResult ForgotPassowrd()
-        {
-
-            return View();
-        }
-
-        [HttpPost]
-
-        public async Task<IActionResult> ForgotPassowrd([FromForm]string phoneNumber)
-        {
-            LoginStudentParrentViewModel lm = new LoginStudentParrentViewModel()
-            {
-                PhoneNubmber = phoneNumber,
-                Password = ""
-            };
-            var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<bool>>
-               (lm, Const.ForgotPassword, ApiMethode.Post);
-            if (data != null && data.statuse == true)
-            {
-                ViewBag.msg = data.message;
-
-            }
-            else
-            {
-                ViewBag.msg = "مشکلی بوجود آمد";
-
-            }
-
-            return View();
-
-
-
-        }
+       
 
 
         public IActionResult Denied()
