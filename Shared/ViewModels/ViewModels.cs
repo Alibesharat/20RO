@@ -112,6 +112,7 @@ namespace Shared.ViewModels
 
 
         [Display(Name = "نام و نام خانوداگی")]
+        [Required(ErrorMessage = "نام و نام خانوادگی را وارد نمایید")]
         public string FullName { get; set; }
 
         [Display(Name = "جنسیت")]
@@ -124,14 +125,16 @@ namespace Shared.ViewModels
         public int Age { get; set; }
 
         [Display(Name = "آدرس")]
+        [Required(ErrorMessage = "آدرس باید وارد شود")]
         public string Address { get; set; }
 
         [Display(Name = "یاداشت")]
         public string Note { get; set; }
 
-      
 
+       
         public int AcademyId { get; set; }
+
 
 
         [Display(Name = "عرض جغرافیایی")]

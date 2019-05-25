@@ -54,15 +54,16 @@ namespace WepApplication.Controllers
         [Route("RequsetService")]
         public async Task<IActionResult> RequsetService([FromBody] RequsetServiceViewModel model)
         {
+            if (!ModelState.IsValid || model.AcademyId<=0)
+            {
+                return Json(new ResultContract<int>() { statuse = false, message = "تکمیل همه اطلاعات الزامی است"});
+            }
             if (model != null)
             {
                 var parrent = User.Getparrent();
                 if (parrent == null)
                     return Json(new ResultContract<int>() { statuse = false, message = "برای ثبت درخواست باید ابتدا وارد شوید " });
                 model.StudentParrentId = parrent.Id;
-                model.Age = parrent.Age;
-                model.FullName = parrent.FullName;
-                model.gender = parrent.Gender;
 
                 string Distination = "";
                 ResultContract<Academy> res = await ConnectApi.
