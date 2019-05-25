@@ -77,31 +77,39 @@
         <div class="center">
 
             <div class="form-group">
-
                 <div class="row">
-                    <div class="col s3">
-                        <p for="Academy">نام آموزشگاه</p>
+                    <div class="col s1">
+                        <p for="Academy"> منطقه </p>
                     </div>
-                    <div class=" input-field  col s9 browser-default">
-                        <select class="browser-default" asp-items="ViewBag.academy" id="Academy" onchange="GetCourse()">
-                            <option value="" disabled selected style="color:red">نام آموزشگاه</option>
+                    <div class=" input-field  col s11 browser-default">
+                        <select class="browser-default" asp-items="ViewBag.District" id="district" onchange="GetAcademy()">
                         </select>
-
                     </div>
 
                 </div>
             </div>
 
+            <div class="form-group">
+                <div class="row">
+                    <div class="col s1">
+                        <p for="course">مقطع</p>
+                    </div>
+                    <div class=" input-field  col s11 ">
+                        <select class="browser-default" asp-items="ViewBag.academyCategory" id="category" onchange="GetAcademy()">
+                        </select>
+
+                    </div>
+                </div>
+
+            </div>
 
             <div class="form-group">
                 <div class="row">
                     <div class="col s1">
-                        <p for="course">دوره</p>
+                        <p for="course">آموزشگاه</p>
                     </div>
                     <div class=" input-field  col s11 ">
-                        <select class="browser-default" asp-items="ViewBag.courses" id="course">
-                            <option value="" disabled selected style="color:red">دوره</option>
-
+                        <select class="browser-default" asp-items="ViewBag.academy" id="academy">
                         </select>
 
                     </div>
@@ -280,16 +288,18 @@
 
         }
 
-        function GetCourse() {
+        function GetAcademy() {
             LoadingStart();
             $('#state').text('لطفا صبر کنید');
-            var s = $("#Academy option:selected").val();
+            var distrcitId = $("#district option:selected").val();
+            var academyCaregoryId = $("#category option:selected").val();
             var getDetailViewModel = {
-                id: s
+                DistrcitId: distrcitId,
+                AcademyCaregoryId: academyCaregoryId
             };
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("getCoursesByAcademy", "Home")',
+                url: '@Url.Action("GetAcademyFilter", "Home")',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify(getDetailViewModel),
@@ -301,11 +311,11 @@
                         ShowMessage(response.message);
                     } else {
 
-                        $("#course").empty();
+                        $("#academy").empty();
                         $.each(response.data, function (i, item) {
-                            $('#course').append($('<option>', {
+                            $('#academy').append($('<option>', {
                                 value: item.id,
-                                text: item.fullTitle
+                                text: item.name
                             }));
                         });
                     }

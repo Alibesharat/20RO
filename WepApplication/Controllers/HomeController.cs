@@ -34,12 +34,16 @@ namespace WepApplication.Controllers
             if (parrent == null)
                 return Json(new ResultContract<int>() { statuse = false, message = "برای استفاده از نرم افزار ابتدا وارد شوید" });
 
-        
+            var District = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<District>>>(null, Const.GetDistrcits, ApiMethode.Post);
+            var academyCategory = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<AcademyCategory>>>(null, Const.GetAcademyCategories, ApiMethode.Post);
+            var academies = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<Academy>>>(new AcademyFiterViewModel { AcademyCaregoryId = 1, DistrcitId = 1 }, Const.GetFiltredAcademeis, ApiMethode.Post);
 
-            var academy = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<Academy>>>(new getDetailViewModel() { Id = parrent.Id }, Const.GetAcademies, ApiMethode.Post);
-            if (academy != null)
-                ViewData["academy"] = new SelectList(academy.Data, "Id", "Name");
-
+            if (District != null)
+                ViewData["District"] = new SelectList(District.Data, "Id", "Name");
+            if (academyCategory != null)
+                ViewData["academyCategory"] = new SelectList(academyCategory.Data, "Id", "Name");
+            if (academies != null)
+                ViewData["academy"] = new SelectList(academies.Data, "Id", "Name");
 
             return View();
         }
@@ -63,7 +67,7 @@ namespace WepApplication.Controllers
                 string Distination = "";
                 ResultContract<Academy> res = await ConnectApi.
                     GetDataFromHttpClientAsync<ResultContract<Academy>>
-                    (new getDetailViewModel() { Id = model.CourseId }, Const.GetAcademyByCourse, ApiMethode.Post);
+                    (new getDetailViewModel() { Id = model.AcademyId }, Const.GetAcademy, ApiMethode.Post);
                 if (res != null && res.statuse == true)
                 {
                     Distination = $"{res.Data.Longtude},{res.Data.latitude}";
@@ -90,6 +94,10 @@ namespace WepApplication.Controllers
 
 
         }
+
+
+
+
 
 
 
@@ -273,7 +281,21 @@ namespace WepApplication.Controllers
         }
 
 
+        public async Task<IActionResult> GetAcademyFilter([FromBody] AcademyFiterViewModel model)
+        {
+            if (model != null)
+            {
+                var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<Academy>>>(model, Const.GetFiltredAcademeis, ApiMethode.Post);
+                //ViewData["academy"] = new SelectList(data.Data, "Id", "Name");
+                return Json(new ResultContract<List<Academy>>() { statuse = true, message = "یافت نشد", Data = data.Data });
 
+            }
+            else
+            {
+                return Json(new ResultContract<List<Academy>>() { statuse = false, message = "یافت نشد" });
+            }
+
+        }
 
 
         [Route("terms")]
@@ -286,7 +308,7 @@ namespace WepApplication.Controllers
         //[Route("help")]
         //public IActionResult help()
         //{
-            
+
         //    return new VirtualFileResult("ilicarhelp.pdf", "application/x-msdownload") { FileDownloadName = "ilicarhelp.pdf" };
 
         //}

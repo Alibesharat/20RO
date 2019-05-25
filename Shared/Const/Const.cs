@@ -129,31 +129,35 @@ public class Const
     /// </summary>
     public const string GetAcademies = Apirootpath + "/api/Parent/GetAcademies";
 
+
+
     /// <summary>
     /// دریافت یک آموزشگاه
     /// </summary>
     public const string GetAcademy = Apirootpath + "/api/Parent/GetAcademy";
-    public const string GetAcademyByCourse = Apirootpath + "/api/Parent/GetAcademyByCourse";
+
+
+
+    /// <summary>
+    /// دریافت لیست   مناطق
+    /// </summary>
+    public const string GetDistrcits = Apirootpath + "/api/Parent/GetDistrcits";
 
 
     /// <summary>
-    /// دریافت لیست دوره ها
+    /// دریافت لیست   گروه های آموزشگاه
     /// </summary>
-    public const string GetCourses = Apirootpath + "/api/Parent/GetCourses";
+    public const string GetAcademyCategories = Apirootpath + "/api/Parent/GetAcademyCategories";
+
+
 
     /// <summary>
-    /// دریافت لیست دوره های یک آموزشگاه
+    /// دریافت لیست    فیلتر شده آموزشگاه ها بر اساس مقطع و منطقه 
     /// </summary>
-    public const string GetCourseByAcademy = Apirootpath + "/api/Parent/GetCourseByAcademy";
+    public const string GetFiltredAcademeis = Apirootpath + "/api/Parent/GetFiltredAcademeis";
 
-    /// <summary>
-    /// دریافت یک دوره 
-    /// </summary>
-    public const string GetCourse = Apirootpath + "/api/Parent/GetCourse";
 
-    public const string GetCoursesByUser = Apirootpath + "/api/Parent/GetCoursesByUser";
 
-    public const string ForgotPassword = Apirootpath + "/api/Parent/ForgotPassword";
 
     #endregion
 

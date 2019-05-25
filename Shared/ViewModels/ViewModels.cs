@@ -80,7 +80,7 @@ namespace Shared.ViewModels
         [Required(ErrorMessage = "{0}  الزامی است")]
         public string LastName { get; set; }
 
-      
+
 
     }
 
@@ -96,7 +96,7 @@ namespace Shared.ViewModels
         public string Password { get; set; }
 
 
-       
+
 
 
     }
@@ -129,8 +129,7 @@ namespace Shared.ViewModels
         [Display(Name = "یاداشت")]
         public string Note { get; set; }
 
-        [Display(Name = "دوره")]
-        public int CourseId { get; set; }
+      
 
         public int AcademyId { get; set; }
 
@@ -197,7 +196,7 @@ namespace Shared.ViewModels
 
     public class AccesptDriverViewModel
     {
-        
+
 
         public int taxiCabId { get; set; }
 
@@ -212,7 +211,7 @@ namespace Shared.ViewModels
     {
         public int DriverId { get; set; }
 
-        public TaxiCabState TaxiCabState  { get; set; }
+        public TaxiCabState TaxiCabState { get; set; }
 
 
     }
@@ -261,6 +260,14 @@ namespace Shared.ViewModels
     {
         public string origin { get; set; }
         public string Distination { get; set; }
+    }
+
+
+    public class AcademyFiterViewModel
+    {
+        public int DistrcitId { get; set; }
+
+        public int AcademyCaregoryId { get; set; }
     }
 
 

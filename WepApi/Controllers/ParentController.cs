@@ -68,7 +68,7 @@ namespace WepApi.Controllers
                 {
                     return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent });
                 }
-                return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null,message="این شماره موبایل از قبل ثبت نام کرده است" });
+                return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "این شماره موبایل از قبل ثبت نام کرده است" });
 
             }
             catch (Exception ex)
@@ -135,7 +135,7 @@ namespace WepApi.Controllers
 
         }
 
-      
+
 
         /// <summary>
         /// درخواست سرویس
@@ -442,19 +442,54 @@ namespace WepApi.Controllers
             }
         }
 
+        /// <summary>
+        /// دریافت لیست   مناطق
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost(nameof(GetDistrcits))]
+        public async Task<IActionResult> GetDistrcits()
+        {
+            var data = await _context.districts.Undelited().ToListAsync();
+            if(data==null)
+                return Ok(new ResultContract<List<District>> { statuse = false, message = "یافت نشد" });
+            return Ok(new ResultContract<List<District>> { statuse = true, Data = data });
+
+         
+        }
+
+
+        /// <summary>
+        /// دریافت لیست  گروه های آموزشگاه
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost(nameof(GetAcademyCategories))]
+        public async Task<IActionResult> GetAcademyCategories()
+        {
+            var data = await _context.academyCategories.Undelited().ToListAsync();
+            if (data == null)
+                return Ok(new ResultContract<List<AcademyCategory>> { statuse = false, message = "یافت نشد" });
+            return Ok(new ResultContract<List<AcademyCategory>> { statuse = true, Data = data });
+         
+        }
 
 
 
-
-
-
-
-
-
-
-
-
-
+        /// <summary>
+        /// دریافت لیست  فیلتر شده آموزشگاه ها بر اساس مقطع و منطقه 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost(nameof(GetFiltredAcademeis))]
+        public async Task<IActionResult> GetFiltredAcademeis(AcademyFiterViewModel model)
+        {
+            var data = await _context.academies.Undelited()
+                .Where(c => c.AllowActivity == true
+                && c.districtId == model.DistrcitId
+                && c.AcademyCategoryId == model.AcademyCaregoryId)
+                .ToListAsync();
+            if (data == null)
+                return Ok(new ResultContract<List<Academy>> { statuse = false, message = "یافت نشد" });
+            return Ok(new ResultContract<List<Academy>> { statuse = true, Data = data });
+        }
 
 
         #endregion
