@@ -120,7 +120,7 @@ body {
 
 .corner {
     border-radius: 28px;
-    background-color: #009a59;
+    background-color: #ffa200;
     direction: rtl;
     color: white;
     font-family: Shabnam;
@@ -196,7 +196,7 @@ body {
 }
 
     .sidenav .background {
-        background-color: #009a59;
+        background-color: #e6e7e8;
     }
 
     .sidenav .user-view .center {

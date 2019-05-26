@@ -152,11 +152,6 @@ namespace WepApi.Controllers
                 var requset = model.Adapt<ServiceRequset>();
                 if (requset != null)
                 {
-                    if (requset.AcademyId != model.AcademyId)
-                    {
-                        requset.AcademyId = model.AcademyId;
-                        _context.Update(requset);
-                    }
                     requset.price = CalcPrice(requset);
                     if (requset.price == 0)
                     {
