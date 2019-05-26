@@ -205,6 +205,10 @@ body {
     
         
     }
+    .sidenav .user-view .name {
+        margin-top: -9px;
+      
+    }
 
 .user-view {
     height: 203px;
