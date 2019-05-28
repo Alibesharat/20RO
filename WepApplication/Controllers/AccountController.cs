@@ -60,7 +60,7 @@ namespace WepApplication.Controllers
 
             var options = new DistributedCacheEntryOptions()
             {
-                AbsoluteExpiration = DateTime.Now.AddMinutes(1)
+                AbsoluteExpiration = DateTime.Now.AddMinutes(3)
             };
             await _cache.SetStringAsync(phoneNumber, token, options);
             await _notify.SendNotifyWithTemplateAsync(phoneNumber, token, MessageTemplate.Bisroverify);
