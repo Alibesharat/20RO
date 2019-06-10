@@ -15,16 +15,14 @@
 
     <nav>
         <div class="navbar-fixed">
-            <a href="https://web.ilicar.ir" class="btn btn-small waves-effect waves-light green white-text serviceRequset ">درخواست سرویس</a>
+            <a href="https://web.20ro.net" class="btn btn-small waves-effect waves-light green white-text serviceRequset ">درخواست سرویس</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
 
             <ul class="hide-on-med-and-down">
-                <li><a onclick="gotodiv('#contact')"> تماس با ما </a></li>
                 <li><a href="~/statics/rahnama.png" target="_blank"> راهنما </a></li>
                 <li><a asp-action="faq">سوالات متداول</a></li>
-                <li><a href="https://driver.ilicar.ir">رانندگان</a></li>
-                <li><a href="https://web.ilicar.ir">نسخه وب اپلیکیشن</a></li>
-                <li><a onclick="gotodiv('#aboutus')">درباره ما</a></li>
+                <li><a href="https://driver.20ro.net">رانندگان</a></li>
+                <li><a href="https://web.20ro.net">نسخه وب اپلیکیشن</a></li>
                 <li><a asp-action="index">خانه</a></li>
             </ul>
 
@@ -49,15 +47,13 @@
             </div>
         </li>
         <li><a asp-action="index">خانه</a></li>
-        <li><a onclick="gotodiv('#aboutus')">درباره ما</a></li>
-        <li><a href="https://web.ilicar.ir">نسخه وب اپلیکیشن</a></li>
-        <li><a href="https://driver.ilicar.ir">رانندگان</a></li>
+        <li><a href="https://web.20ro.net">نسخه وب اپلیکیشن</a></li>
+        <li><a href="https://driver.20ro.net">رانندگان</a></li>
         <li><a asp-action="faq">سوالات متداول</a></li>
         <li><a href="~/statics/rahnama.png" target="_blank"> راهنما </a></li>
-        <li><a onclick="gotodiv('#contact')"> تماس با ما </a></li>
     </ul>
 
-    @RenderSection("Sliders", false)
+   
 
     <div class="container">
         @RenderBody()
@@ -66,22 +62,7 @@
 
     @RenderSection("nocontainer", false)
 
-    <div class="footer">
-       
-            <div class=" white-text">
-                <span class="card-title">  </span>
-                <p class="center">
-                  
-                    <img src="~/statics/logo-buttom.png" width="70" height="70"/>
-                </p>
-                <p class="center">
-                    تمامی حقوق مادی و معنوی  این سامانه ( وبسایت و اپلیکیشن ) برای شرکت توسعه مدیریت ارتباط ماندگار محفوظ می باشد
-                </p>
-
-            </div>
-
-      
-    </div>
+    
     <script src="~/plugins/fastclick/fastclick.js"></script>
     <script src="~/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="~/plugins/jquery.unobtrusive-ajax.js"></script>

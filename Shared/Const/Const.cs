@@ -14,7 +14,7 @@ public class Const
     /// آدرس وبسایت
     /// </summary>
     public const string Apirootpath = "https://localhost:44353";
-    //public const string Apirootpath = "http://system.20ro.net";
+    //public const string Apirootpath = "http://Api.20ro.net";
 
     public const string StudentparrentPath = "https://web.20ro.net";
     public const string Driverpath = "https://driver.20ro.net";

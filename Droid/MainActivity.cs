@@ -42,7 +42,7 @@ namespace Droid
             //webView.Settings.SafeBrowsingEnabled = true;
             webView.SetWebViewClient(new HybridWebView(this));
             webView.SetWebChromeClient(new HybridWebViewChormClient(this));
-            webView.LoadUrl("https://ilicar.ir");
+            webView.LoadUrl("https://web.20ro.net");
           
 
 
