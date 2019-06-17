@@ -1,6 +1,5 @@
 ﻿using AutoHistoryCore;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +12,6 @@ namespace DAL
     [JsonObject(IsReference = true)]
     public class ServiceRequset : HistoryBaseModel
     {
-
 
         [Key]
         public int Id { get; set; }
@@ -33,8 +31,7 @@ namespace DAL
         [Display(Name = "کد ملی دانش آموز")]
         public string IrIdCod { get; set; }
 
-        [Display(Name = "تصویر مسافر")]
-        public string IamgePath { get; set; }
+      
 
 
         [Display(Name = "سن")]
@@ -60,7 +57,7 @@ namespace DAL
 
        
         [Display(Name = "قیمت")]
-        public int price { get; set; }
+        public int Price { get; set; }
 
         [Display(Name = "وضعیت درخواست")]
 
@@ -72,26 +69,7 @@ namespace DAL
         [Display(Name = "درخواست سرویس")]
         public string ClassName { get; }
 
-
         
-        public TaxiCab cabAsFirst { get; set; }
-
-       
-        public TaxiCab cabAsSecond { get; set; }
-
-       
-        public TaxiCab cabAsThird { get; set; }
-
-       
-        public TaxiCab cabAsFourth { get; set; }
-
-
-        [Display(Name = "پرداخت ها")]
-        public ICollection<Payment> payments { get; set; }
-
-        public virtual ICollection<DriverFactor> DriverFactors { get; set; }
-
-
         [Display(Name = "آموزشگاه")]
         [ForeignKey(nameof(Academy))]
         public int? AcademyId { get; set; }

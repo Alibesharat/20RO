@@ -25,11 +25,6 @@ namespace DAL
 
 
 
-        [Display(Name = "استان")]
-        [ForeignKey(nameof(Province))]
-        public int ProvinceId { get; set; }
-        [Display(Name ="استان")]
-        public virtual Province Province { get; set; }
         public virtual ICollection<District> Districts { get; set; }
     
        

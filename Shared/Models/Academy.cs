@@ -6,14 +6,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL
 {
-    public class Academy : BaseUser
+    public class Academy 
     {
-        [Display(Name = "نام مدیر عامل")]
-        public string BossName { get; set; }
+        public string Name { get; set; }
+
 
         [Display(Name = "آدرس")]
         public string Address { get; set; }
-
 
 
         [Display(Name = "منطقه")]
@@ -46,10 +45,9 @@ namespace DAL
         [Display(Name = "نوع آموزشگاه")]
         public AcademyCategory category { get; set; }
 
-        [Display(Name = "شماره موبایل ضروری")]
-        public string OtherPhoneNumber { get; set; }
-        [Display(Name = "تلفن ثابت")]
-        public string OfficeNumber { get; set; }
+      
+        [Display(Name = "تلفن پشتیبان")]
+        public string SupportNumber { get; set; }
 
         [Display(Name = "پیمانکار")]
         [ForeignKey(nameof(Contractor))]
@@ -58,9 +56,12 @@ namespace DAL
         public virtual Contractor Contractor { get; set; }
 
         [NotMapped]
-        [Display(Name = "آموزشگاه")]
+        [Display(Name = "مدرسه")]
         public string ClassName { get; }
 
+        [Display(Name = "ضریب مدرسه")]
+        public int AcademyPercent { get; set; }
+        
 
 
 
@@ -68,8 +69,6 @@ namespace DAL
         [JsonIgnore]
         public virtual ICollection<ServiceRequset> ServiceRequsets { get; set; }
 
-        [JsonIgnore]
-
-        public virtual ICollection<Pricing> Pricings { get; set; }
+       
     }
 }

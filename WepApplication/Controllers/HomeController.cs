@@ -122,8 +122,10 @@ namespace WepApplication.Controllers
         [Route("VerfiedPay/{id}/{trackingCode}")]
         public async Task<IActionResult> VerfiedPay(int id, string trackingCode)
         {
-            List<string> PhoneNumbers = new List<string>();
-            PhoneNumbers.Add(User.Getparrent().PhoneNubmber);
+            List<string> PhoneNumbers = new List<string>
+            {
+                User.Getparrent().PhoneNubmber
+            };
             string message = $"پرداخت شما در سامانه ایلیکار با موفقیت انجام شد  کد پیگیری  :  {trackingCode}";
             ViewBag.message = message;
             _sms.phoneNumbers = PhoneNumbers;
@@ -238,7 +240,7 @@ namespace WepApplication.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize(Roles = nameof(RolName.Parrent))]
-        public async Task<IActionResult> pending()
+        public async Task<IActionResult> Pending()
         {
             var Parrent = User.Getparrent();
             if (Parrent == null) return Unauthorized();
@@ -262,7 +264,7 @@ namespace WepApplication.Controllers
 
 
         [Authorize(Roles = nameof(RolName.Parrent))]
-        public async Task<IActionResult> pay([FromBody]PayViewModel vm)
+        public async Task<IActionResult> Pay([FromBody]PayViewModel vm)
         {
             var Parrent = User.Getparrent();
             if (Parrent == null) return Unauthorized();

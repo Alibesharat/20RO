@@ -23,21 +23,10 @@ namespace DAL
         //[Display(Name = "زمان حضور راننده درب منزل")]
         //public string ArrivedTime { get; set; }
 
-        [InverseProperty(nameof(ServiceRequset.cabAsFirst))]
       
-        public virtual ICollection<ServiceRequset> FirstPassnger { get; set; }
+        public virtual ICollection<ServiceRequset> Passngers { get; set; }
 
-        [InverseProperty(nameof(ServiceRequset.cabAsSecond))]
-       
-        public virtual ICollection<ServiceRequset> SecondPassnger { get; set; }
-
-        [InverseProperty(nameof(ServiceRequset.cabAsThird))]
      
-        public virtual ICollection<ServiceRequset> ThirdPassnger { get; set; }
-
-        [InverseProperty(nameof(ServiceRequset.cabAsFourth))]
-       
-        public virtual ICollection<ServiceRequset> FourthPassnger { get; set; }
 
         public virtual ICollection<DriverFactor> DriverFactors { get; set; }
 

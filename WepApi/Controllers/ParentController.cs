@@ -152,8 +152,8 @@ namespace WepApi.Controllers
                 var requset = model.Adapt<ServiceRequset>();
                 if (requset != null)
                 {
-                    requset.price = CalcPrice(requset);
-                    if (requset.price == 0)
+                    requset.Price = CalcPrice(requset);
+                    if (requset.Price == 0)
                     {
                         return Ok(new ResultContract<int> { message = "در حال حاضر امکان ارایه سرویس برای آموزشگاه شما وجود ندارد", statuse = false, Data = 0 });
 
@@ -305,12 +305,12 @@ namespace WepApi.Controllers
                     await _logger.LogAsync(HttpContext, new Exception("StudentParrentId Not match as RequsetService_ParrentId"));
                     return Ok(new ResultContract<string>() { statuse = false, message = "درخواست معتبر نیست" });
                 }
-                if (serviceRequsets.price <= 1000)
+                if (serviceRequsets.Price <= 1000)
                 {
                     await _logger.LogAsync(HttpContext, new Exception("Price IS Less than 1000"));
                     return Ok(new ResultContract<string>() { statuse = false, message = "درخواست معتبر نیست" });
                 }
-                string Amount = serviceRequsets.price.ToString();
+                string Amount = serviceRequsets.Price.ToString();
 
                 TranactionViewModel tr = new TranactionViewModel()
                 {
@@ -360,7 +360,7 @@ namespace WepApi.Controllers
                 service.RequsetState = RequsetSate.pending;
                 var payment = new Payment()
                 {
-                    Ammount = service.price.ToString(),
+                    Ammount = service.Price.ToString(),
                     ParrentId = service.StudentParrentId,
                     RequsetServiceId = service.Id,
                     Success = model.Success,

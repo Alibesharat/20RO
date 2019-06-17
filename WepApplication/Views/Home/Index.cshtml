@@ -75,7 +75,7 @@
 
     <div class="modal-content">
         <div class="center">
-            <a class="waves-effect  btn corner  no-action">  آموزشگاه   </a>
+            <a class="waves-effect  btn corner  no-action">  مدرسه   </a>
 
             <div class="form-group">
                 <div class="row">
@@ -105,7 +105,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col s1">
-                        <p for="academy">آموزشگاه</p>
+                        <p for="academy">مدرسه</p>
                     </div>
                     <div class=" input-field  col s11 ">
                         <select class="browser-default" asp-items="ViewBag.academy" id="academy"></select>
@@ -153,7 +153,7 @@
             <div class="row">
                 <p class="center">
                     <a class="waves-effect green  lighten-1 btn corner" onclick="send()">
-                        <span id="state">  ثبت درخواست  </span>
+                        <span id="state">   ثبت درخواست  </span>
                     </a>
                 </p>
 
@@ -195,7 +195,7 @@
             CourseId: "0",
             latitue: "",
             Longtude: "",
-            AcademyId:"0"
+            AcademyId: "0"
 
         };
         $(document).ready(function () {
@@ -285,7 +285,8 @@
             reqdata.Longtude = lngLat.lng;
             reqdata.FullName = $("#name").val();
             reqdata.Address = $("#address").val();
-            reqdata.AcademyId = $("#Academy").val();
+            reqdata.AcademyId = $("#academy").val();
+            console.log(reqdata);
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("RequsetService", "Home")',

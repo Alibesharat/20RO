@@ -16,11 +16,6 @@ namespace DAL
         public bool AccesptTerms { get; set; }
 
 
-
-       
-
-
         public virtual ICollection<ServiceRequset> ServiceRequsets { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
     }
 }
