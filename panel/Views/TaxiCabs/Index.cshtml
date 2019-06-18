@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.TaxiCab>
+﻿@model IEnumerable<TaxiService>
 
 @{
     var def = ViewData["Count"] ?? "0";
@@ -67,8 +67,7 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Driver.FullName)
-                        </td>
+                            @Html.DisplayFor(modelItem => item.Driver.Name)</td>
                      
                         <td class="@item.TaxiCabState">
                             @Html.DisplayFor(modelItem => item.TaxiCabState)
@@ -79,7 +78,7 @@
                             <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id">ویرایش</a> |
                             @if (item.TaxiCabState == TaxiCabState.wait)
                             {
-                                <a title="مسافران" asp-action="AddPassnger" class="btn btn-sm btn-success" asp-route-id="@item.Id" asp-route-TaxiCabDrvier="@item.Driver.FullName" asp-route-TaxiCabName="@item.Name">مسافران</a>
+                                <a title="مسافران" asp-action="AddPassnger" class="btn btn-sm btn-success" asp-route-id="@item.Id" asp-route-TaxiCabDrvier="@item.Driver.Name" asp-route-TaxiCabName="@item.Name">مسافران</a>
                                 <a title="حذف" asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">حذف</a>
                             }
                         </td>

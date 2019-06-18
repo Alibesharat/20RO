@@ -1,39 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AlphaCoreLogger;
+using AutoHistoryCore;
+using DAL;
+using Kavenegar.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AutoHistoryCore;
-using DAL;
-using AlphaCoreLogger;
-using Panel.Models;
-using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using NotifCore;
-using Kavenegar.Core.Models;
-using DNTPersianUtils.Core;
 using Panel.Extention;
+using Panel.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panel.Controllers
 {
 
     [Authorize(Roles = nameof(RolName.Contractor))]
-    public class TaxiCabsController : Controller
+    public class TaxiSerivcesController : Controller
     {
         private readonly TaxiContext _context;
         private readonly ICoreLogger _logger;
         private ISMS<List<SendResult>> _sms;
 
-        public TaxiCabsController(TaxiContext context, ICoreLogger logger, ISMS<List<SendResult>> sms)
+        public TaxiSerivcesController(TaxiContext context, ICoreLogger logger, ISMS<List<SendResult>> sms)
         {
             _context = context;
             _logger = logger;
             _sms = sms;
         }
 
-        // GET: TaxiCabs
+        // GET: TaxiSerivces
         public async Task<IActionResult> Index(int? ContractorId, int pageindex = 1, string searchterm = "")
         {
             var contractor = User.GetContractor();
@@ -44,38 +42,33 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
-            var _taxiCabs = _context.TaxiServices.Undelited().AsQueryable();
-            _taxiCabs = _taxiCabs.Include(t => t.Driver);
+            var _TaxiSerivces = _context.TaxiServices.Undelited().AsQueryable();
+            _TaxiSerivces = _TaxiSerivces.Include(t => t.Driver);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
-                _taxiCabs = _taxiCabs.Where(c => c.Name.Contains(searchterm));
+                _TaxiSerivces = _TaxiSerivces.Where(c => c.Name.Contains(searchterm));
                 ViewBag.searchterm = searchterm;
             }
             if (ContractorId.HasValue)
             {
-                _taxiCabs = _taxiCabs.Where(c => c.Driver.ContractorId == contractor.Id);
+                _TaxiSerivces = _TaxiSerivces.Where(c => c.Driver.ContractorId == contractor.Id);
                 AllRouteData.Add(nameof(ContractorId), ContractorId.Value.ToString());
             }
 
-            count = _taxiCabs.Count();
-            _taxiCabs = _taxiCabs.Skip(SkipStep).Take(takeStep);
+            count = _TaxiSerivces.Count();
+            _TaxiSerivces = _TaxiSerivces.Skip(SkipStep).Take(takeStep);
             ViewData["Count"] = count;
             ViewBag.AllRouteData = AllRouteData;
             ViewBag.pageCount = (count / takeStep) + 1;
-            return View(await _taxiCabs.ToListAsync());
+            return View(await _TaxiSerivces.ToListAsync());
 
         }
 
-        // GET: TaxiCabs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: TaxiSerivces/Details/5
+        public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+          
             var taxiCab = await _context.TaxiServices
-                .Include(t => t.Driver)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (taxiCab == null)
@@ -86,7 +79,7 @@ namespace Panel.Controllers
             return View(taxiCab);
         }
 
-        // GET: TaxiCabs/Create
+        // GET: TaxiSerivces/Create
         public IActionResult Create()
         {
             var contractor = User.GetContractor();
@@ -98,7 +91,7 @@ namespace Panel.Controllers
             return View();
         }
 
-        // POST: TaxiCabs/Create
+        // POST: TaxiSerivces/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -122,7 +115,7 @@ namespace Panel.Controllers
             return View(taxiCab);
         }
 
-        // GET: TaxiCabs/Edit/5
+        // GET: TaxiSerivces/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -139,12 +132,12 @@ namespace Panel.Controllers
             return View(taxiCab);
         }
 
-        // POST: TaxiCabs/Edit/5
+        // POST: TaxiSerivces/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DriverId,TaxiCabState,DriverPercent")] TaxiService taxiCab)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,DriverId,TaxiSerivcestate,DriverPercent")] TaxiService taxiCab)
         {
             if (id != taxiCab.Id)
             {
@@ -161,25 +154,15 @@ namespace Panel.Controllers
                     {
 
                         var txn = await _context.TaxiServices
-                             
+                             .Include(c=>c.Passnegers)
+                             .ThenInclude(p=>p.StudentParent)
                                       .FirstOrDefaultAsync(c => c.Id == taxiCab.Id);
                         if (txn != null)
                         {
-                            //var firstPassenger = txn.FirstPassnger.FirstOrDefault();
-                            //var secondePassenger = txn.SecondPassnger.FirstOrDefault();
-                            //var thirdPassengers = txn.ThirdPassnger.FirstOrDefault();
-                            //var forthPassengers = txn.FourthPassnger.FirstOrDefault();
-                            List<string> numbers = new List<string>()
+                            
+                            foreach (var item in txn.Passnegers)
                             {
-                               firstPassenger?.studentParent?.PhoneNubmber,
-                               secondePassenger?.studentParent?.PhoneNubmber,
-                               thirdPassengers?.studentParent?.PhoneNubmber,
-                               forthPassengers?.studentParent?.PhoneNubmber
-
-                            };
-                            foreach (var item in numbers)
-                            {
-                                await _sms.SendNotifyWithTemplateAsync(item, "https://ilicar.ir/Home/ActiveSerive", MessageTemplate.ilicarbrief);
+                                await _sms.SendNotifyWithTemplateAsync(item.StudentParent.PhoneNubmber, "https://ilicar.ir/Home/ActiveSerive", MessageTemplate.ilicarbrief);
                             }
 
                         }
@@ -203,30 +186,22 @@ namespace Panel.Controllers
             return View(taxiCab);
         }
 
-        // GET: TaxiCabs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: TaxiSerivces/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            //var taxiCab = await _context.TaxiServices
-            //    .Include(t => t.Driver)
-            //    .Include(c => c.FirstPassnger)
-            //    .Include(c => c.SecondPassnger)
-            //    .Include(c => c.ThirdPassnger)
-            //    .Include(c => c.FourthPassnger)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var taxiCab = await _context.TaxiServices
+                
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (taxiCab == null)
             {
                 return NotFound();
             }
-            var PassengersCount =
-       taxiCab.FirstPassnger?.Count() +
-       taxiCab.SecondPassnger?.Count() +
-       taxiCab.ThirdPassnger?.Count() +
-       taxiCab.FourthPassnger?.Count();
+            var PassengersCount = taxiCab.Passnegers.Count();
             if (PassengersCount > 0)
             {
                 ViewBag.msg = "این سرویس دارای مسافر است لطفا ابتدا آن ها را خارج نمایید";
@@ -237,17 +212,14 @@ namespace Panel.Controllers
             return View(taxiCab);
         }
 
-        // POST: TaxiCabs/remove/5
+        // POST: TaxiSerivces/remove/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var taxiCab = await _context.TaxiServices
               .Include(t => t.Driver)
-              .Include(c => c.FirstPassnger)
-              .Include(c => c.SecondPassnger)
-              .Include(c => c.ThirdPassnger)
-              .Include(c => c.FourthPassnger)
+             
               .FirstOrDefaultAsync(m => m.Id == id);
             if (taxiCab == null)
             {
@@ -255,10 +227,10 @@ namespace Panel.Controllers
             }
 
             var PassengersCount =
-         taxiCab.FirstPassnger?.Count() +
-         taxiCab.SecondPassnger?.Count() +
-         taxiCab.ThirdPassnger?.Count() +
-         taxiCab.FourthPassnger?.Count();
+         taxiCab.Passnegers?.Count();
+
+
+       
             if (PassengersCount > 0)
             {
 
@@ -384,7 +356,7 @@ namespace Panel.Controllers
             }
             else
             {
-              mo
+              
 
           
                 return Json(new { state = true, message = "مسافر از تاکسی خارج شد" });
@@ -392,76 +364,17 @@ namespace Panel.Controllers
         }
 
 
-        /// <summary>
-        /// افزدون فاکتور بصورت ایجکسی
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost()]
-        [Route(nameof(AddFactorAjax))]
-        public async Task<IActionResult> AddFactorAjax([FromBody] DriverFactorviewModel model)
-        {
-            if (model == null)
-                return Json(new { state = false, message = "مدلی یافت نشد" });
-            try
-            {
-                var Engfrom = model.From.ToGregorianDateTime();
-                var EngTo = model.To.ToGregorianDateTime();
-                if (!Engfrom.HasValue)
-                    return Json(new { state = false, message = "تاریخ شروع اشتباه وارد شده است" });
-                if (!EngTo.HasValue)
-                    return Json(new { state = false, message = "تاریخ پایان اشتباه وارد شده است" });
-                if (Engfrom.Value >= EngTo.Value)
-                    return Json(new { state = false, message = "تاریخ پایان نباید قبل یا برابر با تاریخ شروع باشد" });
-
-                if (model.SeassionCount <= 0)
-                    return Json(new { state = false, message = "تعداد جلسات اشتباه وارد شده است" });
-                DriverFactor f = new DriverFactor()
-                {
-                    From = Engfrom,
-                    To = EngTo,
-                    SeassionCount = model.SeassionCount,
-                    serviceRequsetId = model.Requsetserviceid,
-                    taxiCabeid = model.Taxicabid,
-
-                };
-
-                await _context.AddAsync(f);
-                await _context.SaveChangesWithHistoryAsync(HttpContext);
-                return Json(new { state = true, message = "فاکتور ثبت شد" });
-
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(ex);
-                return Json(new { state = false, message = "متاسفانه فاکتور ثبت نشد" });
-            }
 
 
 
-        }
-
-
-
-        private bool TaxiCabExists(int id)
+        private bool TaxiCabExists(string id)
         {
             return _context.TaxiServices.Any(e => e.Id == id);
         }
 
 
-        private void ChangeServiceState(TaxiService Service)
-        {
-            var count = Service.FirstPassnger.Count() + Service.SecondPassnger.Count() + Service.ThirdPassnger.Count() + Service.FourthPassnger.Count();
-            if (count == 4)
-                Service.IsCompelete = true;
-        }
 
-        public IActionResult GetLogs()
-        {
-
-            var data = _logger.ReadLogs();
-            return Ok(data);
-        }
+      
     }
 
     public class PassengerViewModel
@@ -470,19 +383,6 @@ namespace Panel.Controllers
         public int TaxicabId { get; set; }
     }
 
-    public class DriverFactorviewModel
-    {
-        public string From { get; set; }
-
-        public string To { get; set; }
-
-        public int SeassionCount { get; set; }
-
-
-        public int Taxicabid { get; set; }
-
-        public int Requsetserviceid { get; set; }
-
-    }
+   
 }
 

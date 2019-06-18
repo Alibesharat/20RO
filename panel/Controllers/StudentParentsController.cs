@@ -32,7 +32,7 @@ namespace Panel.Controllers
             var _studentParents = _context.StudentParents.Undelited().AsQueryable();
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
-                _studentParents = _studentParents.Where(c => c.FullName.Contains(searchterm));
+                _studentParents = _studentParents.Where(c => c.Name.Contains(searchterm));
                 ViewBag.searchterm = searchterm;
             }
 

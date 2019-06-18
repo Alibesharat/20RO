@@ -43,13 +43,8 @@
             <table class="table table-bordered table-condensed table-hover table-striped text-center">
                 <thead>
                     <tr>
-                        <th>نام و نام خانوادگی</th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Age)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Gender)
-                        </th>
+                        <th> @Html.DisplayNameFor(model => model.Name)</th>
+                     
                         <th>
                             @Html.DisplayNameFor(model => model.Password)
                         </th>
@@ -68,14 +63,9 @@
                     <tr>
 
                         <td>
-                            @item.Name @item.LastName
+                            @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Age)
-                        </td>
-                        <td>
-                            @(item.Gender?"مرد":"زن")
-                        </td>
+                      
                         <td>
                             @Html.DisplayFor(modelItem => item.Password)
                         </td>

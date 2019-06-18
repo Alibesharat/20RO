@@ -85,7 +85,7 @@ namespace Panel.Controllers
         {
             ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name");
             ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name");
-            ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName");
+            ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "Name");
             return View();
         }
 
@@ -94,7 +94,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BossName,Address,districtId,AcademyCategoryId,OtherPhoneNumber,OfficeNumber,Id,Name,Password,PhoneNubmber,Email,AllowActivity,ContractorId")] Academy academy)
+        public async Task<IActionResult> Create([Bind("Address,DistrictId,AcademyCategoryId,OtherPhoneNumber,OfficeNumber,Id,Name,Password,PhoneNubmber,Email,AllowActivity,ContractorId")] Academy academy)
         {
             if (ModelState.IsValid)
             {

@@ -1,4 +1,4 @@
-﻿@model DAL.TaxiCab
+﻿@model DAL.TaxiService
 
 @{
    ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
@@ -35,30 +35,10 @@
 
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.Driver.Id)
-
+                    @Html.DisplayFor(model => model.Driver.Name)
                 </td>
             </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Hs_Change)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Hs_Change)
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.IsDeleted)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.IsDeleted)
-
-                </td>
-            </tr>
+         
             </tbody>
         </table>
             </div>
