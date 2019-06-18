@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -214,7 +215,7 @@ namespace Shared.ViewModels
     {
         public int DriverId { get; set; }
 
-        public TaxiCabState TaxiCabState { get; set; }
+        public  TaxiCabState  TaxiCabState{ get; set; }
 
 
     }

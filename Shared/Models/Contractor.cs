@@ -21,7 +21,6 @@ namespace DAL
         public virtual ICollection<Academy> Academy { get; set; }
         public virtual ICollection<Driver> Driver { get; set; }
 
-        public bool IsCenterAdmin { get; set; }
 
         [Display(Name = "شناسه ملی شرکت")]
         public string NIdCode { get; set; }
@@ -32,12 +31,16 @@ namespace DAL
         [Display(Name = "تاریخ شروع قرارداد")]
         public DateTime? RelaseDate { get; set; }
 
+    
         [Display(Name = "تاریخ اتمام قرارداد")]
         public DateTime? ExpireDate { get; set; }
 
         [NotMapped]
         [Display(Name = "پیمانکار ")]
         public string ClassName { get; set; }
+
+
+
 
     }
 }

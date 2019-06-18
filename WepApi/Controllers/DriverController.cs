@@ -232,7 +232,7 @@ namespace WepApi.Controllers
             catch (Exception ex)
             {
                 await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<List<TaxiCab>>() { statuse = false, message = "مشکلی بوجود آمد" });
+                return Ok(new ResultContract<List<TaxiService>>() { statuse = false, message = "مشکلی بوجود آمد" });
 
             }
 
@@ -282,7 +282,7 @@ namespace WepApi.Controllers
             catch (Exception ex)
             {
                 await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<List<TaxiCab>>() { statuse = false, message = "مشکلی بوجود آمد" });
+                return Ok(new ResultContract<List<TaxiService>>() { statuse = false, message = "مشکلی بوجود آمد" });
 
             }
 

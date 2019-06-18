@@ -36,22 +36,14 @@ namespace DAL
 
         public string PelakNumber { get; set; }
 
-        [Display(Name = "شهر")]
+      
 
-        [ForeignKey(nameof(City))]
-        public int CityId { get; set; }
-        [Display(Name = "شهر")]
 
-        public virtual City City { get; set; }
 
         [Display(Name = "وضعیت تاهل")]
-
         public bool IsMaried { get; set; }
 
-        [Display(Name = "طرح دارد ؟")]
-
-        public bool HasPlan { get; set; }
-
+       
         [Display(Name = "پیمانکار")]
         [ForeignKey(nameof(Contractor))]
         public int ContractorId { get; set; }

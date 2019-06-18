@@ -1,14 +1,12 @@
 ﻿using AutoHistoryCore;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace DAL
 {
-  
-   public class City : HistoryBaseModel
+
+    public class City : HistoryBaseModel
     {
         public City()
         {
@@ -22,6 +20,9 @@ namespace DAL
 
         [Display(Name ="نام شهر")]
         public string Name { get; set; }
+
+        [Display(Name = "ضریب شهر")]
+        public int CityPercent { get; set; }
 
 
 

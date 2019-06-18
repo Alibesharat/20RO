@@ -10,6 +10,6 @@ namespace Panel.Models
     {
         public List<ServiceRequset> Passngers { get; set; }
 
-        public TaxiCab TaxiCab { get; set; }
+        public TaxiService TaxiCab { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace DAL
     /// </summary>
    
    
-    public class TaxiCab : HistoryBaseModel
+    public class TaxiService : HistoryBaseModel
     {
         [Key]
         public int Id { get; set; }
@@ -20,19 +20,8 @@ namespace DAL
         [Display(Name = "عنوان سرویس")]
         public string Name { get; set; }
 
-        //[Display(Name = "زمان حضور راننده درب منزل")]
-        //public string ArrivedTime { get; set; }
-
       
-        public virtual ICollection<ServiceRequset> Passngers { get; set; }
-
-     
-
-        public virtual ICollection<DriverFactor> DriverFactors { get; set; }
-
-        [Display(Name = "تکمیل شده")]
-        public bool IsCompelete { get; set; }
-
+        public virtual ICollection<ServiceRequset> Passnegers { get; set; }
 
 
         [Display(Name = "راننده")]

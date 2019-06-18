@@ -25,7 +25,7 @@ namespace DriverArea.Controllers
             var Driver = User.GetDriver();
             if (Driver == null)
             {
-                return View(new TaxiCab());
+                return View(new TaxiService());
             }
             var model = new GetTaxiCabDetailViewModel() { TaxiCabId = id, DriverId = Driver.Id };
             ResultContract<string> data = await ConnectApi
@@ -35,8 +35,8 @@ namespace DriverArea.Controllers
             //{
             //    PreserveReferencesHandling = PreserveReferencesHandling.Objects
             //};
-            var dt = JsonConvert.DeserializeObject<TaxiCab>(data.Data);
-            if (dt == null) return View(new TaxiCab());
+            var dt = JsonConvert.DeserializeObject<TaxiService>(data.Data);
+            if (dt == null) return View(new TaxiService());
             return View(dt);
         }
 
@@ -70,14 +70,14 @@ namespace DriverArea.Controllers
                 TaxiCabState = TaxiCabState.Ready
             };
             var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<string>>(vm, Const.GetTaxiCabHistory, ApiMethode.Post);
-            var dt = JsonConvert.DeserializeObject<List<TaxiCab>>(data.Data);
+            var dt = JsonConvert.DeserializeObject<List<TaxiService>>(data.Data);
             if (dt != null)
             {
                 return View(dt);
             }
             else
             {
-                return View(new List<TaxiCab>());
+                return View(new List<TaxiService>());
             }
 
         }
@@ -100,14 +100,14 @@ namespace DriverArea.Controllers
                 TaxiCabState = TaxiCabState.WaitForDriverAccept
             };
             var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<string>>(vm, Const.GetTaxiCabHistory, ApiMethode.Post);
-            var dt = JsonConvert.DeserializeObject<List<TaxiCab>>(data.Data);
+            var dt = JsonConvert.DeserializeObject<List<TaxiService>>(data.Data);
             if (dt != null)
             {
                 return View(dt);
             }
             else
             {
-                return View(new List<TaxiCab>());
+                return View(new List<TaxiService>());
             }
 
         }

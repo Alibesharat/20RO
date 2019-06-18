@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DAL
 {
@@ -18,9 +15,13 @@ namespace DAL
 
         public string LogoPath { get; set; }
 
-        [Display(Name ="تعداد جلسات(رفت)")]
-        public int SeasionCount { get; set; }
+        [Display(Name ="قمیت پایه برای خودروی سواری")]
+        public int TaxiPercent { get; set; }
 
-        
+
+        [Display(Name = "قمیت پایه برای خودروی ون")]
+        public int VanPercent { get; set; }
+
+
     }
 }

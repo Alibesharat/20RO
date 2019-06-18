@@ -51,7 +51,7 @@ namespace DAL
               .Property(C => C.AvatarPath).HasDefaultValue("Default.png");
 
             // تاکسی سرویس
-            modelBuilder.Entity<TaxiCab>()
+            modelBuilder.Entity<TaxiService>()
           .Property(C => C.DriverPercent).HasDefaultValue(80);
             #endregion
 
@@ -85,7 +85,7 @@ namespace DAL
        
 
         public DbSet<ServiceRequset> serviceRequsets { get; set; }
-        public DbSet<TaxiCab> taxiCabs { get; set; }
+        public DbSet<TaxiService> taxiCabs { get; set; }
         public DbSet<Pricing> pricings { get; set; }
         public DbSet<Payment> payments { get; set; }
 

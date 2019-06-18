@@ -1,5 +1,7 @@
 ﻿using AutoHistoryCore;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,7 +33,6 @@ namespace DAL
         [Display(Name = "کد ملی دانش آموز")]
         public string IrIdCod { get; set; }
 
-      
 
 
         [Display(Name = "سن")]
@@ -54,7 +55,6 @@ namespace DAL
         //=========
 
        
-
        
         [Display(Name = "قیمت")]
         public int Price { get; set; }
@@ -66,8 +66,11 @@ namespace DAL
         [Display(Name = "وضعیت اطلاع رسانی راننده")]
         public NotifState NotifState { get; set; }
 
-        [Display(Name = "درخواست سرویس")]
-        public string ClassName { get; }
+        [Display(Name = "نوع سرویس")]
+
+        public ServiceType ServiceType { get; set; }
+
+      
 
         
         [Display(Name = "آموزشگاه")]
@@ -75,6 +78,11 @@ namespace DAL
         public int? AcademyId { get; set; }
         [Display(Name = "آموزشگاه")]
         public Academy Academy { get; set; }
+
+
+
+        [Display(Name = "اطلاعات حسابداری")]
+        public virtual ICollection<Accounting> Accountings { get; set; }
 
 
         [NotMapped]
@@ -94,10 +102,15 @@ namespace DAL
         public string Distination { get; set; }
 
 
+        [Display(Name = "درخواست سرویس")]
+        public string ClassName { get; }
 
-
-
+        
     }
+
+
+
+    
 
 
 

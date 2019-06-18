@@ -106,7 +106,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DriverId,DriverPercent")] TaxiCab taxiCab)
+        public async Task<IActionResult> Create([Bind("Id,Name,DriverId,DriverPercent")] TaxiService taxiCab)
         {
            
             var contractor = User.GetContractor();
@@ -147,7 +147,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DriverId,TaxiCabState,DriverPercent")] TaxiCab taxiCab)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DriverId,TaxiCabState,DriverPercent")] TaxiService taxiCab)
         {
             if (id != taxiCab.Id)
             {
@@ -625,7 +625,7 @@ namespace Panel.Controllers
         }
 
 
-        private void ChangeServiceState(TaxiCab Service)
+        private void ChangeServiceState(TaxiService Service)
         {
             var count = Service.FirstPassnger.Count() + Service.SecondPassnger.Count() + Service.ThirdPassnger.Count() + Service.FourthPassnger.Count();
             if (count == 4)

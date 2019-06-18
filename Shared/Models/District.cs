@@ -28,6 +28,9 @@ namespace DAL
         [Display(Name = "لیست آموزشگاه ها")]
         public virtual ICollection<Academy> Academies { get; set; }
 
+        [Display(Name = "ضریب منطقه")]
+        public int DistrictPercent { get; set; }
+
 
         [NotMapped]
         [Display(Name = "منطقه")]
