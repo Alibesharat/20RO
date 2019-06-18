@@ -71,7 +71,7 @@ namespace WepApplication.Controllers
                     (new getDetailViewModel() { Id = model.AcademyId }, Const.GetAcademy, ApiMethode.Post);
                 if (res != null && res.statuse == true)
                 {
-                    Distination = $"{res.Data.Longtude},{res.Data.latitude}";
+                    Distination = $"{res.Data.Longtude},{res.Data.Latitude}";
                 }
                 string origin = $"{model.Longtude},{model.latitue}";
                 var navigation = await utils.GetNavigation(origin, Distination);
@@ -113,8 +113,8 @@ namespace WepApplication.Controllers
 
             if (data == null || data.statuse == false) return NotFound();
             if (data.Data.StudentParrentId != User.Getparrent()?.Id) return NotFound();
-            data.Data.Distination = $"{data.Data.Academy.Longtude},{data.Data.Academy.latitude}";
-            data.Data.Origin = $"{data.Data.Longtude},{data.Data.latitue}";
+            data.Data.Distination = $"{data.Data.Academy.Longtude},{data.Data.Academy.Latitude}";
+            data.Data.Origin = $"{data.Data.Longtude},{data.Data.Latitue}";
             return View(data.Data);
         }
 

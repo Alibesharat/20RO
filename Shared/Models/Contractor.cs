@@ -14,12 +14,13 @@ namespace DAL
 
         public Contractor()
         {
-
+            Academies = new HashSet<Academy>();
+            Drivers = new HashSet<Driver>();
         }
 
 
-        public virtual ICollection<Academy> Academy { get; set; }
-        public virtual ICollection<Driver> Driver { get; set; }
+        public virtual ICollection<Academy> Academies { get; set; }
+        public virtual ICollection<Driver> Drivers { get; set; }
 
 
         [Display(Name = "شناسه ملی شرکت")]

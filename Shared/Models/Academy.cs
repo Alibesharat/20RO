@@ -6,25 +6,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL
 {
-    public class Academy 
+    public class Academy :BaseUser
     {
-        public string Name { get; set; }
 
+        public Academy()
+        {
+            ServiceRequsets = new HashSet<ServiceRequset>();
+        }
 
         [Display(Name = "آدرس")]
         public string Address { get; set; }
 
 
         [Display(Name = "منطقه")]
-        [ForeignKey(nameof(district))]
-        public int districtId { get; set; }
+        [ForeignKey(nameof(District))]
+        public int DistrictId { get; set; }
         [Display(Name = "منطقه")]
 
-        public District district { get; set; }
+        public District District { get; set; }
 
 
         [Display(Name = "عرض جغرافیایی")]
-        public string latitude { get; set; }
+        public string Latitude { get; set; }
 
         [Display(Name = "طول جغرافیایی")]
         public string Longtude { get; set; }
@@ -34,16 +37,16 @@ namespace DAL
         {
             get
             {
-                return $"{latitude},{Longtude}";
+                return $"{Latitude},{Longtude}";
             }
         }
 
 
         [Display(Name = "نوع آموزشگاه")]
-        [ForeignKey(nameof(category))]
+        [ForeignKey(nameof(Category))]
         public int AcademyCategoryId { get; set; }
         [Display(Name = "نوع آموزشگاه")]
-        public AcademyCategory category { get; set; }
+        public AcademyCategory Category { get; set; }
 
       
         [Display(Name = "تلفن پشتیبان")]

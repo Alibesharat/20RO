@@ -14,14 +14,19 @@ namespace DAL
    
     public class TaxiService : HistoryBaseModel
     {
+
+        public TaxiService()
+        {
+            Passnegers = new HashSet<ServiceRequset>();
+        }
+
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Display(Name = "عنوان سرویس")]
         public string Name { get; set; }
 
       
-        public virtual ICollection<ServiceRequset> Passnegers { get; set; }
 
 
         [Display(Name = "راننده")]
@@ -36,6 +41,10 @@ namespace DAL
         [Display(Name = "سهم راننده(درصد)")]
         [Range(maximum:75,minimum:0,ErrorMessage ="سهم راننده حداکثر 75 درصد می باشد")]
         public int DriverPercent { get; set; }
+
+        [Display(Name ="مسافران")]
+        public virtual ICollection<ServiceRequset> Passnegers { get; set; }
+
 
 
         [NotMapped]

@@ -192,7 +192,7 @@ namespace WepApi.Controllers
                 if (Academy == null) throw new Exception("Academy IS Null");
 
                 decimal Distance = requset.Distance;
-                var id = Academy.district.CityId;
+                var id = Academy.District.CityId;
                 var pricing = _context.pricings.Where(c => c.AcademyId == Academy.Id).ToList();
                 if (pricing == null) return 0;
 
@@ -478,7 +478,7 @@ namespace WepApi.Controllers
         {
             var data = await _context.academies.Undelited()
                 .Where(c => c.AllowActivity == true
-                && c.districtId == model.DistrcitId
+                && c.DistrictId == model.DistrcitId
                 && c.AcademyCategoryId == model.AcademyCaregoryId)
                 .ToListAsync();
             if (data == null)

@@ -13,13 +13,13 @@ namespace DAL
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(appUser))]
+        [ForeignKey(nameof(AppUser))]
         public int UserId { get; set; }
-        public BaseUser appUser { get; set; }
+        public BaseUser AppUser { get; set; }
 
 
-        [ForeignKey(nameof(role))]
+        [ForeignKey(nameof(Role))]
         public int RolId { get; set; }
-        public Role role { get; set; }
+        public Role Role { get; set; }
     }
 }

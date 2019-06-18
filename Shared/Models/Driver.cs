@@ -9,6 +9,12 @@ namespace DAL
 {
     public class Driver : BaseUser
     {
+        public Driver()
+        {
+            TaxiServices = new HashSet<TaxiService>();
+        }
+
+
         [Display(Name = "نام خودرو")]
         public string CarName { get; set; }
 
@@ -36,19 +42,19 @@ namespace DAL
 
         public string PelakNumber { get; set; }
 
-      
-
-
 
         [Display(Name = "وضعیت تاهل")]
         public bool IsMaried { get; set; }
 
        
+
         [Display(Name = "پیمانکار")]
         [ForeignKey(nameof(Contractor))]
         public int ContractorId { get; set; }
         [Display(Name = "پیمانکار")]
         public virtual Contractor Contractor { get; set; }
+
+        public virtual ICollection<TaxiService> TaxiServices { get; set; }
 
 
 

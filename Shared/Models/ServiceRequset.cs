@@ -42,7 +42,7 @@ namespace DAL
         public string Address { get; set; }
 
         [Display(Name = "عرض جغرافیایی")]
-        public string latitue { get; set; }
+        public string Latitue { get; set; }
 
         [Display(Name = "طول جغرافیایی")]
         public string Longtude { get; set; }
@@ -90,7 +90,7 @@ namespace DAL
         {
             get
             {
-                return $"{latitue},{Longtude}";
+                return $"{Latitue},{Longtude}";
             }
         }
 

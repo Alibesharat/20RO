@@ -10,7 +10,7 @@ namespace DAL
     {
         public District()
         {
-
+            Academies = new HashSet<Academy>();
         }
 
         [Key]

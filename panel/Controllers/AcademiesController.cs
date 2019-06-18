@@ -33,7 +33,7 @@ namespace Panel.Controllers
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
             ViewBag.curent = pageindex;
             var _academies = _context.academies.Undelited().AsQueryable();
-            _academies = _academies.Include(a => a.category).Include(a => a.district).Include(c => c.Contractor);
+            _academies = _academies.Include(a => a.Category).Include(a => a.District).Include(c => c.Contractor);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
                 _academies = _academies.Where(c => c.Name.Contains(searchterm));
@@ -42,7 +42,7 @@ namespace Panel.Controllers
             }
             if (DistictId.HasValue)
             {
-                _academies = _academies.Where(c => c.districtId == DistictId);
+                _academies = _academies.Where(c => c.DistrictId == DistictId);
                 AllRouteData.Add(nameof(DistictId), DistictId.ToString());
             }
             if (ContractorId.HasValue)
@@ -69,8 +69,8 @@ namespace Panel.Controllers
             }
 
             var academy = await _context.academies
-                .Include(a => a.category)
-                .Include(a => a.district)
+                .Include(a => a.Category)
+                .Include(a => a.District)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (academy == null)
             {
@@ -103,7 +103,7 @@ namespace Panel.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AcademyCategoryId"] = new SelectList(_context.academyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.districtId);
+            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName");
 
             return View(academy);
@@ -123,7 +123,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
             ViewData["AcademyCategoryId"] = new SelectList(_context.academyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.districtId);
+            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName", academy.ContractorId);
 
             return View(academy);
@@ -162,7 +162,7 @@ namespace Panel.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AcademyCategoryId"] = new SelectList(_context.academyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.districtId);
+            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName", academy.ContractorId);
 
             return View(academy);
@@ -199,7 +199,7 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            academy.latitude = latitude;
+            academy.Latitude = latitude;
             academy.Longtude = Longtude;
             try
             {
@@ -231,8 +231,8 @@ namespace Panel.Controllers
             }
 
             var academy = await _context.academies
-                .Include(a => a.category)
-                .Include(a => a.district)
+                .Include(a => a.Category)
+                .Include(a => a.District)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (academy == null)
             {

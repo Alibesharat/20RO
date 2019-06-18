@@ -34,16 +34,16 @@ namespace DAL
     /// </summary>
     public enum RequsetSate
     {
-        [Display(Name = "در انتظار پرداخت")]
-        AwaitingPayment,
-        [Display(Name = "در انتظار بررسی")]
-        pending,
+        [Display(Name = "در انتظار تعیین وضعیت مدسه")]
+        AwaitingAcademy,
+        [Display(Name = "در انتظار تعیین وضعیت پیمانکار")]
+        AwaitingContractor,
         [Display(Name = " لغو ")]
         Cancel,
-        [Display(Name = " اتمام سرویس دهی ")]
-        finish,
         [Display(Name = " در حال سرویس دهی ")]
-        Servicing
+        Servicing,
+        [Display(Name = " معلق ")]
+        Suspended
 
 
     }

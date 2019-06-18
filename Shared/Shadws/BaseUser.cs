@@ -11,6 +11,9 @@ namespace DAL.Shadws
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "TokenApi")]
+        public string Token { get; set; }
+
         [Display(Name = "نام")]
         public string Name { get; set; }
 
@@ -19,9 +22,11 @@ namespace DAL.Shadws
         [Display(Name = "شماره موبایل")]
         public string PhoneNubmber { get; set; }
 
-      
+        [Display(Name = "رمز عبور")]
+        public string Password { get; set; }
 
-      
+
+
 
         [Display(Name = "تاریخ ثبت نام")]
         public DateTime? BeginDate { get; set; }

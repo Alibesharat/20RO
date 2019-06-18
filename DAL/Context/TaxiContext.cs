@@ -40,7 +40,7 @@ namespace DAL
             modelBuilder.Entity<Academy>()
                 .Property(c => c.Longtude).HasDefaultValue("51.399735");
             modelBuilder.Entity<Academy>()
-            .Property(c => c.latitude).HasDefaultValue("35.752308");
+            .Property(c => c.Latitude).HasDefaultValue("35.752308");
 
             //راننده
             modelBuilder.Entity<Driver>()
