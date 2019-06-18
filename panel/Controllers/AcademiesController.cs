@@ -32,7 +32,7 @@ namespace Panel.Controllers
             int count = 0;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
             ViewBag.curent = pageindex;
-            var _academies = _context.academies.Undelited().AsQueryable();
+            var _academies = _context.Academies.Undelited().AsQueryable();
             _academies = _academies.Include(a => a.Category).Include(a => a.District).Include(c => c.Contractor);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
@@ -68,7 +68,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academy = await _context.academies
+            var academy = await _context.Academies
                 .Include(a => a.Category)
                 .Include(a => a.District)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -83,8 +83,8 @@ namespace Panel.Controllers
         // GET: Academies/Create
         public IActionResult Create()
         {
-            ViewData["AcademyCategoryId"] = new SelectList(_context.academyCategories, "Id", "Name");
-            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name");
+            ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name");
+            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name");
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName");
             return View();
         }
@@ -102,8 +102,8 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AcademyCategoryId"] = new SelectList(_context.academyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.DistrictId);
+            ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name", academy.AcademyCategoryId);
+            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName");
 
             return View(academy);
@@ -117,13 +117,13 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academy = await _context.academies.FindAsync(id);
+            var academy = await _context.Academies.FindAsync(id);
             if (academy == null)
             {
                 return NotFound();
             }
-            ViewData["AcademyCategoryId"] = new SelectList(_context.academyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.DistrictId);
+            ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name", academy.AcademyCategoryId);
+            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName", academy.ContractorId);
 
             return View(academy);
@@ -161,8 +161,8 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AcademyCategoryId"] = new SelectList(_context.academyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.districts, "Id", "Name", academy.DistrictId);
+            ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name", academy.AcademyCategoryId);
+            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName", academy.ContractorId);
 
             return View(academy);
@@ -176,7 +176,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academy = await _context.academies.FindAsync(id);
+            var academy = await _context.Academies.FindAsync(id);
             if (academy == null)
             {
                 return NotFound();
@@ -194,7 +194,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academy = await _context.academies.FindAsync(id);
+            var academy = await _context.Academies.FindAsync(id);
             if (academy == null)
             {
                 return NotFound();
@@ -230,7 +230,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academy = await _context.academies
+            var academy = await _context.Academies
                 .Include(a => a.Category)
                 .Include(a => a.District)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -247,15 +247,15 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var academy = await _context.academies.FindAsync(id);
-            _context.academies.Remove(academy);
+            var academy = await _context.Academies.FindAsync(id);
+            _context.Academies.Remove(academy);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool AcademyExists(int id)
         {
-            return _context.academies.Any(e => e.Id == id);
+            return _context.Academies.Any(e => e.Id == id);
         }
     }
 }

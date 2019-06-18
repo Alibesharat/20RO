@@ -48,7 +48,7 @@ namespace WepApi.Controllers
         private bool CheckStudentparrent(string PhoneNumber)
         {
 
-            return _context.studentParents.Any(c => c.PhoneNubmber == PhoneNumber);
+            return _context.StudentParents.Any(c => c.PhoneNubmber == PhoneNumber);
 
         }
 
@@ -63,7 +63,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var parrent = _context.studentParents.FirstOrDefault(c => c.PhoneNubmber == model.PhoneNubmber);
+                var parrent = _context.StudentParents.FirstOrDefault(c => c.PhoneNubmber == model.PhoneNubmber);
                 if (parrent != null)
                 {
                     return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent });
@@ -101,7 +101,7 @@ namespace WepApi.Controllers
                 else
                 {
                     var parrent = model.Adapt<StudentParent>();
-                    await _context.studentParents.AddAsync(parrent);
+                    await _context.StudentParents.AddAsync(parrent);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                     return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent, message = "" });
                 }
@@ -124,7 +124,7 @@ namespace WepApi.Controllers
         [HttpPost("LoginStudentParrent")]
         public async Task<IActionResult> LoginStudentParrent([FromBody]LoginStudentParrentViewModel model)
         {
-            var parrent = await _context.studentParents.Undelited()
+            var parrent = await _context.StudentParents.Undelited()
                 .FirstOrDefaultAsync(c => c.PhoneNubmber == model.PhoneNubmber
                  && c.Password == model.Password);
 
@@ -159,7 +159,7 @@ namespace WepApi.Controllers
 
                     }
                     requset.RequsetCode = utils.UniqGenerate();
-                    await _context.serviceRequsets.AddAsync(requset);
+                    await _context.ServiceRequsets.AddAsync(requset);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                     return Ok(new ResultContract<int> { statuse = true, Data = requset.Id });
                 }
@@ -237,7 +237,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var data = await _context.serviceRequsets
+                var data = await _context.ServiceRequsets
 
                     .Include(c => c.Academy)
 
@@ -265,7 +265,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var data = await _context.serviceRequsets
+                var data = await _context.ServiceRequsets
                     .Include(c => c.Academy)
 
                     .Include(c => c.cabAsFirst).ThenInclude(cf => cf.Driver)
@@ -297,7 +297,7 @@ namespace WepApi.Controllers
         [HttpPost("pay")]
         public async Task<IActionResult> pay([FromBody] PayViewModel model)
         {
-            var serviceRequsets = await _context.serviceRequsets.FindAsync(model.requsetId);
+            var serviceRequsets = await _context.ServiceRequsets.FindAsync(model.requsetId);
             if (serviceRequsets != null)
             {
                 if (serviceRequsets.StudentParrentId != model.ParrentId)
@@ -351,7 +351,7 @@ namespace WepApi.Controllers
 
             try
             {
-                var service = await _context.serviceRequsets.FindAsync(model.UserId);
+                var service = await _context.ServiceRequsets.FindAsync(model.UserId);
                 if (service == null)
                 {
                     await _logger.LogAsync(HttpContext, "serviceRequsets Is NULL");
@@ -396,7 +396,7 @@ namespace WepApi.Controllers
             try
             {
                 _context.ChangeTracker.LazyLoadingEnabled = false;
-                List<Academy> data = await _context.academies.Undelited().ToListAsync();
+                List<Academy> data = await _context.Academies.Undelited().ToListAsync();
                 return Ok(new ResultContract<List<Academy>> { statuse = true, Data = data });
 
 
@@ -421,7 +421,7 @@ namespace WepApi.Controllers
             try
             {
                 _context.ChangeTracker.LazyLoadingEnabled = false;
-                Academy data = await _context.academies.Undelited().FirstOrDefaultAsync(c => c.Id == model.Id);
+                Academy data = await _context.Academies.Undelited().FirstOrDefaultAsync(c => c.Id == model.Id);
                 if (data == null)
                     return Ok(new ResultContract<Academy> { statuse = false, message = "یافت نشد" });
 
@@ -444,7 +444,7 @@ namespace WepApi.Controllers
         [HttpPost(nameof(GetDistrcits))]
         public async Task<IActionResult> GetDistrcits()
         {
-            var data = await _context.districts.Undelited().ToListAsync();
+            var data = await _context.Districts.Undelited().ToListAsync();
             if(data==null)
                 return Ok(new ResultContract<List<District>> { statuse = false, message = "یافت نشد" });
             return Ok(new ResultContract<List<District>> { statuse = true, Data = data });
@@ -460,7 +460,7 @@ namespace WepApi.Controllers
         [HttpPost(nameof(GetAcademyCategories))]
         public async Task<IActionResult> GetAcademyCategories()
         {
-            var data = await _context.academyCategories.Undelited().ToListAsync();
+            var data = await _context.AcademyCategories.Undelited().ToListAsync();
             if (data == null)
                 return Ok(new ResultContract<List<AcademyCategory>> { statuse = false, message = "یافت نشد" });
             return Ok(new ResultContract<List<AcademyCategory>> { statuse = true, Data = data });
@@ -476,7 +476,7 @@ namespace WepApi.Controllers
         [HttpPost(nameof(GetFiltredAcademeis))]
         public async Task<IActionResult> GetFiltredAcademeis(AcademyFiterViewModel model)
         {
-            var data = await _context.academies.Undelited()
+            var data = await _context.Academies.Undelited()
                 .Where(c => c.AllowActivity == true
                 && c.DistrictId == model.DistrcitId
                 && c.AcademyCategoryId == model.AcademyCaregoryId)

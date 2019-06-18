@@ -15,11 +15,11 @@ namespace DAL
 
         public string LogoPath { get; set; }
 
-        [Display(Name ="قمیت پایه برای خودروی سواری")]
+        [Display(Name ="(تومان)قمیت پایه برای خودروی سواری")]
         public int TaxiPercent { get; set; }
 
 
-        [Display(Name = "قمیت پایه برای خودروی ون")]
+        [Display(Name = "(تومان)قمیت پایه برای خودروی ون")]
         public int VanPercent { get; set; }
 
 

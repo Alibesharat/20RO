@@ -30,7 +30,7 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
-            var _cities = _context.cities.Undelited().AsQueryable();
+            var _cities = _context.Cities.Undelited().AsQueryable();
             _cities = _cities.Include(c => c.Province);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
@@ -63,7 +63,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var city = await _context.cities
+            var city = await _context.Cities
                 .Include(c => c.Province)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (city == null)
@@ -106,7 +106,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var city = await _context.cities.FindAsync(id);
+            var city = await _context.Cities.FindAsync(id);
             if (city == null)
             {
                 return NotFound();
@@ -159,7 +159,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var city = await _context.cities
+            var city = await _context.Cities
                 .Include(c => c.Province)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (city == null)
@@ -175,15 +175,15 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var city = await _context.cities.FindAsync(id);
-            _context.cities.Remove(city);
+            var city = await _context.Cities.FindAsync(id);
+            _context.Cities.Remove(city);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool CityExists(int id)
         {
-            return _context.cities.Any(e => e.Id == id);
+            return _context.Cities.Any(e => e.Id == id);
         }
     }
 }

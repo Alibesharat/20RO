@@ -36,7 +36,7 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
-            var _drivers = _context.drivers.Undelited().AsQueryable();
+            var _drivers = _context.Drivers.Undelited().AsQueryable();
             _drivers = _drivers.Include(d => d.City);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
@@ -70,7 +70,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.drivers
+            var driver = await _context.Drivers
                 .Include(d => d.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (driver == null)
@@ -85,7 +85,7 @@ namespace Panel.Controllers
         [Authorize(Roles = nameof(RolName.Contractor))]
         public IActionResult Create()
         {
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name");
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name");
             return View();
         }
 
@@ -127,7 +127,7 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name", driver.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", driver.CityId);
             return View(driver);
         }
 
@@ -140,12 +140,12 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.drivers.FindAsync(id);
+            var driver = await _context.Drivers.FindAsync(id);
             if (driver == null)
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name", driver.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", driver.CityId);
             return View(driver);
         }
 
@@ -201,7 +201,7 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name", driver.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", driver.CityId);
             return View(driver);
         }
 
@@ -217,7 +217,7 @@ namespace Panel.Controllers
             if (contractor == null)
                 return Unauthorized();
 
-            var driver = await _context.drivers
+            var driver = await _context.Drivers
                 .Include(d => d.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (driver == null || driver.ContractorId != contractor.Id)
@@ -237,19 +237,19 @@ namespace Panel.Controllers
             var contractor = User.GetContractor();
             if (contractor == null)
                 return Unauthorized();
-            var driver = await _context.drivers.FindAsync(id);
+            var driver = await _context.Drivers.FindAsync(id);
             if (driver == null || driver.ContractorId != contractor.Id)
             {
                 return NotFound();
             }
-            _context.drivers.Remove(driver);
+            _context.Drivers.Remove(driver);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool DriverExists(int id)
         {
-            return _context.drivers.Any(e => e.Id == id);
+            return _context.Drivers.Any(e => e.Id == id);
         }
     }
 }

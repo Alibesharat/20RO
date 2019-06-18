@@ -47,7 +47,7 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
-            var _taxiCabs = _context.taxiCabs.Undelited().AsQueryable();
+            var _taxiCabs = _context.TaxiServices.Undelited().AsQueryable();
             _taxiCabs = _taxiCabs.Include(t => t.Driver);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
@@ -77,7 +77,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var taxiCab = await _context.taxiCabs
+            var taxiCab = await _context.TaxiServices
                 .Include(t => t.Driver)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -97,7 +97,7 @@ namespace Panel.Controllers
             {
                 return Unauthorized();
             }
-            ViewData["DriverId"] = new SelectList(_context.drivers.Undelited().Where(c => c.ContractorId == contractor.Id), "Id", "FullName");
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == contractor.Id), "Id", "FullName");
             return View();
         }
 
@@ -121,7 +121,7 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.drivers.Undelited().Where(c => c.ContractorId == contractor.Id), "Id", "FullName", taxiCab.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == contractor.Id), "Id", "FullName", taxiCab.DriverId);
             return View(taxiCab);
         }
 
@@ -133,12 +133,12 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var taxiCab = await _context.taxiCabs.FindAsync(id);
+            var taxiCab = await _context.TaxiServices.FindAsync(id);
             if (taxiCab == null)
             {
                 return NotFound();
             }
-            ViewData["DriverId"] = new SelectList(_context.drivers.Undelited(), "Id", "FullName", taxiCab.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "FullName", taxiCab.DriverId);
             return View(taxiCab);
         }
 
@@ -163,7 +163,7 @@ namespace Panel.Controllers
                     if (taxiCab.TaxiCabState == TaxiCabState.Ready)
                     {
 
-                        var txn = await _context.taxiCabs
+                        var txn = await _context.TaxiServices
                              .Include(c => c.FirstPassnger)
                               .ThenInclude(c => c.studentParent)
 
@@ -211,7 +211,7 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.drivers.Undelited(), "Id", "FullName", taxiCab.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "FullName", taxiCab.DriverId);
             return View(taxiCab);
         }
 
@@ -223,7 +223,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var taxiCab = await _context.taxiCabs
+            var taxiCab = await _context.TaxiServices
                 .Include(t => t.Driver)
                 .Include(c => c.FirstPassnger)
                 .Include(c => c.SecondPassnger)
@@ -254,7 +254,7 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var taxiCab = await _context.taxiCabs
+            var taxiCab = await _context.TaxiServices
               .Include(t => t.Driver)
               .Include(c => c.FirstPassnger)
               .Include(c => c.SecondPassnger)
@@ -279,7 +279,7 @@ namespace Panel.Controllers
             }
 
 
-            _context.taxiCabs.Remove(taxiCab);
+            _context.TaxiServices.Remove(taxiCab);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
@@ -289,7 +289,7 @@ namespace Panel.Controllers
         {
             if (id.HasValue)
             {
-                var data = await _context.taxiCabs.FindAsync(id.Value);
+                var data = await _context.TaxiServices.FindAsync(id.Value);
 
                 var s = JsonConvert.DeserializeObject<ICollection<HistoryViewModel>>(data.Hs_Change);
                 return View(s.ToList());
@@ -310,7 +310,7 @@ namespace Panel.Controllers
             }
             if (!Id.HasValue)
                 return NotFound();
-            var Passengers = await _context.serviceRequsets
+            var Passengers = await _context.ServiceRequsets
                 .Include(cu => cu.Academy)
                 .Where(c => c.RequsetState == RequsetSate.pending).ToListAsync();
             if (academyid.HasValue)
@@ -318,7 +318,7 @@ namespace Panel.Controllers
                 Passengers = Passengers.Where(c => c.AcademyId == academyid).ToList();
             }
             Passengers = Passengers.Where(c => c.Academy.ContractorId == contractor.Id).ToList();
-            var TaxiCab = await _context.taxiCabs
+            var TaxiCab = await _context.TaxiServices
                 .Include(c => c.FirstPassnger).ThenInclude(co => co.Academy)
                 .Include(c => c.SecondPassnger).ThenInclude(co => co.Academy)
                 .Include(c => c.ThirdPassnger).ThenInclude(co => co.Academy)
@@ -332,7 +332,7 @@ namespace Panel.Controllers
                 TaxiCab = TaxiCab
             };
             ViewBag.TaxiCabDrvier = TaxiCabDrvier;
-            ViewData["Academy"] = new SelectList(_context.academies.Undelited().ToList(), "Id", "Name", academyid);
+            ViewData["Academy"] = new SelectList(_context.Academies.Undelited().ToList(), "Id", "Name", academyid);
 
             return View(vm);
         }
@@ -349,7 +349,7 @@ namespace Panel.Controllers
 
             if (model == null)
                 return Json(new { state = false, message = "مدلی یافت نشد" });
-            var Passenger = await _context.serviceRequsets.FindAsync(model.Requsetserviceid);
+            var Passenger = await _context.ServiceRequsets.FindAsync(model.Requsetserviceid);
             if (Passenger == null)
             {
                 return Json(new { state = false, message = "مسافری یافت نشد" });
@@ -359,7 +359,7 @@ namespace Panel.Controllers
                 return Json(new { state = false, message = "این مسافر را نمی شود اضافه کرد" });
             }
 
-            var Service = await _context.taxiCabs.Include(c => c.FirstPassnger).Include(c => c.SecondPassnger).Include(c => c.ThirdPassnger).Include(c => c.FourthPassnger).FirstOrDefaultAsync(c => c.Id == model.TaxicabId);
+            var Service = await _context.TaxiServices.Include(c => c.FirstPassnger).Include(c => c.SecondPassnger).Include(c => c.ThirdPassnger).Include(c => c.FourthPassnger).FirstOrDefaultAsync(c => c.Id == model.TaxicabId);
             if (Service == null)
             {
                 return Json(new { state = false, message = "سرویسی یافت نشد" });
@@ -460,7 +460,7 @@ namespace Panel.Controllers
         {
             if (model == null)
                 return Json(new { state = false, message = "مدلی یافت نشد" });
-            var Passenger = await _context.serviceRequsets.FindAsync(model.Requsetserviceid);
+            var Passenger = await _context.ServiceRequsets.FindAsync(model.Requsetserviceid);
 
             if (Passenger == null)
             {
@@ -472,7 +472,7 @@ namespace Panel.Controllers
             }
 
 
-            var Service = await _context.taxiCabs.Include(c => c.FirstPassnger).Include(c => c.SecondPassnger).Include(c => c.ThirdPassnger).Include(c => c.FourthPassnger).FirstOrDefaultAsync(c => c.Id == model.TaxicabId);
+            var Service = await _context.TaxiServices.Include(c => c.FirstPassnger).Include(c => c.SecondPassnger).Include(c => c.ThirdPassnger).Include(c => c.FourthPassnger).FirstOrDefaultAsync(c => c.Id == model.TaxicabId);
 
             if (Service == null)
             {
@@ -621,7 +621,7 @@ namespace Panel.Controllers
 
         private bool TaxiCabExists(int id)
         {
-            return _context.taxiCabs.Any(e => e.Id == id);
+            return _context.TaxiServices.Any(e => e.Id == id);
         }
 
 

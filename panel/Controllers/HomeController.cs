@@ -41,7 +41,7 @@ namespace Web.Controllers
         public IActionResult Distributionmap()
         {
 
-            var data = _context.serviceRequsets.Undelited().Where(c => c.RequsetState == RequsetSate.pending).ToList();
+            var data = _context.ServiceRequsets.Undelited().Where(c => c.RequsetState == RequsetSate.pending).ToList();
             return View(data);
         }
 

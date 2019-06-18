@@ -25,8 +25,8 @@ namespace DAL.Shadws
         [Display(Name = "رمز عبور")]
         public string Password { get; set; }
 
-
-
+        [Display(Name = "تصویر")]
+        public string AvatarPath { get; set; }
 
         [Display(Name = "تاریخ ثبت نام")]
         public DateTime? BeginDate { get; set; }

@@ -71,8 +71,8 @@ namespace Panel.Controllers
         // GET: Payments/Create
         public IActionResult Create()
         {
-            ViewData["ParrentId"] = new SelectList(_context.studentParents, "Id", "Name");
-            ViewData["RequsetServiceId"] = new SelectList(_context.serviceRequsets, "Id", "Name");
+            ViewData["ParrentId"] = new SelectList(_context.StudentParents, "Id", "Name");
+            ViewData["RequsetServiceId"] = new SelectList(_context.ServiceRequsets, "Id", "Name");
             return View();
         }
 
@@ -89,8 +89,8 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParrentId"] = new SelectList(_context.studentParents, "Id", "Name", payment.ParrentId);
-            ViewData["RequsetServiceId"] = new SelectList(_context.serviceRequsets, "Id", "Name", payment.RequsetServiceId);
+            ViewData["ParrentId"] = new SelectList(_context.StudentParents, "Id", "Name", payment.ParrentId);
+            ViewData["RequsetServiceId"] = new SelectList(_context.ServiceRequsets, "Id", "Name", payment.RequsetServiceId);
             return View(payment);
         }
 
@@ -107,8 +107,8 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            ViewData["ParrentId"] = new SelectList(_context.studentParents, "Id", "PropertyName", payment.ParrentId);
-            ViewData["RequsetServiceId"] = new SelectList(_context.serviceRequsets, "Id", "PropertyName", payment.RequsetServiceId);
+            ViewData["ParrentId"] = new SelectList(_context.StudentParents, "Id", "PropertyName", payment.ParrentId);
+            ViewData["RequsetServiceId"] = new SelectList(_context.ServiceRequsets, "Id", "PropertyName", payment.RequsetServiceId);
             return View(payment);
         }
 
@@ -144,8 +144,8 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParrentId"] = new SelectList(_context.studentParents, "Id", "Name", payment.ParrentId);
-            ViewData["RequsetServiceId"] = new SelectList(_context.serviceRequsets, "Id", "Name", payment.RequsetServiceId);
+            ViewData["ParrentId"] = new SelectList(_context.StudentParents, "Id", "Name", payment.ParrentId);
+            ViewData["RequsetServiceId"] = new SelectList(_context.ServiceRequsets, "Id", "Name", payment.RequsetServiceId);
             return View(payment);
         }
 

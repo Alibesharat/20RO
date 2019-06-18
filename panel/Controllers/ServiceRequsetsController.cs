@@ -41,7 +41,7 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
 
 
-            var _serviceRequsets = _context.serviceRequsets.Undelited().AsQueryable();
+            var _serviceRequsets = _context.ServiceRequsets.Undelited().AsQueryable();
             _serviceRequsets = _serviceRequsets
                 .Include(c => c.Academy)
                 .Include(s => s.studentParent)
@@ -85,7 +85,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var serviceRequset = await _context.serviceRequsets
+            var serviceRequset = await _context.ServiceRequsets
                 .Include(s => s.studentParent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceRequset == null)
@@ -100,7 +100,7 @@ namespace Panel.Controllers
         // GET: ServiceRequsets/Create
         public IActionResult Create()
         {
-            ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name");
+            ViewData["StudentParrentId"] = new SelectList(_context.StudentParents, "Id", "Name");
             return View();
         }
 
@@ -120,7 +120,7 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name", serviceRequset.StudentParrentId);
+            ViewData["StudentParrentId"] = new SelectList(_context.StudentParents, "Id", "Name", serviceRequset.StudentParrentId);
             return View(serviceRequset);
         }
 
@@ -134,12 +134,12 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var serviceRequset = await _context.serviceRequsets.FindAsync(id);
+            var serviceRequset = await _context.ServiceRequsets.FindAsync(id);
             if (serviceRequset == null)
             {
                 return NotFound();
             }
-            ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name", serviceRequset.StudentParrentId);
+            ViewData["StudentParrentId"] = new SelectList(_context.StudentParents, "Id", "Name", serviceRequset.StudentParrentId);
             return View(serviceRequset);
         }
 
@@ -177,7 +177,7 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentParrentId"] = new SelectList(_context.studentParents, "Id", "Name", serviceRequset.StudentParrentId);
+            ViewData["StudentParrentId"] = new SelectList(_context.StudentParents, "Id", "Name", serviceRequset.StudentParrentId);
             return View(serviceRequset);
         }
 
@@ -191,7 +191,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var serviceRequset = await _context.serviceRequsets
+            var serviceRequset = await _context.ServiceRequsets
                 .Include(s => s.studentParent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceRequset == null)
@@ -209,15 +209,15 @@ namespace Panel.Controllers
 
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var serviceRequset = await _context.serviceRequsets.FindAsync(id);
-            _context.serviceRequsets.Remove(serviceRequset);
+            var serviceRequset = await _context.ServiceRequsets.FindAsync(id);
+            _context.ServiceRequsets.Remove(serviceRequset);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool ServiceRequsetExists(int id)
         {
-            return _context.serviceRequsets.Any(e => e.Id == id);
+            return _context.ServiceRequsets.Any(e => e.Id == id);
         }
     }
 }

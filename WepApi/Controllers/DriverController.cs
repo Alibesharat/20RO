@@ -38,7 +38,7 @@ namespace WepApi.Controllers
         /// <returns></returns>
         private bool CheckExistdriver(string PhoneNumber)
         {
-            return _context.drivers.Any(c => c.PhoneNubmber == PhoneNumber);
+            return _context.Drivers.Any(c => c.PhoneNubmber == PhoneNumber);
 
         }
 
@@ -89,7 +89,7 @@ namespace WepApi.Controllers
                     var driver = model.Adapt<Driver>();
                     if (driver.CityId == 0)
                         driver.CityId = 1;
-                    await _context.drivers.AddAsync(driver);
+                    await _context.Drivers.AddAsync(driver);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                     return Ok(new ResultContract<Driver>() { statuse = true, Data = driver, message = "" });
                 }
@@ -116,7 +116,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var driver = await _context.drivers.Undelited().FirstOrDefaultAsync(
+                var driver = await _context.Drivers.Undelited().FirstOrDefaultAsync(
                     c => c.PhoneNubmber == model.PhoneNubmber && c.Password == model.Password);
                 if (driver == null)
                     return Ok(new ResultContract<Driver>() { statuse = false, message = "رمز عبور یا نام کاربری اشتباه است" });
@@ -142,7 +142,7 @@ namespace WepApi.Controllers
             try
             {
                 #region بررسی اعتبار درخواست کننده
-                var taxtiCab = await _context.taxiCabs.Undelited().FirstOrDefaultAsync(c => c.Id == model.taxiCabId);
+                var taxtiCab = await _context.TaxiServices.Undelited().FirstOrDefaultAsync(c => c.Id == model.taxiCabId);
                 if (taxtiCab == null || taxtiCab.DriverId != model.driverId)
                 {
                     await _logger.LogAsync(HttpContext, $"{nameof(taxtiCab)} Is NULL");
@@ -151,7 +151,7 @@ namespace WepApi.Controllers
                 }
                 #endregion
 
-                var Service = await _context.serviceRequsets.Include(c => c.cabAsFirst).FirstOrDefaultAsync(c => c.Id == model.requseteId);
+                var Service = await _context.ServiceRequsets.Include(c => c.cabAsFirst).FirstOrDefaultAsync(c => c.Id == model.requseteId);
 
                 if (Service == null)
                 {
@@ -184,7 +184,7 @@ namespace WepApi.Controllers
             try
             {
                 #region بررسی اعتبار درخواست کننده
-                var taxtiCab = await _context.taxiCabs.Undelited().FirstOrDefaultAsync(c => c.Id == model.taxiCabId);
+                var taxtiCab = await _context.TaxiServices.Undelited().FirstOrDefaultAsync(c => c.Id == model.taxiCabId);
                 if (taxtiCab == null || taxtiCab.DriverId != model.driverId)
                 {
                     await _logger.LogAsync(HttpContext, $"{nameof(taxtiCab)} Is NULL");
@@ -220,7 +220,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var TaxiCabs = _context.taxiCabs.Include(c=>c.FirstPassnger).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
+                var TaxiCabs = _context.TaxiServices.Include(c=>c.FirstPassnger).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
                 var setting = new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects
@@ -250,7 +250,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var TaxiCab = await _context.taxiCabs
+                var TaxiCab = await _context.TaxiServices
                .Include(c => c.FirstPassnger)
                 .ThenInclude(c => c.Academy)
                

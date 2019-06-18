@@ -26,7 +26,7 @@ namespace Panel.Controllers
             var SkipStep = (pageindex - 1) * takeStep;
             int count = 0;
             ViewBag.curent = pageindex;
-            var _academyCategories = _context.academyCategories.Undelited().AsQueryable();
+            var _academyCategories = _context.AcademyCategories.Undelited().AsQueryable();
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
                 _academyCategories = _academyCategories.Where(c => c.Name.Contains(searchterm));
@@ -51,7 +51,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academyCategory = await _context.academyCategories
+            var academyCategory = await _context.AcademyCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (academyCategory == null)
             {
@@ -91,7 +91,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academyCategory = await _context.academyCategories.FindAsync(id);
+            var academyCategory = await _context.AcademyCategories.FindAsync(id);
             if (academyCategory == null)
             {
                 return NotFound();
@@ -142,7 +142,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var academyCategory = await _context.academyCategories
+            var academyCategory = await _context.AcademyCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (academyCategory == null)
             {
@@ -157,15 +157,15 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var academyCategory = await _context.academyCategories.FindAsync(id);
-            _context.academyCategories.Remove(academyCategory);
+            var academyCategory = await _context.AcademyCategories.FindAsync(id);
+            _context.AcademyCategories.Remove(academyCategory);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool AcademyCategoryExists(int id)
         {
-            return _context.academyCategories.Undelited().Any(e => e.Id == id);
+            return _context.AcademyCategories.Undelited().Any(e => e.Id == id);
         }
     }
 }

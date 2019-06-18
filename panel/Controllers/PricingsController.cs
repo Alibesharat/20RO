@@ -68,7 +68,7 @@ namespace Panel.Controllers
         // GET: Pricings/Create
         public IActionResult Create()
         {
-            ViewData["AcademyId"] = new SelectList(_context.academies, "Id", "Name");
+            ViewData["AcademyId"] = new SelectList(_context.Academies, "Id", "Name");
             return View();
         }
 
@@ -85,7 +85,7 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AcademyId"] = new SelectList(_context.academies, "Id", "Name", pricing.AcademyId);
+            ViewData["AcademyId"] = new SelectList(_context.Academies, "Id", "Name", pricing.AcademyId);
             return View(pricing);
         }
 
@@ -102,7 +102,7 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            ViewData["AcademyId"] = new SelectList(_context.academies, "Id", "Name", pricing.AcademyId);
+            ViewData["AcademyId"] = new SelectList(_context.Academies, "Id", "Name", pricing.AcademyId);
             return View(pricing);
         }
 
@@ -138,7 +138,7 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AcademyId"] = new SelectList(_context.academies, "Id", "Name", pricing.AcademyId);
+            ViewData["AcademyId"] = new SelectList(_context.Academies, "Id", "Name", pricing.AcademyId);
             return View(pricing);
         }
 

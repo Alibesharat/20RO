@@ -34,7 +34,7 @@ namespace Panel.Controllers
                 .ThenInclude(t => t.Driver)
                 .Where(c => c.TaxiCab.DriverId == DriverId && c.TaxiCab.TaxiCabState==TaxiCabState.Ready);
 
-            ViewBag.drivers = new SelectList(_context.drivers.Undelited(), "Id", "FullName", DriverId);
+            ViewBag.drivers = new SelectList(_context.Drivers.Undelited(), "Id", "FullName", DriverId);
             count = _driverFactors.Count();
 
             _driverFactors = _driverFactors.Skip(SkipStep).Take(takeStep);
@@ -66,8 +66,8 @@ namespace Panel.Controllers
         // GET: DriverFactors/Create
         public IActionResult Create()
         {
-            ViewData["serviceRequsetId"] = new SelectList(_context.serviceRequsets, "Id", "Name");
-            ViewData["taxiCabeid"] = new SelectList(_context.taxiCabs, "Id", "Name");
+            ViewData["serviceRequsetId"] = new SelectList(_context.ServiceRequsets, "Id", "Name");
+            ViewData["taxiCabeid"] = new SelectList(_context.TaxiServices, "Id", "Name");
             return View();
         }
 
@@ -84,8 +84,8 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["serviceRequsetId"] = new SelectList(_context.serviceRequsets, "Id", "Name", driverFactor.serviceRequsetId);
-            ViewData["taxiCabeid"] = new SelectList(_context.taxiCabs, "Id", "Name", driverFactor.taxiCabeid);
+            ViewData["serviceRequsetId"] = new SelectList(_context.ServiceRequsets, "Id", "Name", driverFactor.serviceRequsetId);
+            ViewData["taxiCabeid"] = new SelectList(_context.TaxiServices, "Id", "Name", driverFactor.taxiCabeid);
             return View(driverFactor);
         }
 
@@ -102,8 +102,8 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            ViewData["serviceRequsetId"] = new SelectList(_context.serviceRequsets, "Id", "PropertyName", driverFactor.serviceRequsetId);
-            ViewData["taxiCabeid"] = new SelectList(_context.taxiCabs, "Id", "PropertyName", driverFactor.taxiCabeid);
+            ViewData["serviceRequsetId"] = new SelectList(_context.ServiceRequsets, "Id", "PropertyName", driverFactor.serviceRequsetId);
+            ViewData["taxiCabeid"] = new SelectList(_context.TaxiServices, "Id", "PropertyName", driverFactor.taxiCabeid);
             return View(driverFactor);
         }
 
@@ -139,8 +139,8 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["serviceRequsetId"] = new SelectList(_context.serviceRequsets, "Id", "Name", driverFactor.serviceRequsetId);
-            ViewData["taxiCabeid"] = new SelectList(_context.taxiCabs, "Id", "Name", driverFactor.taxiCabeid);
+            ViewData["serviceRequsetId"] = new SelectList(_context.ServiceRequsets, "Id", "Name", driverFactor.serviceRequsetId);
+            ViewData["taxiCabeid"] = new SelectList(_context.TaxiServices, "Id", "Name", driverFactor.taxiCabeid);
             return View(driverFactor);
         }
 

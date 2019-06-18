@@ -29,7 +29,7 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
-            var _districts = _context.districts.Undelited().AsQueryable();
+            var _districts = _context.Districts.Undelited().AsQueryable();
             _districts = _districts.Include(d => d.City);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
@@ -40,12 +40,12 @@ namespace Panel.Controllers
             if (CityId.HasValue)
             {
                 _districts = _districts.Where(c => c.CityId == CityId);
-                ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name", CityId.Value);
+                ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", CityId.Value);
                 AllRouteData.Add(nameof(CityId), CityId.ToString());
             }
             else
             {
-                ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name");
+                ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name");
             }
 
             count = _districts.Count();
@@ -64,7 +64,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var district = await _context.districts
+            var district = await _context.Districts
                 .Include(d => d.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (district == null)
@@ -78,7 +78,7 @@ namespace Panel.Controllers
         // GET: Districts/Create
         public IActionResult Create(int? CityId)
         {
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name",CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name",CityId);
             return View();
         }
 
@@ -95,7 +95,7 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name", district.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", district.CityId);
             return View(district);
         }
 
@@ -107,12 +107,12 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var district = await _context.districts.FindAsync(id);
+            var district = await _context.Districts.FindAsync(id);
             if (district == null)
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name", district.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", district.CityId);
             return View(district);
         }
 
@@ -148,7 +148,7 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.cities, "Id", "Name", district.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", district.CityId);
             return View(district);
         }
 
@@ -160,7 +160,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var district = await _context.districts
+            var district = await _context.Districts
                 .Include(d => d.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (district == null)
@@ -176,15 +176,15 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var district = await _context.districts.FindAsync(id);
-            _context.districts.Remove(district);
+            var district = await _context.Districts.FindAsync(id);
+            _context.Districts.Remove(district);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool DistrictExists(int id)
         {
-            return _context.districts.Any(e => e.Id == id);
+            return _context.Districts.Any(e => e.Id == id);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Panel.Controllers
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
-            var _studentParents = _context.studentParents.Undelited().AsQueryable();
+            var _studentParents = _context.StudentParents.Undelited().AsQueryable();
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
                 _studentParents = _studentParents.Where(c => c.FullName.Contains(searchterm));
@@ -52,7 +52,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var studentParent = await _context.studentParents
+            var studentParent = await _context.StudentParents
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (studentParent == null)
             {
@@ -92,7 +92,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var studentParent = await _context.studentParents.FindAsync(id);
+            var studentParent = await _context.StudentParents.FindAsync(id);
             if (studentParent == null)
             {
                 return NotFound();
@@ -143,7 +143,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var studentParent = await _context.studentParents
+            var studentParent = await _context.StudentParents
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (studentParent == null)
             {
@@ -158,15 +158,15 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var studentParent = await _context.studentParents.FindAsync(id);
-            _context.studentParents.Remove(studentParent);
+            var studentParent = await _context.StudentParents.FindAsync(id);
+            _context.StudentParents.Remove(studentParent);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentParentExists(int id)
         {
-            return _context.studentParents.Any(e => e.Id == id);
+            return _context.StudentParents.Any(e => e.Id == id);
         }
 
 
