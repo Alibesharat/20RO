@@ -87,8 +87,7 @@ namespace WepApi.Controllers
                 else
                 {
                     var driver = model.Adapt<Driver>();
-                    if (driver.CityId == 0)
-                        driver.CityId = 1;
+                  
                     await _context.Drivers.AddAsync(driver);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                     return Ok(new ResultContract<Driver>() { statuse = true, Data = driver, message = "" });

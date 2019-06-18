@@ -12,7 +12,7 @@ namespace DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-          
+
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -30,7 +30,7 @@ namespace DAL
               .Property(C => C.Token).HasDefaultValue(Const.Generatetoken());
             modelBuilder.Entity<StudentParent>()
              .Property(C => C.AllowActivity).HasDefaultValue(true);
-          
+
 
             //آموزشگاه
             modelBuilder.Entity<Academy>()
@@ -93,7 +93,7 @@ namespace DAL
             #region SeedData
             //تنظیمات عمومی
             modelBuilder.Entity<GeneralSetting>()
-                .HasData(new GeneralSetting() { Id = 1, SiteName = "", LogoPath = "" ,TaxiPercent=2500,VanPercent=2000});
+                .HasData(new GeneralSetting() { Id = 1, SiteName = "", LogoPath = "", TaxiPercent = 2500, VanPercent = 2000 });
             //نقش ها
             modelBuilder.Entity<Role>()
                 .HasData(
@@ -106,6 +106,7 @@ namespace DAL
             base.OnModelCreating(modelBuilder);
         }
 
+        public DbSet<Role> Roles { get; set; }
 
         public DbSet<City> Cities { get; set; }
         public DbSet<District> Districts { get; set; }
@@ -113,14 +114,12 @@ namespace DAL
         public DbSet<Academy> Academies { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<StudentParent> StudentParents { get; set; }
-        
-       
+        public DbSet<Contractor> Contractors { get; set; }
 
         public DbSet<ServiceRequset> ServiceRequsets { get; set; }
         public DbSet<TaxiService> TaxiServices { get; set; }
-
-        public DbSet<Contractor> Contractors { get; set; }
         public DbSet<GeneralSetting> generalSettings { get; set; }
+        public DbSet<Accounting> accountings { get; set; }
 
     }
 }
