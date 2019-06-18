@@ -26,7 +26,7 @@ namespace Panel.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var data =await _context.generalSettings.ToListAsync();
+            var data =await _context.GeneralSettings.ToListAsync();
             return View(data);
         }
 
@@ -62,7 +62,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var generalSetting = await _context.generalSettings.FindAsync(id);
+            var generalSetting = await _context.GeneralSettings.FindAsync(id);
             if (generalSetting == null)
             {
                 return NotFound();
@@ -113,7 +113,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var generalSetting = await _context.generalSettings
+            var generalSetting = await _context.GeneralSettings
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (generalSetting == null)
             {
@@ -128,15 +128,15 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var generalSetting = await _context.generalSettings.FindAsync(id);
-            _context.generalSettings.Remove(generalSetting);
+            var generalSetting = await _context.GeneralSettings.FindAsync(id);
+            _context.GeneralSettings.Remove(generalSetting);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
             return RedirectToAction(nameof(Index));
         }
 
         private bool GeneralSettingExists(int id)
         {
-            return _context.generalSettings.Any(e => e.Id == id);
+            return _context.GeneralSettings.Any(e => e.Id == id);
         }
     }
 }

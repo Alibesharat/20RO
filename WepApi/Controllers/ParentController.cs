@@ -198,7 +198,7 @@ namespace WepApi.Controllers
 
                 var priceModel = pricing.FirstOrDefault(c => c.FormKilometer <= Distance && c.ToKilometer > Distance);
                 if (priceModel == null) throw new Exception("price IS Null");
-                var generalSetting = _context.generalSettings.FirstOrDefault();
+                var generalSetting = _context.GeneralSettings.FirstOrDefault();
                 int numberOfSeasion = 16;
                 if (generalSetting != null && generalSetting.SeasionCount > 0)
                 {

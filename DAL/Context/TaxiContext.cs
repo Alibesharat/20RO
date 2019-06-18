@@ -80,14 +80,14 @@ namespace DAL
                 .Property(c => c.RequsetCode).HasDefaultValue(Const.Generatetoken());
 
 
-
+            //ضریب شهر
             modelBuilder.Entity<City>()
                 .Property(c => c.CityPercent).HasDefaultValue(1);
 
+            //ضریب منطقه
             modelBuilder.Entity<District>()
               .Property(c => c.DistrictPercent).HasDefaultValue(1);
             #endregion
-
 
 
             #region SeedData
@@ -115,11 +115,10 @@ namespace DAL
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<StudentParent> StudentParents { get; set; }
         public DbSet<Contractor> Contractors { get; set; }
-
         public DbSet<ServiceRequset> ServiceRequsets { get; set; }
         public DbSet<TaxiService> TaxiServices { get; set; }
-        public DbSet<GeneralSetting> generalSettings { get; set; }
-        public DbSet<Accounting> accountings { get; set; }
+        public DbSet<GeneralSetting> GeneralSettings { get; set; }
+        public DbSet<Accounting> Accountings { get; set; }
 
     }
 }
