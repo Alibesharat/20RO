@@ -22,10 +22,10 @@ namespace DAL
         public string RequsetCode { get; set; }
 
         [Display(Name = "والدین")]
-        [ForeignKey(nameof(studentParent))]
+        [ForeignKey(nameof(StudentParent))]
         public int StudentParrentId { get; set; }
         [Display(Name = "والدین")]
-        public virtual StudentParent studentParent { get; set; }
+        public virtual StudentParent StudentParent { get; set; }
 
         [Display(Name = " نام و نام خادنوادگی دانش آموز")]
         public string FullName { get; set; }
@@ -78,6 +78,13 @@ namespace DAL
         public int? AcademyId { get; set; }
         [Display(Name = "آموزشگاه")]
         public Academy Academy { get; set; }
+
+
+        [Display(Name = "آموزشگاه")]
+        [ForeignKey(nameof(TaxiService))]
+        public string TaxiServiceId { get; set; }
+        [Display(Name = "آموزشگاه")]
+        public TaxiService TaxiService { get; set; }
 
 
 

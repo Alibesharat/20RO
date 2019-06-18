@@ -22,7 +22,7 @@ namespace Panel.Controllers
         }
 
         // GET: Cities
-        public async Task<IActionResult> Index(int? ProvinceId, int pageindex = 1, string searchterm = "")
+        public async Task<IActionResult> Index(int pageindex = 1, string searchterm = "")
         {
             var takeStep = 10;
             var SkipStep = (pageindex - 1) * takeStep;
@@ -31,22 +31,14 @@ namespace Panel.Controllers
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
             var _cities = _context.Cities.Undelited().AsQueryable();
-            _cities = _cities.Include(c => c.Province);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
                 _cities = _cities.Where(c => c.Name.Contains(searchterm));
                 ViewBag.searchterm = searchterm;
             }
-            if (ProvinceId.HasValue)
-            {
-                _cities= _cities.Where(c => c.ProvinceId == ProvinceId.Value);
-                ViewData["ProvinceId"] = new SelectList(_context.provinces, "Id", "Name",ProvinceId.Value);
-                AllRouteData.Add(nameof(ProvinceId), ProvinceId.ToString());
-            }
-            else
-            {
-                ViewData["ProvinceId"] = new SelectList(_context.provinces, "Id", "Name");
-            }
+            
+           
+             
             count = _cities.Count();
             ViewBag.AllRouteData = AllRouteData;
             _cities = _cities.Skip(SkipStep).Take(takeStep);
@@ -64,7 +56,6 @@ namespace Panel.Controllers
             }
 
             var city = await _context.Cities
-                .Include(c => c.Province)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (city == null)
             {
@@ -75,9 +66,8 @@ namespace Panel.Controllers
         }
 
         // GET: Cities/Create
-        public IActionResult Create(int? ProvinceId)
+        public IActionResult Create()
         {
-            ViewData["ProvinceId"] = new SelectList(_context.provinces, "Id", "Name", ProvinceId);
             return View();
         }
 
@@ -94,7 +84,6 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProvinceId"] = new SelectList(_context.provinces, "Id", "Name", city.ProvinceId);
             return View(city);
         }
 
@@ -111,7 +100,6 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProvinceId"] = new SelectList(_context.provinces, "Id", "Name", city.ProvinceId);
             return View(city);
         }
 
@@ -147,7 +135,6 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProvinceId"] = new SelectList(_context.provinces, "Id", "Name", city.ProvinceId);
             return View(city);
         }
 
@@ -160,7 +147,6 @@ namespace Panel.Controllers
             }
 
             var city = await _context.Cities
-                .Include(c => c.Province)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (city == null)
             {

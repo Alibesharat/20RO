@@ -46,13 +46,13 @@ namespace Web.Controllers
             {
                 var claimes = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, $"{contractor.Name} {contractor.LastName}"),
+                    new Claim(ClaimTypes.Name, $"{contractor.Name}"),
                     new Claim(ClaimTypes.Role, nameof(RolName.Contractor))
                 };
-                if (contractor.IsCenterAdmin)
-                {
-                    claimes.Add(new Claim(ClaimTypes.Role, nameof(RolName.Admin)));
-                }
+                //if (contractor.IsCenterAdmin)
+                //{
+                //    claimes.Add(new Claim(ClaimTypes.Role, nameof(RolName.Admin)));
+                //}
                 string userdata = JsonConvert.SerializeObject(contractor);
                 claimes.Add(new Claim(ClaimTypes.UserData, userdata));
 

@@ -37,10 +37,7 @@ namespace Panel.Controllers
         public async Task<IActionResult> Index(int? ContractorId, int pageindex = 1, string searchterm = "")
         {
             var contractor = User.GetContractor();
-            if (!contractor.IsCenterAdmin)
-            {
-                ContractorId = ContractorId.Value;
-            }
+           
             var takeStep = 10;
             var SkipStep = (pageindex - 1) * takeStep;
             int count = 0;
@@ -164,23 +161,14 @@ namespace Panel.Controllers
                     {
 
                         var txn = await _context.TaxiServices
-                             .Include(c => c.FirstPassnger)
-                              .ThenInclude(c => c.studentParent)
-
-                             .Include(c => c.SecondPassnger)
-                               .ThenInclude(cs => cs.studentParent)
-
-                             .Include(c => c.ThirdPassnger)
-                              .ThenInclude(ct => ct.studentParent)
-                             .Include(c => c.FourthPassnger)
-                                .ThenInclude(c => c.studentParent)
+                             
                                       .FirstOrDefaultAsync(c => c.Id == taxiCab.Id);
                         if (txn != null)
                         {
-                            var firstPassenger = txn.FirstPassnger.FirstOrDefault();
-                            var secondePassenger = txn.SecondPassnger.FirstOrDefault();
-                            var thirdPassengers = txn.ThirdPassnger.FirstOrDefault();
-                            var forthPassengers = txn.FourthPassnger.FirstOrDefault();
+                            //var firstPassenger = txn.FirstPassnger.FirstOrDefault();
+                            //var secondePassenger = txn.SecondPassnger.FirstOrDefault();
+                            //var thirdPassengers = txn.ThirdPassnger.FirstOrDefault();
+                            //var forthPassengers = txn.FourthPassnger.FirstOrDefault();
                             List<string> numbers = new List<string>()
                             {
                                firstPassenger?.studentParent?.PhoneNubmber,
@@ -200,14 +188,14 @@ namespace Panel.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TaxiCabExists(taxiCab.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //if (!TaxiCabExists(taxiCab.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -223,13 +211,13 @@ namespace Panel.Controllers
                 return NotFound();
             }
 
-            var taxiCab = await _context.TaxiServices
-                .Include(t => t.Driver)
-                .Include(c => c.FirstPassnger)
-                .Include(c => c.SecondPassnger)
-                .Include(c => c.ThirdPassnger)
-                .Include(c => c.FourthPassnger)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var taxiCab = await _context.TaxiServices
+            //    .Include(t => t.Driver)
+            //    .Include(c => c.FirstPassnger)
+            //    .Include(c => c.SecondPassnger)
+            //    .Include(c => c.ThirdPassnger)
+            //    .Include(c => c.FourthPassnger)
+            //    .FirstOrDefaultAsync(m => m.Id == id);
             if (taxiCab == null)
             {
                 return NotFound();
@@ -301,28 +289,23 @@ namespace Panel.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> AddPassnger(int? Id, int? academyid, string TaxiCabDrvier)
+        public async Task<IActionResult> AddPassnger(string Id, int? academyid, string TaxiCabDrvier)
         {
             var contractor = User.GetContractor();
             if (contractor == null)
             {
                 return Unauthorized();
             }
-            if (!Id.HasValue)
-                return NotFound();
+            
             var Passengers = await _context.ServiceRequsets
                 .Include(cu => cu.Academy)
-                .Where(c => c.RequsetState == RequsetSate.pending).ToListAsync();
+                .Where(c => c.RequsetState == RequsetSate.AwaitingAcademy).ToListAsync();
             if (academyid.HasValue)
             {
                 Passengers = Passengers.Where(c => c.AcademyId == academyid).ToList();
             }
             Passengers = Passengers.Where(c => c.Academy.ContractorId == contractor.Id).ToList();
             var TaxiCab = await _context.TaxiServices
-                .Include(c => c.FirstPassnger).ThenInclude(co => co.Academy)
-                .Include(c => c.SecondPassnger).ThenInclude(co => co.Academy)
-                .Include(c => c.ThirdPassnger).ThenInclude(co => co.Academy)
-                .Include(c => c.FourthPassnger).ThenInclude(co => co.Academy)
                 .FirstOrDefaultAsync(c => c.Id == Id);
             if (TaxiCab == null) return NotFound();
 
@@ -354,98 +337,19 @@ namespace Panel.Controllers
             {
                 return Json(new { state = false, message = "مسافری یافت نشد" });
             }
-            if (Passenger.RequsetState != RequsetSate.pending)
+            if (Passenger.RequsetState != RequsetSate.AwaitingAcademy)
             {
                 return Json(new { state = false, message = "این مسافر را نمی شود اضافه کرد" });
             }
 
-            var Service = await _context.TaxiServices.Include(c => c.FirstPassnger).Include(c => c.SecondPassnger).Include(c => c.ThirdPassnger).Include(c => c.FourthPassnger).FirstOrDefaultAsync(c => c.Id == model.TaxicabId);
+            var Service = await _context.TaxiServices.ToListAsync();
             if (Service == null)
             {
                 return Json(new { state = false, message = "سرویسی یافت نشد" });
             }
-
-            else if (Service.IsCompelete)
-            {
-
-                return Json(new { state = false, message = "این سرویس تکمیل شده است" });
-            }
-            else
-            {
-
-                if (Service.FirstPassnger != null && Service.FirstPassnger.Count() <= 0)
-                {
-                    try
-                    {
-                        Service.FirstPassnger.Add(Passenger);
-                        Passenger.RequsetState = RequsetSate.Servicing;
-                        ChangeServiceState(Service);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = false, message = "خطایی بوجود آمد" });
-
-                    }
-
-                }
-                else
-                if (Service.SecondPassnger != null && Service.SecondPassnger.Count() <= 0)
-                {
-                    try
-                    {
-                        Service.SecondPassnger.Add(Passenger);
-                        Passenger.RequsetState = RequsetSate.Servicing;
-                        ChangeServiceState(Service);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = false, message = "خطایی بوجود آمد" });
-                    }
-
-                }
-                else
-                if (Service.ThirdPassnger != null && Service.ThirdPassnger.Count() <= 0)
-                {
-                    try
-                    {
-                        Service.ThirdPassnger.Add(Passenger);
-                        Passenger.RequsetState = RequsetSate.Servicing;
-                        ChangeServiceState(Service);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = false, message = "خطایی بوجود آمد" });
-                    }
-
-                }
-                else
-                if (Service.FourthPassnger != null && Service.FourthPassnger.Count() <= 0)
-                {
-                    try
-                    {
-                        Service.FourthPassnger.Add(Passenger);
-                        Passenger.RequsetState = RequsetSate.Servicing;
-                        ChangeServiceState(Service);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = false, message = "خطایی بوجود آمد" });
-                    }
-
-                }
+            
                 return Json(new { state = true });
-            }
+           
         }
 
 
@@ -472,7 +376,7 @@ namespace Panel.Controllers
             }
 
 
-            var Service = await _context.TaxiServices.Include(c => c.FirstPassnger).Include(c => c.SecondPassnger).Include(c => c.ThirdPassnger).Include(c => c.FourthPassnger).FirstOrDefaultAsync(c => c.Id == model.TaxicabId);
+            var Service = await _context.TaxiServices.Undelited().Include(c => c.Passnegers).ToListAsync();
 
             if (Service == null)
             {
@@ -480,89 +384,9 @@ namespace Panel.Controllers
             }
             else
             {
-                // حذف فاکتور
-                var driverfactor = await _context.driverFactors
-                          .Where(c => c.taxiCabeid == model.TaxicabId &&
-                          c.serviceRequsetId == model.Requsetserviceid).ToListAsync();
-                _context.driverFactors.RemoveRange(driverfactor);
+              mo
 
-                if (Passenger.cabAsFirst != null)
-                {
-                    try
-                    {
-
-                        Passenger.cabAsFirst = null;
-                        Passenger.RequsetState = RequsetSate.pending;
-                        Service.IsCompelete = false;
-                        _context.Update(Passenger);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = true, message = "خطایی بوجود آمد" });
-                    }
-
-                }
-                else if (Passenger.cabAsSecond != null)
-                {
-                    try
-                    {
-
-                        Passenger.cabAsSecond = null;
-                        Passenger.RequsetState = RequsetSate.pending;
-                        Service.IsCompelete = false;
-                        _context.Update(Passenger);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = true, message = "خطایی بوجود آمد" });
-                    }
-
-                }
-                else if (Passenger.cabAsThird != null)
-                {
-                    try
-                    {
-
-                        Passenger.cabAsThird = null;
-                        Passenger.RequsetState = RequsetSate.pending;
-                        Service.IsCompelete = false;
-                        _context.Update(Passenger);
-                        _context.driverFactors.RemoveRange(driverfactor);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = true, message = "خطایی بوجود آمد" });
-                    }
-
-                }
-                else if (Passenger.cabAsFourth != null)
-                {
-                    try
-                    {
-
-                        Passenger.cabAsFourth = null;
-                        Passenger.RequsetState = RequsetSate.pending;
-                        Service.IsCompelete = false;
-                        _context.Update(Passenger);
-                        _context.driverFactors.RemoveRange(driverfactor);
-                        await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        await _logger.LogAsync(ex);
-                        return Json(new { state = true, message = "خطایی بوجود آمد" });
-                    }
-
-                }
+          
                 return Json(new { state = true, message = "مسافر از تاکسی خارج شد" });
             }
         }

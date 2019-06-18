@@ -31,10 +31,7 @@ namespace Panel.Controllers
 
 
             var contractor = User.GetContractor();
-            if (!contractor.IsCenterAdmin)
-            {
-                ContractorId = ContractorId.Value;
-            }
+          
             var takeStep = 10;
             var SkipStep = (pageindex - 1) * takeStep;
             int count = 0;
@@ -44,11 +41,9 @@ namespace Panel.Controllers
             var _serviceRequsets = _context.ServiceRequsets.Undelited().AsQueryable();
             _serviceRequsets = _serviceRequsets
                 .Include(c => c.Academy)
-                .Include(s => s.studentParent)
-                .Include(c => c.cabAsFirst).ThenInclude(fs => fs.Driver)
-                .Include(c => c.cabAsSecond).ThenInclude(cs => cs.Driver)
-                .Include(c => c.cabAsThird).ThenInclude(ct => ct.Driver)
-                .Include(c => c.cabAsFourth).ThenInclude(cf => cf.Driver);
+                .Include(s => s.StudentParent)
+                .Include(c => c.Accountings);
+                
             _serviceRequsets = _serviceRequsets.Where(c => c.RequsetState == RequsetSate);
             ViewBag.selectedName = RequsetSate.GetDisplayName();
             ViewBag.selectedvalue = RequsetSate;
@@ -59,7 +54,7 @@ namespace Panel.Controllers
             };
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
-                _serviceRequsets = _serviceRequsets.Where(c => c.studentParent.PhoneNubmber.Contains(searchterm));
+                _serviceRequsets = _serviceRequsets.Where(c => c.StudentParent.PhoneNubmber.Contains(searchterm));
                 ViewBag.searchterm = searchterm;
             }
             if (ContractorId.HasValue)
@@ -86,7 +81,7 @@ namespace Panel.Controllers
             }
 
             var serviceRequset = await _context.ServiceRequsets
-                .Include(s => s.studentParent)
+                .Include(s => s.StudentParent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceRequset == null)
             {
@@ -192,7 +187,7 @@ namespace Panel.Controllers
             }
 
             var serviceRequset = await _context.ServiceRequsets
-                .Include(s => s.studentParent)
+                .Include(s => s.StudentParent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceRequset == null)
             {

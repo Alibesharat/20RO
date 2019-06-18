@@ -27,7 +27,7 @@ namespace Panel.Controllers
             var _Contractors = _context.Contractors.AsQueryable();
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
-                _Contractors = _Contractors.Where(c => c.FullName.Contains(searchterm));
+                _Contractors = _Contractors.Where(c => c.Name.Contains(searchterm));
                 ViewBag.searchterm = searchterm;
             }
             else

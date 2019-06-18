@@ -37,21 +37,15 @@ namespace Panel.Controllers
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>();
 
             var _drivers = _context.Drivers.Undelited().AsQueryable();
-            _drivers = _drivers.Include(d => d.City);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
                 _drivers = _drivers.Where(c => c.Name.Contains(searchterm));
                 ViewBag.searchterm = searchterm;
             }
-            if (contractor.IsCenterAdmin)
-            {
-                ContractorId = ContractorId.Value;
-            }
-            else
-            {
+           
                 ContractorId = contractor.Id;
 
-            }
+           
             _drivers = _drivers.Where(c => c.ContractorId == ContractorId);
             AllRouteData.Add(nameof(ContractorId), ContractorId.Value.ToString());
             count = _drivers.Count();
@@ -71,7 +65,6 @@ namespace Panel.Controllers
             }
 
             var driver = await _context.Drivers
-                .Include(d => d.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (driver == null)
             {
@@ -127,7 +120,6 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", driver.CityId);
             return View(driver);
         }
 
@@ -145,7 +137,6 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", driver.CityId);
             return View(driver);
         }
 
@@ -201,7 +192,6 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", driver.CityId);
             return View(driver);
         }
 
@@ -218,7 +208,6 @@ namespace Panel.Controllers
                 return Unauthorized();
 
             var driver = await _context.Drivers
-                .Include(d => d.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (driver == null || driver.ContractorId != contractor.Id)
             {
