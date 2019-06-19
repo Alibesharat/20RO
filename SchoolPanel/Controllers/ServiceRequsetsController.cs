@@ -74,7 +74,6 @@ namespace SchoolPanel.Controllers
             }
 
             var serviceRequset = await _context.ServiceRequsets
-                .Include(s => s.Academy)
                 .Include(s => s.StudentParent)
                 .Include(s => s.TaxiService)
                 .FirstOrDefaultAsync(m => m.Id == id);
