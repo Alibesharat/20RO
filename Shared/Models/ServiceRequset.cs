@@ -15,6 +15,11 @@ namespace DAL
     public class ServiceRequset : HistoryBaseModel
     {
 
+        public ServiceRequset()
+        {
+            Accountings = new HashSet<Accounting>();
+        }
+
         [Key]
         [Display(Name = "کد درخواست")]
         public string Id { get; set; }

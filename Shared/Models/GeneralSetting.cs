@@ -8,6 +8,12 @@ namespace DAL
     /// </summary>
     public class GeneralSetting
     {
+
+        public GeneralSetting()
+        {
+
+        }
+
         [Key]
         public int Id { get; set; }
 

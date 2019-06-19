@@ -7,6 +7,13 @@ namespace DAL
 {
     public class Accounting : HistoryBaseModel
     {
+
+        public Accounting()
+        {
+
+        }
+
+
         [Key]
         public int Id { get; set; }
 

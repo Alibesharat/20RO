@@ -6,6 +6,12 @@ namespace DAL
 {
     public class StudentParent : BaseUser
     {
+
+        public StudentParent()
+        {
+            ServiceRequsets = new HashSet<ServiceRequset>();
+        }
+
         [Display(Name = "والدین")]
         public string ClassName { get; set; }
 

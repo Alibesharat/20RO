@@ -10,6 +10,13 @@ namespace DAL
     /// </summary>
     public class BaseUserRole : HistoryBaseModel
     {
+        public BaseUserRole()
+        {
+
+        }
+
+
+
         [Key]
         public int Id { get; set; }
 
