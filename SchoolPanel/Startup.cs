@@ -40,7 +40,7 @@ namespace Web
                 option.AccessDeniedPath = "/Denied";
                 option.LoginPath = "/Auth/Login";
                 option.SlidingExpiration = true;
-                option.Cookie.Name = "taxi";
+                option.Cookie.Name = "Schooltaxi";
                 option.ExpireTimeSpan = TimeSpan.FromDays(365);
             });
 

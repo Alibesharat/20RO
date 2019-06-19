@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -11,10 +14,11 @@ namespace Web.Controllers
 {
     public class AuthController : Controller
     {
+        private readonly TaxiContext _context;
 
-        public AuthController()
+        public AuthController(TaxiContext context)
         {
-
+            _context = context;
         }
 
 
@@ -27,16 +31,16 @@ namespace Web.Controllers
         public async Task<IActionResult> Login(string PhoneNumber, string Password)
         {
 
+            var academy =await _context.Academies.FirstOrDefaultAsync(c => c.PhoneNubmber == PhoneNumber && c.Password == Password);
 
-            int a = 5;
-            if (a == 5)
+            if (academy != null)
             {
                 var claimes = new List<Claim>();
-                claimes.Add(new Claim(ClaimTypes.Name, $"Ali"));
+                claimes.Add(new Claim(ClaimTypes.Name, $"{academy.Name}"));
                 claimes.Add(new Claim(ClaimTypes.Role, nameof(RolName.academy)));
 
-                //string userdata = JsonConvert.SerializeObject(admin);
-                //claimes.Add(new Claim(ClaimTypes.UserData, userdata));
+                string userdata = JsonConvert.SerializeObject(academy);
+                claimes.Add(new Claim(ClaimTypes.UserData, userdata));
 
                 var ClaimIdentity = new ClaimsIdentity(claimes,
                    CookieAuthenticationDefaults.AuthenticationScheme);
@@ -84,7 +88,7 @@ namespace Web.Controllers
 
         public IActionResult LogOut()
         {
-            HttpContext.Response.Cookies.Delete("taxi");
+            HttpContext.Response.Cookies.Delete("Schooltaxi");
             return RedirectToAction(nameof(Login));
 
         }
