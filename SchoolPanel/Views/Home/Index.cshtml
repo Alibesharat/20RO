@@ -86,7 +86,10 @@
                                 @Html.DisplayFor(modelItem => item.IrIdCod)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.RequsetState)
+                                <a asp-action="ChangeState" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.RequsetState)
+
+                                </a>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Price)

@@ -89,8 +89,9 @@ namespace Web.Controllers
             var serviceRequset = await _context.ServiceRequsets
                 .Include(c=>c.Academy)
                .FirstOrDefaultAsync(m => m.Id == id && m.Academy.ContractorId == User.GetContractor().Id);
-            if (serviceRequset == null)
+            if (serviceRequset == null || serviceRequset.RequsetState==RequsetSate.AwaitingAcademy)
                 return NotFound();
+
             return View(serviceRequset);
         }
 
@@ -99,13 +100,19 @@ namespace Web.Controllers
         //تغییر وضعیت درخواست
         public async Task<IActionResult> ChangeState(string id, RequsetSate requsetSate)
         {
+          
             var serviceRequset = await _context.ServiceRequsets
                .Include(c => c.Academy)
               .FirstOrDefaultAsync(m => m.Id == id && m.Academy.ContractorId == User.GetContractor().Id);
-            if (serviceRequset == null)
+            if (serviceRequset == null || serviceRequset.RequsetState == RequsetSate.AwaitingAcademy)
                 return NotFound();
             try
             {
+                if (requsetSate == RequsetSate.AwaitingAcademy)
+                {
+                    ViewBag.msg = "ثبت این وضعیت به عهده مدرسه است";
+                    return View(serviceRequset);
+                }
                 serviceRequset.RequsetState = requsetSate;
                 _context.Update(serviceRequset);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
