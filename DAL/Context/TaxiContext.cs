@@ -71,14 +71,13 @@ namespace DAL
 
             // تاکسی سرویس
             modelBuilder.Entity<TaxiService>()
-          .Property(C => C.DriverPercent).HasDefaultValue(75);
+          .Property(C => C.DriverPercent).HasDefaultValue(75)/* سهم پیش فرض راننده 75درصد می باشد*/;
             modelBuilder.Entity<TaxiService>()
                 .Property(c => c.Id).HasDefaultValue(Const.Generatetoken());
 
             //درخواست سرویس
             modelBuilder.Entity<ServiceRequset>()
-                .Property(c => c.RequsetCode).HasDefaultValue(Const.Generatetoken());
-
+               .Property(c => c.Id).HasDefaultValue(Const.Generatetoken());
 
             //ضریب شهر
             modelBuilder.Entity<City>()

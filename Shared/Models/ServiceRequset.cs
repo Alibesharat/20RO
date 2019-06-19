@@ -16,10 +16,11 @@ namespace DAL
     {
 
         [Key]
-        public int Id { get; set; }
-
         [Display(Name = "کد درخواست")]
-        public string RequsetCode { get; set; }
+        public string Id { get; set; }
+
+      
+      
 
         [Display(Name = "والدین")]
         [ForeignKey(nameof(StudentParent))]

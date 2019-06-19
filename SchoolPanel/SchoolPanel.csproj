@@ -8,9 +8,17 @@
 
   <ItemGroup>
     <Compile Remove="Templates\**" />
+    <Compile Remove="Templates\Templates\ControllerGenerator\**" />
+    <Compile Remove="Templates\Templates\ViewGenerator\**" />
     <Content Remove="Templates\**" />
+    <Content Remove="Templates\Templates\ControllerGenerator\**" />
+    <Content Remove="Templates\Templates\ViewGenerator\**" />
     <EmbeddedResource Remove="Templates\**" />
+    <EmbeddedResource Remove="Templates\Templates\ControllerGenerator\**" />
+    <EmbeddedResource Remove="Templates\Templates\ViewGenerator\**" />
     <None Remove="Templates\**" />
+    <None Remove="Templates\Templates\ControllerGenerator\**" />
+    <None Remove="Templates\Templates\ViewGenerator\**" />
   </ItemGroup>
 
 
@@ -21,7 +29,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Templates\" />
+    <Folder Include="Templates\Templates\" />
     <Folder Include="wwwroot\Media\" />
   </ItemGroup>
 
