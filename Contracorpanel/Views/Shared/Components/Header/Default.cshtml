@@ -1,0 +1,37 @@
+﻿<div class="navbar-custom-menu">
+    <ul class="nav navbar-nav">
+        <!-- Messages: style can be found in dropdown.less-->
+        <!-- Notifications: style can be found in dropdown.less -->
+        <li class="dropdown notifications-menu">
+            <a href="~/Adminpanel/#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fas fa-bell"></i>
+                <span class="label label-danger">5</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="header">  شما 5 سفارش جدید دارید    </li>
+                <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                       
+                            <li>
+                                <a asp-action="Details" asp-controller="Requests" asp-route-id="4">
+                                  
+                                </a>
+                            </li>
+                      
+
+
+                    </ul>
+                </li>
+                <li class="footer"><a asp-action="Index" asp-controller="Requests"> نمایش همه </a></li>
+            </ul>
+        </li>
+
+     
+
+    </ul>
+</div>
+
+
+
+

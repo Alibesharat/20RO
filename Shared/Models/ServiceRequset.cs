@@ -81,15 +81,15 @@ namespace DAL
         
         [Display(Name = "آموزشگاه")]
         [ForeignKey(nameof(Academy))]
-        public int? AcademyId { get; set; }
+        public int AcademyId { get; set; }
         [Display(Name = "آموزشگاه")]
         public Academy Academy { get; set; }
 
 
-        [Display(Name = "آموزشگاه")]
+        [Display(Name = "سرویس")]
         [ForeignKey(nameof(TaxiService))]
         public string TaxiServiceId { get; set; }
-        [Display(Name = "آموزشگاه")]
+        [Display(Name = "سرویس")]
         public TaxiService TaxiService { get; set; }
 
 

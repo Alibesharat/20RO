@@ -28,7 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveMap", "LiveMap\LiveMap.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "website", "website\website.csproj", "{8B4F78AF-08EC-4F62-890C-1FB07CF14627}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolPanel", "SchoolPanel\SchoolPanel.csproj", "{C0CD32D2-EA95-4AD6-84E6-DE970D3014F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolPanel", "SchoolPanel\SchoolPanel.csproj", "{C0CD32D2-EA95-4AD6-84E6-DE970D3014F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracorpanel", "Contracorpanel\Contracorpanel.csproj", "{ED65F46F-CAFF-4F1C-8150-F990C069619C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +88,10 @@ Global
 		{C0CD32D2-EA95-4AD6-84E6-DE970D3014F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0CD32D2-EA95-4AD6-84E6-DE970D3014F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0CD32D2-EA95-4AD6-84E6-DE970D3014F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED65F46F-CAFF-4F1C-8150-F990C069619C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED65F46F-CAFF-4F1C-8150-F990C069619C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED65F46F-CAFF-4F1C-8150-F990C069619C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED65F46F-CAFF-4F1C-8150-F990C069619C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
