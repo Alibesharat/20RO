@@ -96,7 +96,8 @@ namespace DAL
         Admin,
         Contractor,
         Parrent,
-        Driver
+        Driver,
+        academy
     }
 
 }
