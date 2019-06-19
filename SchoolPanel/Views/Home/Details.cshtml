@@ -25,7 +25,17 @@
 
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.StudentParent.Id)
+                    @Html.DisplayFor(model => model.StudentParent.Name)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   موبایل
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.StudentParent.PhoneNubmber)
 
                 </td>
             </tr>
@@ -71,36 +81,6 @@
             </tr>
             <tr>
                 <td>
-                    @Html.DisplayNameFor(model => model.Latitue)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Latitue)
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Longtude)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Longtude)
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Distance)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Distance)
-
-                </td>
-            </tr>
-            <tr>
-                <td>
                     @Html.DisplayNameFor(model => model.Note)
 
                 </td>
@@ -129,16 +109,7 @@
 
                 </td>
             </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.NotifState)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.NotifState)
-
-                </td>
-            </tr>
             <tr>
                 <td>
                     @Html.DisplayNameFor(model => model.ServiceType)
@@ -149,16 +120,7 @@
 
                 </td>
             </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Academy)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Academy.Id)
-
-                </td>
-            </tr>
             <tr>
                 <td>
                     @Html.DisplayNameFor(model => model.TaxiService)
@@ -169,33 +131,14 @@
 
                 </td>
             </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Hs_Change)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Hs_Change)
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.IsDeleted)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.IsDeleted)
-
-                </td>
-            </tr>
-            </tbody>
+        </tbody>
         </table>
             </div>
 </div>
 </div>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
-    <a asp-action="Index">بازگشت به لیست</a>
-</div>
+  <div>
+      <a class="btn btn-danger" asp-action="Index">بازگشت به لیست</a>
+  </div>
