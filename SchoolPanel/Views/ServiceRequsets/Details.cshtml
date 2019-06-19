@@ -1,0 +1,201 @@
+﻿@model DAL.ServiceRequset
+
+@{
+   ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
+    ViewData["Title"] = $"جزییات {ViewData["ClassName"]} ";
+}
+
+
+
+  <div class="box box-primary">
+    <div class="box-header">
+<h3 class="box-header text-center">
+   <span class="text-warning"> @ViewData["Title"]
+    </span>
+    </h3>
+    <hr />
+   </div>
+    <div class="box-body">
+    <div class="table-responsive">
+    <table class="table table-bordered table-condensed table-hover table-striped text-center">
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.StudentParent)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.StudentParent.Id)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.FullName)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.FullName)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.IrIdCod)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IrIdCod)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Age)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Age)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Address)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Address)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Latitue)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Latitue)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Longtude)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Longtude)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Distance)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Distance)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Note)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Note)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Price)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Price)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.RequsetState)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.RequsetState)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.NotifState)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.NotifState)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.ServiceType)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ServiceType)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Academy)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Academy.Id)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.TaxiService)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.TaxiService.Id)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Hs_Change)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Hs_Change)
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.IsDeleted)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IsDeleted)
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+            </div>
+</div>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت به لیست</a>
+</div>

@@ -73,7 +73,7 @@ namespace Panel.Controllers
         }
 
         // GET: ServiceRequsets/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -110,7 +110,7 @@ namespace Panel.Controllers
         {
             if (ModelState.IsValid)
             {
-                serviceRequset.RequsetCode = utils.UniqGenerate();
+               
                 _context.Add(serviceRequset);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
@@ -145,7 +145,7 @@ namespace Panel.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = nameof(RolName.Admin))]
 
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentParrentId,FullName,Age,Address,Note,CourseId,RequsetState")] ServiceRequset serviceRequset)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,StudentParrentId,FullName,Age,Address,Note,CourseId,RequsetState")] ServiceRequset serviceRequset)
         {
             if (id != serviceRequset.Id)
             {
@@ -161,14 +161,7 @@ namespace Panel.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ServiceRequsetExists(serviceRequset.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                  
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -179,7 +172,7 @@ namespace Panel.Controllers
         // GET: ServiceRequsets/Delete/5
         [Authorize(Roles = nameof(RolName.Admin))]
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -210,7 +203,7 @@ namespace Panel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ServiceRequsetExists(int id)
+        private bool ServiceRequsetExists(string id)
         {
             return _context.ServiceRequsets.Any(e => e.Id == id);
         }

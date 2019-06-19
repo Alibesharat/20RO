@@ -18,7 +18,7 @@ namespace DAL
         public int Id { get; set; }
 
         [ForeignKey(nameof(ServiceRequset))]
-        public int ServiceRequsetId { get; set; }
+        public string ServiceRequsetId { get; set; }
         public virtual ServiceRequset ServiceRequset { get; set; }
 
 

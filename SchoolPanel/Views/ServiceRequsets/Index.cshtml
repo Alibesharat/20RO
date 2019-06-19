@@ -1,0 +1,122 @@
+﻿@model IEnumerable<DAL.ServiceRequset>
+@using DAL
+
+@{
+    var def = ViewData["Count"] ?? "0";
+    int count = int.Parse(def.ToString());
+    ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
+    ViewData["Title"] = $"لیست {ViewData["ClassName"]} ها";
+}
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="btn btn-warning">
+                @ViewData["Title"] -@ViewBag.searchterm
+                <span class="badge bg-aqua">
+                    @ViewData["Count"]
+                </span>
+            </span>
+        </h3>
+        <hr />
+        <div class="col-lg-12">
+            <form>
+                <div class="col-lg-3">
+                    <input class="form-control" name="RequsetId" type="text" value="@ViewBag.RequsetId" placeholder="همه یا بخشی از کد درخواست" />
+                </div>
+                <div class="col-lg-3">
+                    <input class="form-control" name="IdCode" type="text" value="@ViewBag.IdCode" placeholder="همه یا بخشی از کد ملی" />
+                </div>
+                <div class="col-lg-3">
+                    <select class="form-control Select2" name="requsetSate" asp-items="@Html.GetEnumSelectList<RequsetSate>()" />
+                </div>
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-success">
+                        جست و جو  <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-12">
+            <hr />
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IrIdCod)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.RequsetState)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            پرداخت شده
+                        </th>
+                        <th>
+                            مانده
+                        </th>
+                        <th>
+                            سررسید بعدی
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IrIdCod)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RequsetState)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @{
+                                    var total = item.Accountings.Sum(c => c.Payed); ;
+                                    <text>@total.ToString("N0")</text>
+                                }
+
+                            </td>
+                            <td>
+
+                                @((total - item.Price).ToString("N0"))
+
+                            </td>
+                            <td>
+
+                                @item.Accountings.LastOrDefault()?.NextPay;
+
+                            </td>
+                            <td>
+                                <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.Id">جزییات بیشتر</a>
+                                <a asp-action="Accountion" class="btn btn-sm btn-info" asp-route-id="@item.Id">گزارش مالی </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="~/Views/Shared/_paging.cshtml" />
+    </div>
+</div>

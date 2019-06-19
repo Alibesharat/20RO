@@ -1,0 +1,68 @@
+﻿@model DAL.ServiceRequset
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+
+<h4>آیا شما از حذف این آیتم اطمینان دارید ؟</h4>
+<div>
+     <hr />
+    <p>
+        @Html.DisplayNameFor(model => model.StudentParent) :   @Html.DisplayFor(model => model.StudentParent.Id)
+    </p> 
+    <p>
+        @Html.DisplayNameFor(model => model.FullName) : @Html.DisplayFor(model => model.FullName)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.IrIdCod) : @Html.DisplayFor(model => model.IrIdCod)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Age) : @Html.DisplayFor(model => model.Age)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Address) : @Html.DisplayFor(model => model.Address)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Latitue) : @Html.DisplayFor(model => model.Latitue)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Longtude) : @Html.DisplayFor(model => model.Longtude)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Distance) : @Html.DisplayFor(model => model.Distance)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Note) : @Html.DisplayFor(model => model.Note)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Price) : @Html.DisplayFor(model => model.Price)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.RequsetState) : @Html.DisplayFor(model => model.RequsetState)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.NotifState) : @Html.DisplayFor(model => model.NotifState)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.ServiceType) : @Html.DisplayFor(model => model.ServiceType)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Academy) :   @Html.DisplayFor(model => model.Academy.Id)
+    </p> 
+    <p>
+        @Html.DisplayNameFor(model => model.TaxiService) :   @Html.DisplayFor(model => model.TaxiService.Id)
+    </p> 
+    <p>
+        @Html.DisplayNameFor(model => model.Hs_Change) : @Html.DisplayFor(model => model.Hs_Change)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.IsDeleted) : @Html.DisplayFor(model => model.IsDeleted)
+    </p>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <a asp-action="Index" class="btn btn-default">خیر لغو شود</a> 
+        <input type="submit" value="بله اطمینان دارم این آیتم  حذف شود " class="btn btn-danger" /> 
+    </form>
+</div>
