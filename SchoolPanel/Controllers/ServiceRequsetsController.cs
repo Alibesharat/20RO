@@ -65,6 +65,22 @@ namespace SchoolPanel.Controllers
 
 
 
+        // GET: ServiceRequsets/Accountion/5
+        public async Task<IActionResult> Accountion(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var accounting = await _context.Accountings
+               .Where(c => c.ServiceRequsetId == id).ToListAsync();
+               
+            return View(accounting);
+        }    
+        
+        
+        
         // GET: ServiceRequsets/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -75,7 +91,7 @@ namespace SchoolPanel.Controllers
 
             var serviceRequset = await _context.ServiceRequsets
                 .Include(s => s.StudentParent)
-                .Include(s => s.TaxiService)
+                
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceRequset == null)
             {
@@ -83,6 +99,33 @@ namespace SchoolPanel.Controllers
             }
 
             return View(serviceRequset);
+        }
+
+
+
+        public  IActionResult AddAccounting()
+        {
+            return View();
+        }
+
+
+        public async Task<IActionResult> AddAccounting()
+        {
+            return View();
+        }
+
+
+
+
+
+        public IActionResult EditAccounting(int Id)
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> EditAccounting()
+        {
+            return View();
         }
 
 

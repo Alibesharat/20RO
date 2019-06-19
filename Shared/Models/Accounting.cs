@@ -45,9 +45,14 @@ namespace DAL
         [Display(Name ="توضیح اضافه")]
         public string Comment { get; set; }
 
+        [NotMapped]
+        [Display(Name = "پرداختی")]
+        public string ClassName { get; }
+
+
 
     }
 
 
-   
+
 }

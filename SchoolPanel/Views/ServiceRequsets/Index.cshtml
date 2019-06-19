@@ -102,7 +102,7 @@
                                 @((total - item.Price).ToString("N0"))
                             </td>
                             <td>
-                                @item.Accountings.LastOrDefault()?.س;
+                                @item.Accountings.LastOrDefault()?.NextPay;
                             </td>
                             <td>
                                 <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.Id">جزییات بیشتر</a>

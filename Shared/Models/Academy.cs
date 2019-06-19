@@ -62,6 +62,8 @@ namespace DAL
         [Display(Name = "مدرسه")]
         public string ClassName { get; }
 
+
+
         [Display(Name = "ضریب مدرسه")]
         public int AcademyPercent { get; set; }
         
