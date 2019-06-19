@@ -34,7 +34,7 @@ namespace DAL
     /// </summary>
     public enum RequsetSate
     {
-        [Display(Name = "در انتظار تعیین وضعیت مدسه")]
+        [Display(Name = "در انتظار تعیین وضعیت مدرسه")]
         AwaitingAcademy,
         [Display(Name = "در انتظار تعیین وضعیت پیمانکار")]
         AwaitingContractor,

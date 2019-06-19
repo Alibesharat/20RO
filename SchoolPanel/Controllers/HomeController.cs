@@ -86,7 +86,7 @@ namespace SchoolPanel.Controllers
 
 
         //تغییر وضعیت درخواست
-        public async Task<IActionResult> ChangeStateAsync(string id)
+        public async Task<IActionResult> ChangeState(string id)
         {
             var serviceRequset = await _context.ServiceRequsets
                .FirstOrDefaultAsync(m => m.Id == id && m.AcademyId == User.GetAcademy().Id);
@@ -98,17 +98,27 @@ namespace SchoolPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //تغییر وضعیت درخواست
-        public async Task<IActionResult> ChangeStateAsync(string id, RequsetSate requsetSate)
+        public async Task<IActionResult> ChangeState(string id, RequsetSate requsetSate)
         {
             var serviceRequset = await _context.ServiceRequsets
                .FirstOrDefaultAsync(m => m.Id == id && m.AcademyId == User.GetAcademy().Id);
             if (serviceRequset == null)
                 return NotFound();
-            serviceRequset.RequsetState = requsetSate;
-            _context.Update(serviceRequset);
-            await _context.SaveChangesWithHistoryAsync(HttpContext);
-            ViewBag.msg = "تغییر وضعیت با موفقیت انجام شد";
-            return View(serviceRequset);
+            try
+            {
+                serviceRequset.RequsetState = requsetSate;
+                _context.Update(serviceRequset);
+                await _context.SaveChangesWithHistoryAsync(HttpContext);
+                ViewBag.msg = "تغییر وضعیت با موفقیت انجام شد";
+                return View(serviceRequset);
+            }
+            catch (DbUpdateException ex)
+            {
+
+                throw ex;
+            }
+         
+          
         }
 
 
