@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AutoHistoryCore;
 using DAL;
+using Panel.Extention;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Contracorpanel.Controllers
 {
-
+    [Authorize(nameof(RolName.Contractor))]
     public class TaxiServicesController : Controller
     {
         private readonly TaxiContext _context;
@@ -27,8 +29,10 @@ namespace Contracorpanel.Controllers
             var SkipStep = (pageindex - 1) * takeStep;
             int count = 0;
             ViewBag.curent = pageindex;
-            var _TaxiServices = _context.TaxiServices.AsQueryable();
-            _TaxiServices = _TaxiServices.Include(t => t.Driver);
+            var _TaxiServices = _context.TaxiServices.Undelited().AsQueryable();
+            _TaxiServices = _TaxiServices
+                .Include(t => t.Driver)
+                .Where(c => c.Driver.ContractorId == User.GetContractor().Id);
             if (!string.IsNullOrWhiteSpace(searchterm))
             {
                 _TaxiServices = _TaxiServices.Where(c => c.Name.Contains(searchterm));
@@ -43,29 +47,12 @@ namespace Contracorpanel.Controllers
             return View(await _TaxiServices.ToListAsync());
         }
 
-        // GET: TaxiServices/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var taxiService = await _context.TaxiServices
-                .Include(t => t.Driver)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (taxiService == null)
-            {
-                return NotFound();
-            }
-
-            return View(taxiService);
-        }
 
         // GET: TaxiServices/Create
         public IActionResult Create()
         {
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name");
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == User.GetContractor().Id), "Id", "Name");
             return View();
         }
 
@@ -74,7 +61,7 @@ namespace Contracorpanel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DriverId,TaxiCabState,DriverPercent,Hs_Change,IsDeleted")] TaxiService taxiService)
+        public async Task<IActionResult> Create([Bind("Id,Name,DriverId,TaxiCabState,DriverPercent,ServiceType")] TaxiService taxiService)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +69,7 @@ namespace Contracorpanel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name", taxiService.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == User.GetContractor().Id), "Id", "Name", taxiService.DriverId);
             return View(taxiService);
         }
 
@@ -94,12 +81,14 @@ namespace Contracorpanel.Controllers
                 return NotFound();
             }
 
-            var taxiService = await _context.TaxiServices.FindAsync(id);
+            var taxiService = await _context.TaxiServices.Undelited()
+                .Include(c => c.Driver)
+                .FirstOrDefaultAsync(c => c.Id == id && c.Driver.ContractorId == User.GetContractor().Id);
             if (taxiService == null)
             {
                 return NotFound();
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "PropertyName", taxiService.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == User.GetContractor().Id), "Id", "Name", taxiService.DriverId);
             return View(taxiService);
         }
 
@@ -108,7 +97,7 @@ namespace Contracorpanel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,DriverId,TaxiCabState,DriverPercent,Hs_Change,IsDeleted")] TaxiService taxiService)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,DriverId,TaxiCabState,DriverPercent,ServiceType")] TaxiService taxiService)
         {
             if (id != taxiService.Id)
             {
@@ -122,20 +111,15 @@ namespace Contracorpanel.Controllers
                     _context.Update(taxiService);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!TaxiServiceExists(taxiService.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw ex;
+
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name", taxiService.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == User.GetContractor().Id), "Id", "Name", taxiService.DriverId);
             return View(taxiService);
         }
 
@@ -148,8 +132,8 @@ namespace Contracorpanel.Controllers
             }
 
             var taxiService = await _context.TaxiServices
-                .Include(t => t.Driver)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.Driver)
+                .FirstOrDefaultAsync(m => m.Id == id && m.Driver.ContractorId == User.GetContractor().Id);
             if (taxiService == null)
             {
                 return NotFound();
@@ -169,9 +153,104 @@ namespace Contracorpanel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TaxiServiceExists(string id)
+
+
+        // GET: TaxiServices/Details/5
+        public async Task<IActionResult> Passengers(string id)
         {
-            return _context.TaxiServices.Any(e => e.Id == id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var taxiService = await _context.TaxiServices
+                .Include(t => t.Driver)
+                .Include(c => c.Passnegers)
+                .FirstOrDefaultAsync(m => m.Id == id && m.Driver.ContractorId == User.GetContractor().Id);
+            if (taxiService == null)
+            {
+
+                return NotFound();
+            }
+            ViewData["ServiceRequsets"] = new SelectList(_context.ServiceRequsets.Undelited()
+                .Include(c => c.Academy)
+                .Where(c => c.Academy.ContractorId == User.GetContractor().Id), "Id", "FullName");
+
+            return View(taxiService);
         }
+
+
+        /// <summary>
+        /// افزودن مسافر
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="PassngerId"></param>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPassenger(string Id, string PassngerId)
+        {
+            var TaxiService = await _context.TaxiServices.Undelited()
+                .Include(t => t.Driver)
+                .Include(c => c.Passnegers)
+                .FirstOrDefaultAsync(c => c.Id == Id & c.Driver.ContractorId == User.GetContractor().Id);
+            if (TaxiService == null)
+            {
+                return NotFound();
+            }
+            if (TaxiService.ServiceType == ServiceType.taxi && TaxiService.Passnegers.Count() >= 4)
+            {
+                ViewBag.msg = "برای خودروی سواری ، بیش از چهار مسافر مجاز نمی باشد";
+                return View(nameof(Passengers), new { id = Id });
+            }
+            if (TaxiService.ServiceType == ServiceType.van && TaxiService.Passnegers.Count() >= 8)
+            {
+                ViewBag.msg = "برای خودروی ون ، بیش از هشت مسافر مجاز نمی باشد";
+                return View(nameof(Passengers), new { id = Id });
+            }
+            var passnger = await _context.ServiceRequsets.Undelited().FirstOrDefaultAsync(c => c.Id == PassngerId);
+            if (passnger == null)
+            {
+                ViewBag.msg = "مسافری با این مشخصات  یافت نشد";
+                return View(nameof(Passengers), new { id = Id });
+            }
+            TaxiService.Passnegers.Add(passnger);
+            await _context.SaveChangesWithHistoryAsync(HttpContext);
+            return View(nameof(Passengers), new { id = Id });
+
+        }
+
+
+        /// <summary>
+        /// حذف مسافر
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="PassngerId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemovePassenger(string Id, string PassngerId)
+        {
+            var TaxiService = await _context.TaxiServices.Undelited()
+                .Include(t => t.Driver)
+                .Include(c => c.Passnegers)
+                .FirstOrDefaultAsync(c => c.Id == Id & c.Driver.ContractorId == User.GetContractor().Id);
+            if (TaxiService == null)
+            {
+                return NotFound();
+            }
+
+            var passnger = TaxiService.Passnegers.FirstOrDefault(c => c.Id == PassngerId);
+            if (passnger == null)
+            {
+                ViewBag.msg = "مسافری با این مشخصات  یافت نشد";
+                return View(nameof(Passengers), new { id = Id });
+            }
+            TaxiService.Passnegers.Remove(passnger);
+            await _context.SaveChangesWithHistoryAsync(HttpContext);
+            return View(nameof(Passengers), new { id = Id });
+
+        }
+
     }
 }

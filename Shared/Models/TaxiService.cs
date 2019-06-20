@@ -26,8 +26,6 @@ namespace DAL
         [Display(Name = "عنوان سرویس")]
         public string Name { get; set; }
 
-      
-
 
         [Display(Name = "راننده")]
         [ForeignKey(nameof(DriverId))]
@@ -41,6 +39,10 @@ namespace DAL
         [Display(Name = "سهم راننده(درصد)")]
         [Range(maximum:75,minimum:0,ErrorMessage ="سهم راننده حداکثر 75 درصد می باشد")]
         public int DriverPercent { get; set; }
+
+        [Display(Name = "نوع سرویس")]
+
+        public ServiceType ServiceType { get; set; }
 
         [Display(Name ="مسافران")]
         public virtual ICollection<ServiceRequset> Passnegers { get; set; }
