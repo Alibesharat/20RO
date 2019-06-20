@@ -28,7 +28,7 @@ namespace Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddTaxiContext(Configuration.GetConnectionString("con"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAuthentication(option =>
             {

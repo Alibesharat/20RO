@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoHistoryCore;
+using DAL;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -10,10 +14,11 @@ namespace Web.Controllers
 {
     public class AuthController : Controller
     {
+        private readonly TaxiContext _context;
 
-        public AuthController()
+        public AuthController(TaxiContext context)
         {
-
+            _context = context;
         }
 
 
@@ -25,17 +30,22 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string PhoneNumber, string Password)
         {
+            var contractor = await _context.Contractors.Undelited().FirstOrDefaultAsync
+                (c => c.PhoneNubmber == PhoneNumber 
+                && c.Password == Password
+                && c.AllowActivity==true
+                );
 
 
-            int a = 5;
-            if (a == 5)
+
+            if (contractor != null)
             {
                 var claimes = new List<Claim>();
-                claimes.Add(new Claim(ClaimTypes.Name, $"Ali"));
-                claimes.Add(new Claim(ClaimTypes.Role, "admin"));
+                claimes.Add(new Claim(ClaimTypes.Name, $"{contractor.Name}"));
+                claimes.Add(new Claim(ClaimTypes.Role, nameof(RolName.Contractor)));
 
-                //string userdata = JsonConvert.SerializeObject(admin);
-                //claimes.Add(new Claim(ClaimTypes.UserData, userdata));
+                string userdata = JsonConvert.SerializeObject(contractor);
+                claimes.Add(new Claim(ClaimTypes.UserData, userdata));
 
                 var ClaimIdentity = new ClaimsIdentity(claimes,
                    CookieAuthenticationDefaults.AuthenticationScheme);

@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using AutoHistoryCore;
+using DAL;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,12 @@ namespace Web.Controllers
         public async Task<IActionResult> Login(string PhoneNumber, string Password)
         {
 
-            var academy =await _context.Academies.FirstOrDefaultAsync(c => c.PhoneNubmber == PhoneNumber && c.Password == Password);
+            var academy =await _context.Academies.Undelited().FirstOrDefaultAsync
+               (c => c.PhoneNubmber == PhoneNumber
+                && c.Password == Password
+                && c.AllowActivity == true
+                );
+
 
             if (academy != null)
             {
