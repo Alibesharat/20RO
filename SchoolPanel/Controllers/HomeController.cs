@@ -38,7 +38,7 @@ namespace SchoolPanel.Controllers
             };
 
 
-            var _ServiceRequsets = _context.ServiceRequsets.AsQueryable();
+            var _ServiceRequsets = _context.ServiceRequsets.Undelited().AsQueryable();
             _ServiceRequsets = _ServiceRequsets
                 .Include(s => s.Accountings)
                 .Where(c => c.AcademyId == Academyid
@@ -58,7 +58,7 @@ namespace SchoolPanel.Controllers
                 AllRouteData.Add(nameof(IdCode), IdCode);
             }
 
-            count = _context.ServiceRequsets.Count();
+            count = _ServiceRequsets.Count();
             _ServiceRequsets = _ServiceRequsets.Skip(SkipStep).Take(takeStep);
             ViewData["Count"] = count;
             ViewBag.pageCount = (count / takeStep) + 1;
@@ -131,9 +131,10 @@ namespace SchoolPanel.Controllers
                 return NotFound();
             }
 
-            var accounting = await _context.Accountings
+            var accounting = await _context.Accountings.Undelited()
                .Where(c => c.ServiceRequsetId == id).ToListAsync();
             ViewBag.ServiceRequsetId = id;
+            ViewData["Count"] = accounting.Count();
             return View(accounting);
         }
 

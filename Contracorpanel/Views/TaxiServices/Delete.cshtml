@@ -1,0 +1,35 @@
+﻿@model DAL.TaxiService
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+
+<h4>آیا شما از حذف این آیتم اطمینان دارید ؟</h4>
+<div>
+     <hr />
+    <p>
+        @Html.DisplayNameFor(model => model.Name) : @Html.DisplayFor(model => model.Name)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Driver) :   @Html.DisplayFor(model => model.Driver.Id)
+    </p> 
+    <p>
+        @Html.DisplayNameFor(model => model.TaxiCabState) : @Html.DisplayFor(model => model.TaxiCabState)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.DriverPercent) : @Html.DisplayFor(model => model.DriverPercent)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Hs_Change) : @Html.DisplayFor(model => model.Hs_Change)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.IsDeleted) : @Html.DisplayFor(model => model.IsDeleted)
+    </p>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <a asp-action="Index" class="btn btn-default">خیر لغو شود</a> 
+        <input type="submit" value="بله اطمینان دارم این آیتم  حذف شود " class="btn btn-danger" /> 
+    </form>
+</div>

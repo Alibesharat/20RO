@@ -33,10 +33,9 @@ namespace Contracorpanel.Controllers
             if (!string.IsNullOrWhiteSpace(PhoneNubmber))
             {
                 _Drivers = _Drivers.Where(c => c.PhoneNubmber.Contains(PhoneNubmber));
-                count = _Drivers.Count();
                 ViewBag.PhoneNubmber = PhoneNubmber;
             }
-            count = _context.Drivers.Count();
+            count = _Drivers.Count();
             _Drivers = _Drivers.Skip(SkipStep).Take(takeStep);
             ViewData["Count"] = count;
             ViewBag.pageCount = (count / takeStep) + 1;

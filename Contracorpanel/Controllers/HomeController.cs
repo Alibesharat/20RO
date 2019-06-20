@@ -55,7 +55,7 @@ namespace Web.Controllers
                 AllRouteData.Add(nameof(IdCode), IdCode);
             }
 
-            count = _context.ServiceRequsets.Count();
+            count = _ServiceRequsets.Count();
             _ServiceRequsets = _ServiceRequsets.Skip(SkipStep).Take(takeStep);
             ViewData["Count"] = count;
             ViewBag.pageCount = (count / takeStep) + 1;
