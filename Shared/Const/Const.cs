@@ -18,6 +18,9 @@ public class Const
     public const string StudentparrentPath = "https://web.20ro.net";
     public const string Driverpath = "https://driver.20ro.net";
 
+    public const string CdnRootpath = "https://cdn.ilicar.ir";
+
+
 
     /// <summary>
     /// مسیر پیش فرض آواتار
@@ -74,6 +77,13 @@ public class Const
     /// دریافت جزییات یک تاکسی سرویس
     /// </summary>
     public const string GetTaxiCabDetail = Apirootpath + "/api/Driver/GetTaxiCabDetail";
+
+
+    public const string DriverUploadFileApi = CdnRootpath + "/api/bisro/Getdriverpic";
+    public const string Driver_20ro_AvatarPath_Relative = "20ro/Dynamics/Drivers";
+    public const string Driver_20ro_AvatarPath_full = CdnRootpath + "/" + Driver_20ro_AvatarPath_Relative;
+
+
     #endregion
 
 

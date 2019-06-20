@@ -1,0 +1,173 @@
+﻿@model DAL.Driver
+
+@{
+    ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
+    ViewData["Title"] = $"جزییات {ViewData["ClassName"]} ";
+}
+
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="text-warning">
+                @ViewData["Title"]
+            </span>
+        </h3>
+        <hr />
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.AvatarPath)
+
+                        </td>
+                        <td>
+                            <a href="@Const.Driver_20ro_AvatarPath_full/@Model.AvatarPath">
+                                <img src="@Const.Driver_20ro_AvatarPath_full/@Model.AvatarPath" width="30" height="30" />
+
+                            </a>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.CarName)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.CarName)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.CarType)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.CarType)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.CarColor)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.CarColor)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.IranianIdCode)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.IranianIdCode)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.DrivingLicense)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.DrivingLicense)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.DriverCode)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.DriverCode)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.PelakNumber)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.PelakNumber)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.IsMaried)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.IsMaried)
+
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Name)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Name)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.PhoneNubmber)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.PhoneNubmber)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Password)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Password)
+
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.AllowActivity)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.AllowActivity)
+
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-default">لیست راننده ها</a>
+    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Create" class="btn btn-success">ثبت راننده جدید</a> |
+    <a asp-action="Delete" class="btn btn-danger"> حذف  </a> |
+</div>

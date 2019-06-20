@@ -1,0 +1,139 @@
+﻿@model DAL.Driver
+
+@{
+    ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
+    ViewData["Title"] = $"ویرایش {ViewData["ClassName"]} ";
+}
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="btn btn-warning">
+                @ViewData["Title"]
+            </span>
+        </h3>
+        <hr />
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" enctype="application/x-www-form-urlencoded">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="AvatarPath" class="control-label"></label>
+                        <input type="file" asp-for="AvatarPath" class="form-control" />
+                        <span asp-validation-for="AvatarPath" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CarName" class="control-label"></label>
+                        <input asp-for="CarName" class="form-control" />
+                        <span asp-validation-for="CarName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CarType" class="control-label"></label>
+                        <input asp-for="CarType" class="form-control" />
+                        <span asp-validation-for="CarType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CarColor" class="control-label"></label>
+                        <input asp-for="CarColor" class="form-control" />
+                        <span asp-validation-for="CarColor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IranianIdCode" class="control-label"></label>
+                        <input asp-for="IranianIdCode" class="form-control" />
+                        <span asp-validation-for="IranianIdCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DrivingLicense" class="control-label"></label>
+                        <input asp-for="DrivingLicense" class="form-control" />
+                        <span asp-validation-for="DrivingLicense" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DriverCode" class="control-label"></label>
+                        <input asp-for="DriverCode" class="form-control" />
+                        <span asp-validation-for="DriverCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PelakNumber" class="control-label"></label>
+                        <input asp-for="PelakNumber" class="form-control" />
+                        <span asp-validation-for="PelakNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IsMaried" class="control-label"></label>
+                        <select asp-for="IsMaried" class="form-control">
+                            @if (Model.IsMaried)
+                            {
+                                <option value="true" selected="selected">بله</option>
+                                <option value="false">خیر</option>
+                            }
+                            else
+                            {
+                                <option value="true">بله</option>
+                                <option value="false" selected="selected">خیر</option>
+                            }
+                           
+                        </select>
+                        <span asp-validation-for="IsMaried" class="text-danger"></span>
+                    </div>
+
+                
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNubmber" class="control-label"></label>
+                        <input asp-for="PhoneNubmber" class="form-control" />
+                        <span asp-validation-for="PhoneNubmber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AvatarPath" class="control-label"></label>
+                        <input asp-for="AvatarPath" class="form-control" />
+                        <span asp-validation-for="AvatarPath" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BeginDate" class="control-label"></label>
+                        <input asp-for="BeginDate" class="form-control" />
+                        <span asp-validation-for="BeginDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AllowActivity" class="control-label"></label>
+                        <select asp-for="AllowActivity" class="form-control">
+                            @if (Model.AllowActivity)
+                            {
+                                <option value="true" selected="selected">بله</option>
+                                <option value="false">خیر</option>
+                            }
+                            else
+                            {
+                                <option value="true" >بله</option>
+                                <option value="false" selected="selected">خیر</option>
+                            }
+
+                        </select>
+                        <span asp-validation-for="AllowActivity" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-warning btn-block" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a class="btn btn-danger" asp-action="Index">بازگشت به لیست</a>
+</div>
+
