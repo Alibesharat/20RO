@@ -136,13 +136,13 @@ namespace WepApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("ChangeState")]
-        public async Task<IActionResult> ChangeState([FromBody] changestateViewModel model)
+        public async Task<IActionResult> ChangeState([FromBody] ChangestateViewModel model)
         {
             try
             {
                 #region بررسی اعتبار درخواست کننده
-                var taxtiCab = await _context.TaxiServices.Undelited().FirstOrDefaultAsync(c => c.Id == model.taxiCabId);
-                if (taxtiCab == null || taxtiCab.DriverId != model.driverId)
+                var taxtiCab = await _context.TaxiServices.Undelited().FirstOrDefaultAsync(c => c.Id == model.TaxiCabId);
+                if (taxtiCab == null || taxtiCab.DriverId != model.DriverId)
                 {
                     await _logger.LogAsync(HttpContext, $"{nameof(taxtiCab)} Is NULL");
                     return Ok(new ResultContract<bool>() { statuse = false, Data = false, message = "مشکلی بوجود آمد" });
@@ -150,7 +150,7 @@ namespace WepApi.Controllers
                 }
                 #endregion
 
-                var Service = await _context.ServiceRequsets.Include(c => c.cabAsFirst).FirstOrDefaultAsync(c => c.Id == model.requseteId);
+                var Service = await _context.ServiceRequsets.FirstOrDefaultAsync(c => c.Id == model.RequseteId);
 
                 if (Service == null)
                 {
@@ -158,7 +158,7 @@ namespace WepApi.Controllers
                     return Ok(new ResultContract<bool>() { statuse = false, Data = false, message = "مشکلی بوجود آمد" });
                 }
 
-                Service.NotifState = model.notifState;
+                Service.NotifState = model.NotifState;
                 _context.Update(Service);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return Ok(new ResultContract<bool>() { statuse = true, Data = true });
@@ -172,41 +172,7 @@ namespace WepApi.Controllers
 
         }
 
-        /// <summary>
-        /// تایید سرویس توسط راننده
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost(nameof(AcceptService))]
-        public async Task<IActionResult> AcceptService([FromBody] AccesptDriverViewModel model)
-        {
-            try
-            {
-                #region بررسی اعتبار درخواست کننده
-                var taxtiCab = await _context.TaxiServices.Undelited().FirstOrDefaultAsync(c => c.Id == model.taxiCabId);
-                if (taxtiCab == null || taxtiCab.DriverId != model.driverId)
-                {
-                    await _logger.LogAsync(HttpContext, $"{nameof(taxtiCab)} Is NULL");
-                    return Ok(new ResultContract<bool>() { statuse = false, Data = false, message = "مشکلی بوجود آمد" });
-
-                }
-                #endregion
-
-
-                taxtiCab.TaxiCabState = TaxiCabState.DriverAccept;
-                _context.Update(taxtiCab);
-                await _context.SaveChangesWithHistoryAsync(HttpContext);
-                return Ok(new ResultContract<bool>() { statuse = true, Data = true });
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(HttpContext, ex);
-                return Ok(new ResultContract<bool>() { statuse = false, Data = false, message = "مشکلی بوجود آمد" });
-
-            }
-
-        }
-
+       
 
 
         /// <summary>
@@ -219,7 +185,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var TaxiCabs = _context.TaxiServices.Include(c=>c.FirstPassnger).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
+                var TaxiCabs = _context.TaxiServices.Undelited().Include(c=>c.Passnegers).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
                 var setting = new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects
@@ -250,22 +216,8 @@ namespace WepApi.Controllers
             try
             {
                 var TaxiCab = await _context.TaxiServices
-               .Include(c => c.FirstPassnger)
+               .Include(c => c.Passnegers)
                 .ThenInclude(c => c.Academy)
-               
-           
-
-               .Include(c => c.SecondPassnger)
-                  .ThenInclude(cst => cst.Academy)
-              
-
-               .Include(c => c.ThirdPassnger)
-                 .ThenInclude(cts => cts.Academy)
-             
-
-               .Include(c => c.FourthPassnger)
-                     .ThenInclude(cfs => cfs.Academy)
-              
 
                .FirstOrDefaultAsync(c => c.Id == model.TaxiCabId && c.DriverId == model.DriverId);
 

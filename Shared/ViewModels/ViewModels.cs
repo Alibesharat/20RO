@@ -115,15 +115,7 @@ namespace Shared.ViewModels
         [Display(Name = "نام و نام خانوداگی")]
         [Required(ErrorMessage = "نام و نام خانوادگی را وارد نمایید")]
         public string FullName { get; set; }
-
-        [Display(Name = "جنسیت")]
-        public bool gender { get; set; }
-
-        [Display(Name = "آدرس تصویر")]
-        public string PicturePath { get; set; }
-
-        [Display(Name = "سن")]
-        public int Age { get; set; }
+        
 
         [Display(Name = "آدرس")]
         [Required(ErrorMessage = "آدرس باید وارد شود")]
@@ -139,7 +131,7 @@ namespace Shared.ViewModels
 
 
         [Display(Name = "عرض جغرافیایی")]
-        public string latitue { get; set; }
+        public string Latitue { get; set; }
 
         [Display(Name = "طول جغرافیایی")]
         public string Longtude { get; set; }
@@ -183,18 +175,18 @@ namespace Shared.ViewModels
     /// <summary>
     /// ویو مدل تغییر وضعیت درخواست 
     /// </summary>
-    public class changestateViewModel
+    public class ChangestateViewModel
     {
         /// <summary>
         /// وضعیت اطلاع رسانی
         /// </summary>
-        public NotifState notifState { get; set; }
+        public NotifState NotifState { get; set; }
 
-        public int taxiCabId { get; set; }
+        public string TaxiCabId { get; set; }
 
-        public int requseteId { get; set; }
+        public string RequseteId { get; set; }
 
-        public int driverId { get; set; }
+        public int DriverId { get; set; }
     }
 
 
@@ -202,10 +194,10 @@ namespace Shared.ViewModels
     {
 
 
-        public int taxiCabId { get; set; }
+        public string TaxiCabId { get; set; }
 
 
-        public int driverId { get; set; }
+        public int DriverId { get; set; }
     }
 
     /// <summary>
@@ -227,7 +219,7 @@ namespace Shared.ViewModels
     {
         public int DriverId { get; set; }
 
-        public int TaxiCabId { get; set; }
+        public string TaxiCabId { get; set; }
 
     }
 
@@ -251,18 +243,18 @@ namespace Shared.ViewModels
     {
         public int ParrentId { get; set; }
 
-        public int requsetId { get; set; }
+        public int RequsetId { get; set; }
     }
 
 
-    public class getDetailViewModel
+    public class GetDetailViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class RouteViewModel
     {
-        public string origin { get; set; }
+        public string Origin { get; set; }
         public string Distination { get; set; }
     }
 

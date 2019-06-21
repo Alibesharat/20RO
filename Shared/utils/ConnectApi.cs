@@ -44,7 +44,7 @@ namespace Shared
             }
             catch (System.Exception ex)
             {
-
+                
                 //TODO : Log Ex
                 return Data;
             }

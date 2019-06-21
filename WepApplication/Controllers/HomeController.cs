@@ -54,9 +54,9 @@ namespace WepApplication.Controllers
         [Route("RequsetService")]
         public async Task<IActionResult> RequsetService([FromBody] RequsetServiceViewModel model)
         {
-            if (!ModelState.IsValid || model.AcademyId<=0)
+            if (!ModelState.IsValid || model.AcademyId <= 0)
             {
-                return Json(new ResultContract<int>() { statuse = false, message = "تکمیل همه اطلاعات الزامی است"});
+                return Json(new ResultContract<int>() { statuse = false, message = "تکمیل همه اطلاعات الزامی است" });
             }
             if (model != null)
             {
@@ -68,12 +68,12 @@ namespace WepApplication.Controllers
                 string Distination = "";
                 ResultContract<Academy> res = await ConnectApi.
                     GetDataFromHttpClientAsync<ResultContract<Academy>>
-                    (new getDetailViewModel() { Id = model.AcademyId }, Const.GetAcademy, ApiMethode.Post);
+                    (new GetDetailViewModel() { Id = model.AcademyId.ToString() }, Const.GetAcademy, ApiMethode.Post);
                 if (res != null && res.statuse == true)
                 {
                     Distination = $"{res.Data.Longtude},{res.Data.Latitude}";
                 }
-                string origin = $"{model.Longtude},{model.latitue}";
+                string origin = $"{model.Longtude},{model.Latitue}";
                 var navigation = await utils.GetNavigation(origin, Distination);
                 if (navigation != null && navigation.code == "Ok")
                 {
@@ -104,9 +104,9 @@ namespace WepApplication.Controllers
 
         [Route("ServiceDetail/{id}")]
         [Authorize(Roles = nameof(RolName.Parrent))]
-        public async Task<IActionResult> ServiceDetail(int id)
+        public async Task<IActionResult> ServiceDetail(string id)
         {
-            var model = new getDetailViewModel() { Id = id };
+            var model = new GetDetailViewModel() { Id = id };
             ResultContract<ServiceRequset> data = await ConnectApi
                 .GetDataFromHttpClientAsync<ResultContract<ServiceRequset>>
                 (model, Const.ServiceDetail, ApiMethode.Post);
@@ -119,26 +119,10 @@ namespace WepApplication.Controllers
         }
 
 
-        [Route("VerfiedPay/{id}/{trackingCode}")]
-        public async Task<IActionResult> VerfiedPay(int id, string trackingCode)
-        {
-            List<string> PhoneNumbers = new List<string>
-            {
-                User.Getparrent().PhoneNubmber
-            };
-            string message = $"پرداخت شما در سامانه ایلیکار با موفقیت انجام شد  کد پیگیری  :  {trackingCode}";
-            ViewBag.message = message;
-            _sms.phoneNumbers = PhoneNumbers;
-            _sms.message = message;
-            var (stause, errormessage, results) = await _sms.SendNotifyAsync();
-            ViewBag.id = id;
-            return View();
-        }
-
 
         public async Task<IActionResult> GetRoute([FromBody] RouteViewModel model)
         {
-            var navigation = await utils.GetNavigation(model.origin, model.Distination);
+            var navigation = await utils.GetNavigation(model.Origin, model.Distination);
             if (navigation != null && navigation.code == "Ok")
             {
                 //var dis = navigation.routes.FirstOrDefault().distance;
@@ -164,35 +148,6 @@ namespace WepApplication.Controllers
             {
                 ParrentId = Parrent.Id,
                 RequsetSate = RequsetSate.Servicing
-            };
-            var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<ServiceRequset>>>(vm, Const.ServiceHistory, ApiMethode.Post);
-            if (data != null)
-            {
-                return View(data.Data);
-            }
-            else
-            {
-                return View(new List<ServiceRequset>());
-            }
-
-        }
-
-
-
-        /// <summary>
-        /// در انتظار پرداخت  
-        /// </summary>
-        /// <returns></returns>
-        [Authorize(Roles = nameof(RolName.Parrent))]
-        public async Task<IActionResult> AwaitingPayment()
-        {
-            var Parrent = User.Getparrent();
-            if (Parrent == null) return Unauthorized();
-
-            GetServiceHistoryViewModel vm = new GetServiceHistoryViewModel()
-            {
-                ParrentId = Parrent.Id,
-                RequsetSate = RequsetSate.AwaitingPayment
             };
             var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<ServiceRequset>>>(vm, Const.ServiceHistory, ApiMethode.Post);
             if (data != null)
@@ -248,7 +203,7 @@ namespace WepApplication.Controllers
             GetServiceHistoryViewModel vm = new GetServiceHistoryViewModel()
             {
                 ParrentId = Parrent.Id,
-                RequsetSate = RequsetSate.pending
+                RequsetSate = RequsetSate.AwaitingAcademy
             };
             var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<ServiceRequset>>>(vm, Const.ServiceHistory, ApiMethode.Post);
             if (data != null)
@@ -262,26 +217,6 @@ namespace WepApplication.Controllers
 
         }
 
-
-        [Authorize(Roles = nameof(RolName.Parrent))]
-        public async Task<IActionResult> Pay([FromBody]PayViewModel vm)
-        {
-            var Parrent = User.Getparrent();
-            if (Parrent == null) return Unauthorized();
-            vm.ParrentId = Parrent.Id;
-            var data = await ConnectApi
-                .GetDataFromHttpClientAsync<ResultContract<string>>
-                (vm, Const.pay, ApiMethode.Post);
-            if (data == null)
-            {
-
-                return Json(new ResultContract<int>() { statuse = false, message = "مشکلی بوجود آمد" });
-            }
-            else
-            {
-                return Json(data);
-            }
-        }
 
 
         public async Task<IActionResult> GetAcademyFilter([FromBody] AcademyFiterViewModel model)
@@ -308,13 +243,7 @@ namespace WepApplication.Controllers
         }
 
 
-        //[Route("help")]
-        //public IActionResult help()
-        //{
 
-        //    return new VirtualFileResult("ilicarhelp.pdf", "application/x-msdownload") { FileDownloadName = "ilicarhelp.pdf" };
-
-        //}
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

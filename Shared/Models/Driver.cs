@@ -1,4 +1,5 @@
 ﻿using DAL.Shadws;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -46,7 +47,7 @@ namespace DAL
         [Display(Name = "وضعیت تاهل")]
         public bool IsMaried { get; set; }
 
-       
+
 
         [Display(Name = "پیمانکار")]
         [ForeignKey(nameof(Contractor))]
@@ -54,13 +55,14 @@ namespace DAL
         [Display(Name = "پیمانکار")]
         public virtual Contractor Contractor { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<TaxiService> TaxiServices { get; set; }
 
 
 
         [NotMapped]
-        [Display(Name ="راننده")]
-        public string ClassName { get;  }
+        [Display(Name = "راننده")]
+        public string ClassName { get; }
 
 
 

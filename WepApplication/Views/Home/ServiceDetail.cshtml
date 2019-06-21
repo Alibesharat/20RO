@@ -23,44 +23,43 @@
     </div>
     <div class="col s12 ">
         <div class="card">
-           
+
             <div class="card-content">
-                @if (Model.RequsetState == RequsetSate.Servicing)
+                @if (Model.RequsetState == DAL.RequsetSate.Servicing)
                 {
-                    
-                        var item = Model.cabAsFirst ?? Model.cabAsSecond ?? Model.cabAsThird ?? Model.cabAsFourth;
-                        <div class="row">
-                            <div class="col s12 m4">
-                                <div class="row">
-                                    <span class="btn contant">
-                                        @item?.Driver.FullName
-                                    </span>
-                                </div>
-                                <div class="row">
-                                    <span class="btn contant">
-                                        <a href="tel:@item?.Driver.PhoneNubmber">
-                                            تماس با راننده
-                                        </a>
+                    var driver = Model?.TaxiService?.Driver;
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <div class="row">
+                                <span class="btn contant">
+                                   @driver?.Name
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="btn contant">
+                                    <a href="tel:  @driver?.PhoneNubmber">
+                                        تماس با راننده
+                                    </a>
 
-                                    </span>
-                                </div>
-                                <div class="row">
-                                    <span class="btn contant">
-                                        @item?.Driver.CarName - @item.Driver.CarColor  @item.Driver?.PelakNumber
-                                    </span>
-                                </div>
-
-
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="btn contant">
+                                    @driver?.CarName - @driver?.CarColor  @driver?.PelakNumber
+                                </span>
                             </div>
 
-                            <div class="col s12 m4 left">
-                                <p class="center">
-                                    <img class="img-circle " src="~/Dynamics/Drivers/@item.Driver.AvatarPath" width="130" height="130" />
 
-                                </p>
-                            </div>
                         </div>
-                   
+
+                        <div class="col s12 m4 left">
+                            <p class="center">
+                                <img class="img-circle " src="@Const.Driver_20ro_AvatarPath_full/@driver?.AvatarPath" width="130" height="130" />
+
+                            </p>
+                        </div>
+                    </div>
+
 
                     <hr />
                 }
@@ -86,48 +85,43 @@
                 <div class="row">
                     <div class="col s12 m3">
                         <span class="btn contant">
-                            <span class="small-info">وضعیت سرویس :</span> @Html.DisplayFor(c => c.RequsetState)
+                            <span class="small-info">وضعیت سرویس :</span>
+                            @if (Model.RequsetState == DAL.RequsetSate.AwaitingAcademy || Model.RequsetState == DAL.RequsetSate.AwaitingContractor)
+                            {
+                                <text>در دست بررسی</text>
+
+                            }
+                            else
+                            {
+                                <text >
+                                @Html.DisplayFor(c => c.RequsetState)
+                                </text>
+
+                            }
                         </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m3">
                         <span class="btn contant">
-                            <span class="small-info"> هزینه یک ترم تحصیلی  :</span> @((Model.price / 10).ToString("N0")) تومان
+                            <span class="small-info"> هزینه یک سال تحصیلی  :</span> طبق تعرفه آموزشگاه
                         </span>
                     </div>
                 </div>
-
-
-
-
-                @if (Model.RequsetState == RequsetSate.AwaitingPayment)
-                {
-                    <p class="center">
-                        <button class="btn waves-effect waves-light Red lighten-5 " onclick="pay()"> تایید و پرداخت </button>
-                    </p>
-                    <br>
-                    <p class="center">
-                        <button class="btn waves-effect waves-light green lighten-2 " onclick="location.href = '/';"> لغو درخواست </button>
-
-                    </p>
-                }
-
-
 
             </div>
 
         </div>
     </div>
 </div>
-            
+
 
 @section Scripts{
     <script src="~/js/mapbox.js"></script>
     <script>
 
         $(document).ready(function () {
-          
+
             var routedata = {
                 origin: "@Model.Origin",
                 Distination: "@Model.Distination",
@@ -142,7 +136,7 @@
                     addlayer(response);
                     addIndicator(response);
                     console.log(response.coordinates[0]);
-                 
+
 
                 },
                 failure: function (response) {
@@ -164,8 +158,8 @@
                 "layout": {
                     "line-join": "round",
                     "line-cap": "square",
-                     
-                    
+
+
                 },
                 "paint": {
                     "line-color": "#3887be",
@@ -196,12 +190,12 @@
                     'text-halo-width': 3
                 }
             });
-           
-           
+
+
 
             // Geographic coordinates of the LineString
             var coordinates = response.coordinates;
-        
+
             // Pass the first coordinates in the LineString to `lngLatBounds` &
             // wrap each coordinate pair in `extend` to include them in the bounds
             // result. A variation of this technique could be applied to zooming
@@ -212,12 +206,12 @@
             }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[1]));
 
             map.fitBounds(bounds);
-            
+
         }
 
         function addIndicator(response)
         {
-            
+
             var start = response.coordinates[0];
             var end = response.coordinates[response.coordinates.length - 1];
             map.loadImage('../statatics/icons/Circle_Yellow.png', function (error, image) {
@@ -247,7 +241,7 @@
                     "icon-size": 0.2,
                     "text-field": 'مبدا',
                     "text-font": [
-                       
+
           "Open Sans Semibold",
           "Arial Unicode MS Bold"
                     ],
@@ -284,7 +278,7 @@
                 }
             });
         }
-        
+
 
 
 
@@ -316,7 +310,7 @@
                     console.log(response);
                     LoadingEnd();
                     ShowMessage("خطایی بوجودآمد");
-                   
+
                 },
             });
         }

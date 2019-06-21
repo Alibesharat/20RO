@@ -43,7 +43,7 @@ namespace DriverArea.Controllers
 
         public async Task<IActionResult> GetRoute([FromBody] RouteViewModel model)
         {
-            var navigation = await utils.GetNavigation(model.origin, model.Distination);
+            var navigation = await utils.GetNavigation(model.Origin, model.Distination);
             if (navigation != null && navigation.code == "Ok")
             {
                 //var dis = navigation.routes.FirstOrDefault().distance;
@@ -120,12 +120,12 @@ namespace DriverArea.Controllers
 
         [HttpPost]
         [Route(nameof(ChangeState))]
-        public async Task<IActionResult> ChangeState([FromBody]changestateViewModel model)
+        public async Task<IActionResult> ChangeState([FromBody]ChangestateViewModel model)
         {
             var driver = User.GetDriver();
             if (driver != null)
             {
-                model.driverId = driver.Id;
+                model.DriverId = driver.Id;
                 var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<bool>>(model, Const.ChangeState, ApiMethode.Post);
                 if (data != null)
                 {
@@ -150,7 +150,7 @@ namespace DriverArea.Controllers
             var driver = User.GetDriver();
             if (driver != null)
             {
-                model.driverId = driver.Id;
+                model.DriverId = driver.Id;
                 var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<bool>>(model, Const.AcceptDriver, ApiMethode.Post);
                 if (data != null)
                 {
