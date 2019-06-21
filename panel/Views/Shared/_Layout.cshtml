@@ -65,10 +65,7 @@
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                @if (User.Identity.IsAuthenticated)
-                {
-
-                    var contractor = User.GetContractor();
+             
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-right image">
@@ -91,8 +88,7 @@
                             </a>
                             <ul class="treeview-menu">
 
-                                @if (contractor.IsCenterAdmin)
-                                {
+                               
                                     <li><a asp-controller="Provinces" asp-action="index"><i class="fas fa-user"></i>  استان ها  </a></li>
                                     <li><a asp-controller="Cities" asp-action="index"><i class="fas fa-user"></i>  شهر   </a></li>
                                     <li><a asp-controller="Districts" asp-action="index"><i class="fas fa-user"></i>  مناطق   </a></li>
@@ -107,16 +103,9 @@
                                     <li><a asp-controller="payments" asp-action="index"><i class="fas fa-user"></i>     پرداختی ها      </a></li>
                                     <li><a asp-controller="DriverFactors" asp-action="index"><i class="fas fa-user"></i>     فاکتور های راننده       </a></li>
                                     <li><a asp-controller="GeneralSettings" asp-action="index"><i class="fas fa-user"></i>      تنظیمات عمومی      </a></li>
-                                    <li><a asp-controller="TaxiCabs" asp-action="index" asp-route-ContractorId="@contractor.Id"><i class="fas fa-user"></i>   سرویس ها     </a></li>
+                                    <li><a asp-controller="TaxiCabs" asp-action="index" ><i class="fas fa-user"></i>   سرویس ها     </a></li>
 
-                                }
-                                else
-                                {
-                                    <li><a asp-controller="Drivers" asp-action="index" asp-route-ContractorId="@contractor.Id"><i class="fas fa-user"></i>  راننده ها     </a></li>
-                                    <li><a asp-controller="ServiceRequsets" asp-action="index" asp-route-ContractorId="@contractor.Id"><i class="fas fa-user"></i>  درخواست سرویس    </a></li>
-                                    <li><a asp-controller="TaxiCabs" asp-action="index" asp-route-ContractorId="@contractor.Id"><i class="fas fa-user"></i>   سرویس ها     </a></li>
-
-                                }
+                               
 
                             </ul>
                             <ul class="treeview-menu">

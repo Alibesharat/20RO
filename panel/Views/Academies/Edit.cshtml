@@ -26,11 +26,7 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="BossName" class="control-label"></label>
-                        <input asp-for="BossName" class="form-control" />
-                        <span asp-validation-for="BossName" class="text-danger"></span>
-                    </div>
+                   
                     <div class="form-group">
                         <label asp-for="Address" class="control-label"></label>
                         <input asp-for="Address" class="form-control" />
@@ -42,9 +38,9 @@
                         <span asp-validation-for="ContractorId" class="text-danger"></span>
                     </div>  
                     <div class="form-group">
-                        <label asp-for="districtId" class="control-label"></label>
-                        <select asp-for="districtId" class="form-control Select2" asp-items="ViewBag.districtId"></select>
-                        <span asp-validation-for="districtId" class="text-danger"></span>
+                        <label asp-for="DistrictId" class="control-label"></label>
+                        <select asp-for="DistrictId" class="form-control Select2" asp-items="ViewBag.DistrictId"></select>
+                        <span asp-validation-for="DistrictId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="AcademyCategoryId" class="control-label"></label>
@@ -52,15 +48,11 @@
                         <span asp-validation-for="AcademyCategoryId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="OtherPhoneNumber" class="control-label"></label>
-                        <input asp-for="OtherPhoneNumber" class="form-control" />
-                        <span asp-validation-for="OtherPhoneNumber" class="text-danger"></span>
+                        <label asp-for="SupportNumber" class="control-label"></label>
+                        <input asp-for="SupportNumber" class="form-control" />
+                        <span asp-validation-for="SupportNumber" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="OfficeNumber" class="control-label"></label>
-                        <input asp-for="OfficeNumber" class="form-control" />
-                        <span asp-validation-for="OfficeNumber" class="text-danger"></span>
-                    </div>
+                    
                     <input type="hidden" asp-for="Id" />
 
 
@@ -75,14 +67,9 @@
                         <span asp-validation-for="PhoneNubmber" class="text-danger"></span>
                     </div>
 
+                  
                     <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="hidden" asp-for="latitude" class="form-control" />
+                        <input type="hidden" asp-for="Latitude" class="form-control" />
                     </div>
 
                     <div class="form-group">

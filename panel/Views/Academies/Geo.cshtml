@@ -8,7 +8,7 @@
         <form asp-action="Geo" asp-controller="Academies">
             <input name="id" value="@Model.Id" type="hidden" />
             <input name="Longtude" id="lng" value="@Model.Longtude" type="text" />
-            <input name="latitude" id="lat" value="@Model.latitude" type="text" />
+            <input name="latitude" id="lat" value="@Model.Latitude" type="text" />
             <button class="btn btn-success">ثبت مکان</button>
         </form>
         <hr />
@@ -67,14 +67,14 @@
     <script>
 
         mapboxgl.accessToken = 'pk.eyJ1IjoiYm5hbGluaWEiLCJhIjoiY2pzbGhlaW1iMnl6czN5bzY4aGtlNGRjMyJ9.w5OCvI1DM3vHw4iPcDsSPw';
-        @if(string.IsNullOrWhiteSpace(Model.Longtude) || string.IsNullOrWhiteSpace(Model.latitude))
+        @if(string.IsNullOrWhiteSpace(Model.Longtude) || string.IsNullOrWhiteSpace(Model.Latitude))
         {
             Model.Longtude = "51.399735";
-            Model.latitude = "35.752308";
+            Model.Latitude = "35.752308";
 
         }
 
-           var currentPosition = [@Model.Longtude, @Model.latitude];
+           var currentPosition = [@Model.Longtude, @Model.Latitude];
 
 
 

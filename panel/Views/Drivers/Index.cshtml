@@ -49,16 +49,9 @@
                             نام و نام خانوداگی
                         </th>
 
-                        <th>
-                            @Html.DisplayNameFor(model => model.City)
-                        </th>
-
-                        <th>
-                            @Html.DisplayNameFor(model => model.Age)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Gender)
-                        </th>
+                       
+                       
+                      
 
                         <th>
                             @Html.DisplayNameFor(model => model.AllowActivity)
@@ -73,32 +66,19 @@
                         <tr>
                             <td>
 
-                                @Html.DisplayFor(modelItem => item.Name)   @Html.DisplayFor(modelItem => item.LastName)
+                                @Html.DisplayFor(modelItem => item.Name)  
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.City.Name)
-                            </td>
-
+                          
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.Age)
-                            </td>
-                            <td>
-                                @(item.Gender ? "مرد" : "زن")
-
-                            <td>
+                           
                                 @Html.DisplayFor(modelItem => item.AllowActivity)
                             </td>
 
                             <td>
-                                @if (contractor.IsCenterAdmin)
-                                {
-                                    <text>
-                                        <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id">ویرایش</a> |
-                                        <a title="حذف" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@item.Id">حذف</a> |
-                                    </text>
-                                }
 
+                                <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id">ویرایش</a> |
+                                <a title="حذف" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@item.Id">حذف</a> |
                                 <a title="اطلاعات بیشتر" asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.Id">اطلاعات بیشتر</a>
 
                             </td>

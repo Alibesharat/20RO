@@ -31,7 +31,10 @@
                             @Html.DisplayNameFor(model => model.LogoPath)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.SeasionCount)
+                            @Html.DisplayNameFor(model => model.TaxiPercent)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VanPercent)
                         </th>
                         <th></th>
                     </tr>
@@ -39,21 +42,24 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SiteName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LogoPath)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SeasionCount)
-                            </td>
-                            <td>
-                                <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> |
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SiteName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LogoPath)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TaxiPercent)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VanPercent)
+                        </td>
+                        <td>
+                            <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> |
 
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

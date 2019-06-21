@@ -92,32 +92,8 @@ namespace Panel.Controllers
             return View(serviceRequset);
         }
 
-        // GET: ServiceRequsets/Create
-        public IActionResult Create()
-        {
-            ViewData["StudentParrentId"] = new SelectList(_context.StudentParents, "Id", "Name");
-            return View();
-        }
-
-        // POST: ServiceRequsets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = nameof(RolName.Admin))]
-
-        public async Task<IActionResult> Create([Bind("Id,StudentParrentId,FullName,Age,Address,Note,RequsetState")] ServiceRequset serviceRequset)
-        {
-            if (ModelState.IsValid)
-            {
-               
-                _context.Add(serviceRequset);
-                await _context.SaveChangesWithHistoryAsync(HttpContext);
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["StudentParrentId"] = new SelectList(_context.StudentParents, "Id", "Name", serviceRequset.StudentParrentId);
-            return View(serviceRequset);
-        }
+      
+    
 
         // GET: ServiceRequsets/Edit/5
         [Authorize(Roles = nameof(RolName.Admin))]

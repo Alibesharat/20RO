@@ -50,7 +50,7 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.studentParent.PhoneNubmber)
+                            @Html.DisplayNameFor(model => model.StudentParent.PhoneNubmber)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.FullName)
@@ -81,13 +81,13 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.studentParent.PhoneNubmber)
+                                @Html.DisplayFor(modelItem => item.StudentParent.PhoneNubmber)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.FullName)
                             </td>
                             <td>
-                                @item.cabAsFirst?.Driver?.FullName @item.cabAsSecond?.Driver?.FullName @item.cabAsThird?.Driver?.FullName @item.cabAsFourth?.Driver?.FullName
+                                @item?.TaxiService?.Driver?.Name
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Age)
@@ -95,15 +95,14 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Address)
                             </td>
-                            
+
                             <td>
                                 @Html.DisplayFor(modelItem => item.RequsetState)
                             </td>
                             <td>
-                                @if (Contractor.IsCenterAdmin)
-                                {
-                                    <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                                }
+
+                                <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+
                                 <a title="اطلاعات بیشتر" asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.Id"><i class="fa fa-info-circle "></i></a>
 
                             </td>

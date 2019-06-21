@@ -32,28 +32,7 @@ namespace Panel.Controllers
 
         // GET: GeneralSettings/Details/5
       
-        // GET: GeneralSettings/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: GeneralSettings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SiteName,LogoPath,SeasionCount")] GeneralSetting generalSetting)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(generalSetting);
-                await _context.SaveChangesWithHistoryAsync(HttpContext);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(generalSetting);
-        }
-
+       
         // GET: GeneralSettings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -75,12 +54,16 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SiteName,LogoPath,SeasionCount")] GeneralSetting generalSetting)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SiteName,LogoPath,VanPercent,TaxiPercent")] GeneralSetting generalSetting)
         {
             if (id != generalSetting.Id)
             {
                 return NotFound();
             }
+            if (generalSetting.TaxiPercent <= 0)
+                ModelState.AddModelError("TaxiPercent", "مقدار صفر برای قیمت پایه تاکسی سواری مجاز نیست");
+            if (generalSetting.VanPercent <= 0)
+                ModelState.AddModelError("VanPercent", "مقدار صفر برای قیمت پایه تاکسی ون مجاز نیست");
 
             if (ModelState.IsValid)
             {
@@ -89,54 +72,19 @@ namespace Panel.Controllers
                     _context.Update(generalSetting);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!GeneralSettingExists(generalSetting.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    
+                        throw ex;
+                    
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(generalSetting);
         }
 
-        // GET: GeneralSettings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+      
 
-            var generalSetting = await _context.GeneralSettings
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (generalSetting == null)
-            {
-                return NotFound();
-            }
 
-            return View(generalSetting);
-        }
-
-        // POST: GeneralSettings/remove/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var generalSetting = await _context.GeneralSettings.FindAsync(id);
-            _context.GeneralSettings.Remove(generalSetting);
-            await _context.SaveChangesWithHistoryAsync(HttpContext);
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool GeneralSettingExists(int id)
-        {
-            return _context.GeneralSettings.Any(e => e.Id == id);
-        }
     }
 }

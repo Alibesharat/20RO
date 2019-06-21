@@ -25,11 +25,7 @@
                 <div class="col-lg-3">
                     <input class="form-control" name="searchterm" type="text" value="@ViewBag.searchterm" />
                 </div>
-                <div class="col-lg-3">
-                    <select name="ProvinceId" class="form-control Select2" asp-items="ViewBag.ProvinceId">
-                        <option>همه استان ها</option>
-                    </select>
-                </div>
+            
                 <div class="col-lg-2">
                     <button type="submit" class="btn btn-success">
                         جست و جو  <i class="fa fa-search"></i>
@@ -49,9 +45,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Province)
-                        </th>
+                       
                         <th></th>
                     </tr>
                 </thead>
@@ -62,10 +56,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Province.Name)
-                            </td>
-
+                            
                             <td>
                                 <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id">ویرایش</a> |
                                 <a title="حذف" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@item.Id">حذف</a> |

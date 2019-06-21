@@ -84,7 +84,7 @@ namespace Panel.Controllers
         public IActionResult Create()
         {
             ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name");
-            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name");
+            ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "Name");
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "Name");
             return View();
         }
@@ -94,7 +94,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Address,DistrictId,AcademyCategoryId,OtherPhoneNumber,OfficeNumber,Id,Name,Password,PhoneNubmber,Email,AllowActivity,ContractorId")] Academy academy)
+        public async Task<IActionResult> Create([Bind("Address,DistrictId,AcademyCategoryId,SupportNumber,Id,Name,Password,PhoneNubmber,AllowActivity,ContractorId")] Academy academy)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace Panel.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
+            ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName");
 
             return View(academy);
@@ -123,7 +123,7 @@ namespace Panel.Controllers
                 return NotFound();
             }
             ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
+            ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName", academy.ContractorId);
 
             return View(academy);
@@ -134,7 +134,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BossName,Address,districtId,Longtude,latitude,AcademyCategoryId,OtherPhoneNumber,OfficeNumber,Id,Name,Password,PhoneNubmber,Email,AllowActivity,ContractorId")] Academy academy)
+        public async Task<IActionResult> Edit(int id, [Bind("Address,DistrictId,AcademyCategoryId,SupportNumber,Id,Name,Password,PhoneNubmber,AllowActivity,ContractorId")] Academy academy)
         {
             if (id != academy.Id)
             {
@@ -162,7 +162,7 @@ namespace Panel.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AcademyCategoryId"] = new SelectList(_context.AcademyCategories, "Id", "Name", academy.AcademyCategoryId);
-            ViewData["districtId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
+            ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "Name", academy.DistrictId);
             ViewData["ContractorId"] = new SelectList(_context.Contractors, "Id", "FullName", academy.ContractorId);
 
             return View(academy);
