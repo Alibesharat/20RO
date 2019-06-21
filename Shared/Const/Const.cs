@@ -12,8 +12,8 @@ public class Const
     /// <summary>
     /// آدرس وبسایت
     /// </summary>
-    //public const string Apirootpath = "https://localhost:44353";
-    public const string Apirootpath = "http://Api.20ro.net";
+    public const string Apirootpath = "https://localhost:44353";
+    //public const string Apirootpath = "http://Api.20ro.net";
 
     public const string StudentparrentPath = "https://web.20ro.net";
     public const string Driverpath = "https://driver.20ro.net";
@@ -164,6 +164,12 @@ public class Const
     /// دریافت لیست    فیلتر شده آموزشگاه ها بر اساس مقطع و منطقه 
     /// </summary>
     public const string GetFiltredAcademeis = Apirootpath + "/api/Parent/GetFiltredAcademeis";
+
+
+    /// <summary>
+    /// لغو یا رزور درخواست 
+    /// </summary>
+    public const string CancelAndAcceptRequset = Apirootpath + "/api/Parent/CancelAndAcceptRequset";
 
 
 

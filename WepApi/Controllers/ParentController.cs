@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AlphaCoreLogger;
+﻿using AlphaCoreLogger;
 using AutoHistoryCore;
 using DAL;
+using DAL.Contracts;
+using DAL.ViewModels;
+using Kavenegar.Core.Models;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DAL.Contracts;
-using DAL.ViewModels;
-using DAL;
 using NotifCore;
-using Kavenegar.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WepApi.Controllers
 {
@@ -158,6 +157,7 @@ namespace WepApi.Controllers
                         return Ok(new ResultContract<string> { message = "در حال حاضر امکان ارایه سرویس برای آموزشگاه شما وجود ندارد", statuse = false, Data = null });
 
                     }
+                    requset.Id = Const.Generatetoken();
                     await _context.ServiceRequsets.AddAsync(requset);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                     return Ok(new ResultContract<string> { statuse = true, Data = requset.Id });
@@ -402,6 +402,52 @@ namespace WepApi.Controllers
             if (data == null)
                 return Ok(new ResultContract<List<Academy>> { statuse = false, message = "یافت نشد" });
             return Ok(new ResultContract<List<Academy>> { statuse = true, Data = data });
+        }
+
+
+        /// <summary>
+        /// لغو با رزرو درخواست
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost(nameof(CancelAndAcceptRequset))]
+        public async Task<IActionResult> CancelAndAcceptRequset(CancelAndAcceptRequsetViewModel model)
+        {
+            string message = "";
+            if (model.RequsetState == RequsetSate.Cancel)
+            {
+                message = "درخواست سرویس شما   با موفقییت لغو شد";
+            }
+            else if(model.RequsetState == RequsetSate.Reserve)
+            {
+                message = "درخواست سرویس شما   با موفقییت رزرو شد";
+            }
+            else
+            {
+                return Ok(new ResultContract<int> { statuse = false, message = "یافت نشد" });
+
+            }
+            var parrent =await _context.StudentParents.FirstOrDefaultAsync(c => c.Token == model.Token);
+            if (parrent != null)
+            {
+                var serviceRequset = _context.ServiceRequsets.Find(model.RequsetId);
+                if (serviceRequset.StudentParrentId == parrent.Id)
+                {
+                    serviceRequset.RequsetState = model.RequsetState;
+                    _context.Update(serviceRequset);
+                    await _context.SaveChangesWithHistoryAsync(HttpContext);
+                   
+                    return Ok(new ResultContract<int> { statuse = true, message = message });
+
+                }
+                return Ok(new ResultContract<int> { statuse = false, message = "یافت نشد" });
+
+            }
+            else
+            {
+                return Ok(new ResultContract<int> { statuse = false, message = "یافت نشد" });
+
+            }
         }
 
 

@@ -1,4 +1,6 @@
 ﻿using DAL;
+using DAL.Contracts;
+using DAL.ViewModels;
 using DNTPersianUtils.Core;
 using Kavenegar.Core.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -9,15 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using NotifCore;
-using DAL;
-using DAL.Contracts;
-using DAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using WepApplication.Util;
 
 namespace WepApplication.Controllers
 {
@@ -201,7 +198,8 @@ namespace WepApplication.Controllers
                        {
                            ExpiresUtc = DateTime.UtcNow.AddDays(15),
                            IsPersistent = true,
-                           AllowRefresh = true
+                           AllowRefresh = true,
+                          
                        });
         }
 

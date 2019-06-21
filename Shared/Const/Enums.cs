@@ -43,7 +43,9 @@ namespace DAL
         [Display(Name = " در حال سرویس دهی ")]
         Servicing,
         [Display(Name = " معلق ")]
-        Suspended
+        Suspended,
+        [Display(Name = " رزرو ")]
+        Reserve
 
 
     }

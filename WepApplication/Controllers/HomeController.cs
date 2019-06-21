@@ -1,12 +1,11 @@
 ﻿using DAL;
+using DAL.Contracts;
+using DAL.ViewModels;
 using Kavenegar.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NotifCore;
-using DAL;
-using DAL.Contracts;
-using DAL.ViewModels;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,10 +17,10 @@ namespace WepApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISMS<List<SendResult>> _sms;
-        public HomeController(ISMS<List<SendResult>> sms)
+
+        public HomeController()
         {
-            _sms = sms;
+
         }
 
 
@@ -80,7 +79,7 @@ namespace WepApplication.Controllers
                     var dis = navigation.routes.FirstOrDefault().distance;
                     model.Distance = (((decimal)dis) / 1000);
                 }
-                var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<int>>
+                var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<string>>
                           (model, Const.RequsertService, ApiMethode.Post);
                 if (data == null)
                     return Json(new ResultContract<int>() { statuse = false, message = "یافت نشد" });
@@ -97,6 +96,32 @@ namespace WepApplication.Controllers
         }
 
 
+        [HttpPost]
+        [Route(nameof(CancelOrAccept))]
+        public async Task<IActionResult> CancelOrAccept([FromBody] CancelAndAcceptRequsetViewModel model)
+        {
+            if (model != null)
+            {
+                var parrent = User.Getparrent();
+                if (parrent == null)
+                    return Unauthorized();
+                ResultContract<int> res = await ConnectApi.
+                 GetDataFromHttpClientAsync<ResultContract<int>>
+                 (new CancelAndAcceptRequsetViewModel() { RequsetState = model.RequsetState, Token = parrent.Token,RequsetId=model.RequsetId }, Const.CancelAndAcceptRequset, ApiMethode.Post);
+               
+                if (res != null && res.statuse == true)
+                {
+                    return Json(new ResultContract<int>() { statuse = true, message =res.message  });
+                }
+                else
+                {
+                    return Json(new ResultContract<int>() { statuse = false, message = "ارتباط با سرور برقرار نشد" });
+
+                }
+            }
+            return Json(new ResultContract<int>() { statuse = false, message = "اطلاعات ارسالی معتبر نبود" });
+
+        }
 
 
 
@@ -204,6 +229,34 @@ namespace WepApplication.Controllers
             {
                 ParrentId = Parrent.Id,
                 RequsetSate = RequsetSate.AwaitingAcademy
+            };
+            var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<ServiceRequset>>>(vm, Const.ServiceHistory, ApiMethode.Post);
+            if (data != null)
+            {
+                return View(data.Data);
+            }
+            else
+            {
+                return View(new List<ServiceRequset>());
+            }
+
+        }
+
+
+        /// <summary>
+        /// در دست بررسی      
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = nameof(RolName.Parrent))]
+        public async Task<IActionResult> Reservs()
+        {
+            var Parrent = User.Getparrent();
+            if (Parrent == null) return Unauthorized();
+
+            GetServiceHistoryViewModel vm = new GetServiceHistoryViewModel()
+            {
+                ParrentId = Parrent.Id,
+                RequsetSate = RequsetSate.Reserve
             };
             var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<List<ServiceRequset>>>(vm, Const.ServiceHistory, ApiMethode.Post);
             if (data != null)

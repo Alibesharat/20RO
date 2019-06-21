@@ -43,7 +43,7 @@ namespace WepApplication
                 option.AccessDeniedPath = "/Account/Denied";
                 option.LoginPath = "/Account/UerChalenge";
                 option.SlidingExpiration = true;
-                option.Cookie.Name = "btscore";
+                option.Cookie.Name = "btscores";
                 option.ExpireTimeSpan = TimeSpan.FromDays(15);
 
             });

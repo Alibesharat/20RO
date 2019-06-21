@@ -168,6 +168,7 @@ namespace DAL.ViewModels
 
     }
 
+
     /// <summary>
     /// ویو مدل تغییر وضعیت درخواست 
     /// </summary>
@@ -186,15 +187,6 @@ namespace DAL.ViewModels
     }
 
 
-    public class AccesptDriverViewModel
-    {
-
-
-        public string TaxiCabId { get; set; }
-
-
-        public int DriverId { get; set; }
-    }
 
     /// <summary>
     /// مشاهده سوابق سفر
@@ -219,27 +211,16 @@ namespace DAL.ViewModels
 
     }
 
-
     /// <summary>
-    /// ساختار ترانزاکشن
+    /// ویو مدل لفو یا رزو درخواست
     /// </summary>
-    public class TranactionViewModel
+    public class CancelAndAcceptRequsetViewModel
     {
-        public int UserId { get; set; }
-        public int PaynameID { get; set; }
-        public int PayTypeID { get; set; }
-        public string Cost { get; set; }
-        public string TrackingCode { get; set; }
-        public bool Success { get; set; }
+        public string Token { get; set; }
 
-    }
+        public string RequsetId { get; set; }
 
-
-    public class PayViewModel
-    {
-        public int ParrentId { get; set; }
-
-        public int RequsetId { get; set; }
+        public RequsetSate RequsetState { get; set; }
     }
 
 
