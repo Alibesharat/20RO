@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace Panel.Controllers
 {
 
-    [Authorize(Roles = nameof(RolName.Contractor))]
+    [Authorize(Roles = nameof(RolName.Admin))]
     public class TaxiSerivcesController : Controller
     {
         private readonly TaxiContext _context;
@@ -34,7 +34,7 @@ namespace Panel.Controllers
         // GET: TaxiSerivces
         public async Task<IActionResult> Index(int? ContractorId, int pageindex = 1, string searchterm = "")
         {
-            var contractor = User.GetContractor();
+            var contractor = User.GetAdmin();
            
             var takeStep = 10;
             var SkipStep = (pageindex - 1) * takeStep;
@@ -51,7 +51,7 @@ namespace Panel.Controllers
             }
             if (ContractorId.HasValue)
             {
-                _TaxiSerivces = _TaxiSerivces.Where(c => c.Driver.ContractorId == contractor.Id);
+                _TaxiSerivces = _TaxiSerivces.Where(c => c.Driver.ContractorId == ContractorId);
                 AllRouteData.Add(nameof(ContractorId), ContractorId.Value.ToString());
             }
 
@@ -82,12 +82,8 @@ namespace Panel.Controllers
         // GET: TaxiSerivces/Create
         public IActionResult Create()
         {
-            var contractor = User.GetContractor();
-            if (contractor != null)
-            {
-                return Unauthorized();
-            }
-            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == contractor.Id), "Id", "FullName");
+           
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "Name");
             return View();
         }
 
@@ -99,11 +95,7 @@ namespace Panel.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,DriverId,DriverPercent")] TaxiService taxiCab)
         {
            
-            var contractor = User.GetContractor();
-            if (contractor != null)
-            {
-                return Unauthorized();
-            }
+           
    
             if (ModelState.IsValid)
             {
@@ -111,7 +103,7 @@ namespace Panel.Controllers
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited().Where(c => c.ContractorId == contractor.Id), "Id", "FullName", taxiCab.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "Name", taxiCab.DriverId);
             return View(taxiCab);
         }
 
@@ -128,7 +120,7 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "FullName", taxiCab.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "Name", taxiCab.DriverId);
             return View(taxiCab);
         }
 
@@ -182,7 +174,7 @@ namespace Panel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "FullName", taxiCab.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers.Undelited(), "Id", "Name", taxiCab.DriverId);
             return View(taxiCab);
         }
 
@@ -263,7 +255,7 @@ namespace Panel.Controllers
         [HttpGet]
         public async Task<IActionResult> AddPassnger(string Id, int? academyid, string TaxiCabDrvier)
         {
-            var contractor = User.GetContractor();
+            var contractor = User.GetAdmin();
             if (contractor == null)
             {
                 return Unauthorized();
@@ -276,7 +268,7 @@ namespace Panel.Controllers
             {
                 Passengers = Passengers.Where(c => c.AcademyId == academyid).ToList();
             }
-            Passengers = Passengers.Where(c => c.Academy.ContractorId == contractor.Id).ToList();
+          
             var TaxiCab = await _context.TaxiServices
                 .FirstOrDefaultAsync(c => c.Id == Id);
             if (TaxiCab == null) return NotFound();

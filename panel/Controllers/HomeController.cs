@@ -19,7 +19,7 @@ using Web.Models;
 namespace Web.Controllers
 {
 
-    [Authorize(Roles = nameof(RolName.Contractor))]
+    [Authorize(Roles = nameof(RolName.Admin))]
     public class HomeController : Controller
     {
         private readonly TaxiContext _context;

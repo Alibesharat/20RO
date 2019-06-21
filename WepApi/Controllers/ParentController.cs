@@ -8,9 +8,9 @@ using DAL;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Shared.Contracts;
-using Shared.ViewModels;
-using Shared;
+using DAL.Contracts;
+using DAL.ViewModels;
+using DAL;
 using NotifCore;
 using Kavenegar.Core.Models;
 

@@ -5,7 +5,7 @@
     int count = int.Parse(def.ToString());
     ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
     ViewData["Title"] = $"لیست {ViewData["ClassName"]} ها";
-    var Contractor = User.GetContractor();
+    var Contractor = User.GetAdmin();
 }
 
 

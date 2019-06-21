@@ -1,8 +1,4 @@
-﻿
-
-@using Shared
-
-@model DAL.TaxiCab
+﻿@model DAL.TaxiService
 @{
     ViewData["Title"] = "جزییات تاکسی سرویس";
 
@@ -21,7 +17,7 @@
 
             <div class="card-content">
                 <button class="btn card-header">
-                    آموزشگاه  @Model.FirstPassnger?.FirstOrDefault()?.Academy?.Name
+                    آموزشگاه  @Model.Passnegers?.FirstOrDefault()?.Academy?.Name
                     <i class="fa fa-empire"></i>
                 </button>
                 <br />
@@ -30,9 +26,9 @@
                 <br />
                 <div class="card-action">
                     @{
-                        if (Model.FirstPassnger != null && Model.FirstPassnger.Count() > 0)
+                        foreach (var item in Model.Passnegers)
                         {
-                            var item = Model.FirstPassnger.FirstOrDefault();
+
                             <div class="card">
                                 <div class="card-content">
                                     <div class="row">
@@ -65,7 +61,7 @@
                                                 </a>
                                             </p>
                                         </div>
-                                        @if (Model.TaxiCabState == TaxiCabState.Ready)
+                                        @if (Model.TaxiCabState == DAL.TaxiCabState.Ready)
                                         {
                                             <div class="col s12 ">
                                                 <p class="center">
@@ -77,7 +73,7 @@
                                                 </p>
                                                 <p class="center">
                                                     <br />
-                                                    <a class="btn  waves-effect red" href="tel:@item.studentParent?.PhoneNubmber">
+                                                    <a class="btn  waves-effect red" href="tel:@item.StudentParent?.PhoneNubmber">
                                                         تماس
                                                         <i class="fa fa-phone" aria-hidden="true"></i>
                                                     </a>
@@ -89,205 +85,15 @@
                                 </div>
                             </div>
                         }
-                        if (Model.SecondPassnger != null && Model.SecondPassnger.Count() > 0)
-                        {
-                            var item = Model.SecondPassnger.FirstOrDefault();
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="row">
-                                        <div class="col s12 m6  ">
-                                            <span class="btn contant">@item.FullName</span>
-                                            <span class="btn contant">@item.Age ساله </span>
-                                            <span class="btn contant">@item.Address  </span>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.FullGeo)">
-                                                    مسیر منزل
-                                                    <i class="fa fa-map-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.Address');">
-                                                    آدرس پستی منزل
-                                                    <i class="fa fa-envelope-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item?.Academy?.FullGeo)">
-                                                    مسیر آموزشگاه
-                                                    <i class="fa fa-map-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item?.Academy?.Address')">
-                                                    آدرس پستی آموزشگاه
-                                                    <i class="fa fa-envelope-o"></i>
-                                                </a>
-                                            </p>
-
-                                        </div>
-
-                                        @if (Model.TaxiCabState == TaxiCabState.Ready)
-                                        {
-                                            <div class="col s12 m12">
-                                                <p class="center">
-                                                    <br />
-
-                                                    <a class="btn  waves-effect orange" onclick="changestate(@item.Id,@Model.Id)">
-                                                        اطلاع رسانی
-                                                        <i class="fa fa-bullhorn" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                                <p class="center">
-                                                    <br />
-                                                    <a class="btn  waves-effect red" href="tel:@item.studentParent?.PhoneNubmber">
-                                                        تماس
-                                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        }
-
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        if (Model.ThirdPassnger != null && Model.ThirdPassnger.Count() > 0)
-                        {
-                            var item = Model.ThirdPassnger.FirstOrDefault();
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="row">
-                                        <div class="col s12 m6  ">
-                                            <span class="btn contant">@item.FullName</span>
-                                            <span class="btn contant">@item.Age ساله </span>
-                                            <span class="btn contant">@item.Address  </span>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.FullGeo)">
-                                                    مسیر منزل
-                                                    <i class="fa fa-map-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.Address');">
-                                                    آدرس پستی منزل
-                                                    <i class="fa fa-envelope-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item?.Academy?.FullGeo)">
-                                                    مسیر آموزشگاه
-                                                    <i class="fa fa-map-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item?.Academy?.Address')">
-                                                    آدرس پستی آموزشگاه
-                                                    <i class="fa fa-envelope-o"></i>
-                                                </a>
-                                            </p>
-
-                                        </div>
-
-                                        @if (Model.TaxiCabState == TaxiCabState.Ready)
-                                        {
-                                            <div class="col s12 m12">
-                                                <p class="center">
-                                                    <br />
-                                                    <a class="btn  waves-effect orange" onclick="changestate(@item.Id,@Model.Id)">
-                                                        اطلاع رسانی
-                                                        <i class="fa fa-bullhorn" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                                <p class="center">
-                                                    <br />
-                                                    <a class="btn  waves-effect red" href="tel:@item.studentParent?.PhoneNubmber">
-                                                        تماس
-                                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        }
-
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        if (Model.FourthPassnger != null && Model.FourthPassnger.Count() > 0)
-                        {
-                            var item = Model.ThirdPassnger.FirstOrDefault();
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="row">
-                                        <div class="col s12 m6  ">
-                                            <span class="btn contant">@item.FullName</span>
-                                            <span class="btn contant">@item.Age ساله </span>
-                                            <span class="btn contant">@item.Address  </span>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.FullGeo)">
-                                                    مسیر منزل
-                                                    <i class="fa fa-map-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.Address');">
-                                                    آدرس پستی منزل
-                                                    <i class="fa fa-envelope-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item?.Academy?.FullGeo)">
-                                                    مسیر آموزشگاه
-                                                    <i class="fa fa-map-o"></i>
-                                                </a>
-                                            </p>
-                                            <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item?.Academy?.Address')">
-                                                    آدرس پستی آموزشگاه
-                                                    <i class="fa fa-envelope-o"></i>
-                                                </a>
-                                            </p>
-                                        </div>
-                                        @if (Model.TaxiCabState == TaxiCabState.Ready)
-                                        {
-                                            <div class="col s12 m12">
-                                                <p class="center">
-                                                    <br />
-                                                    <a class="btn  waves-effect orange" onclick="changestate(@item.Id,@Model.Id)">
-                                                        اطلاع رسانی
-                                                        <i class="fa fa-bullhorn" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                                <p class="center">
-                                                    <br />
-                                                    <a class="btn  waves-effect red" href="tel:@item.studentParent?.PhoneNubmber">
-                                                        تماس
-                                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        }
 
 
-                                    </div>
-                                </div>
-                            </div>
-                        }
 
                     }
                 </div>
             </div>
         </div>
     </div>
-    @if (Model.TaxiCabState == TaxiCabState.WaitForDriverAccept)
-    {
-         <div class="col s12" onclick="Accept()">
-            <div class="card">
-                <div class="card-content">
-                    <p class="center"> تایید سرویس  </p>
-                </div>
-            </div>
-         </div>
-    }
+ 
 
 </div>
 

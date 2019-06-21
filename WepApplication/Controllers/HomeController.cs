@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NotifCore;
-using Shared;
-using Shared.Contracts;
-using Shared.ViewModels;
+using DAL;
+using DAL.Contracts;
+using DAL.ViewModels;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace WepApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private ISMS<List<SendResult>> _sms;
+        private readonly ISMS<List<SendResult>> _sms;
         public HomeController(ISMS<List<SendResult>> sms)
         {
             _sms = sms;

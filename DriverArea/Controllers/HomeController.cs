@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Shared;
-using Shared.Contracts;
-using Shared.ViewModels;
+using DAL;
+using DAL.Contracts;
+using DAL.ViewModels;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace DriverArea.Controllers
     {
 
         [Route("ServiceDetail/{id}")]
-        public async Task<IActionResult> ServiceDetail(int id)
+        public async Task<IActionResult> ServiceDetail(string id)
         {
 
             var Driver = User.GetDriver();
@@ -83,39 +83,7 @@ namespace DriverArea.Controllers
         }
 
 
-
-        /// <summary>
-        /// سرویس های در انتظار تایید
-        /// </summary>
-        /// <returns></returns>
-
-        [Authorize(Roles = nameof(RolName.Driver))]
-        public async Task<IActionResult> WaitngService()
-        {
-            var driver = User.GetDriver();
-            if (driver == null) return Unauthorized();
-            GetTaxiCabHistoryViewModel vm = new GetTaxiCabHistoryViewModel()
-            {
-                DriverId = driver.Id,
-                TaxiCabState = TaxiCabState.WaitForDriverAccept
-            };
-            var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<string>>(vm, Const.GetTaxiCabHistory, ApiMethode.Post);
-            var dt = JsonConvert.DeserializeObject<List<TaxiService>>(data.Data);
-            if (dt != null)
-            {
-                return View(dt);
-            }
-            else
-            {
-                return View(new List<TaxiService>());
-            }
-
-        }
-
-
-
-
-
+        
 
 
         [HttpPost]
@@ -143,29 +111,7 @@ namespace DriverArea.Controllers
         }
 
 
-        [HttpPost]
-        [Route(nameof(AcceptTaxiCab))]
-        public async Task<IActionResult> AcceptTaxiCab([FromBody]AccesptDriverViewModel model)
-        {
-            var driver = User.GetDriver();
-            if (driver != null)
-            {
-                model.DriverId = driver.Id;
-                var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<bool>>(model, Const.AcceptDriver, ApiMethode.Post);
-                if (data != null)
-                {
-
-                    return Json(data);
-                }
-                else
-                {
-                    return Json(new ResultContract<bool>() { statuse = false, message = Const.InterntErrorMessag });
-                }
-            }
-            return Json(new ResultContract<bool>() { statuse = false, message = Const.PremisionErrorMessag });
-
-
-        }
+     
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

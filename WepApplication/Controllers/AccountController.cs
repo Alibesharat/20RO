@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using NotifCore;
-using Shared;
-using Shared.Contracts;
-using Shared.ViewModels;
+using DAL;
+using DAL.Contracts;
+using DAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -188,7 +188,7 @@ namespace WepApplication.Controllers
         {
             var claimes = new List<Claim>();
             string userdata = JsonConvert.SerializeObject(data.Data);
-            claimes.Add(new Claim(ClaimTypes.Name, data.Data.FullName));
+            claimes.Add(new Claim(ClaimTypes.Name, data.Data.Name));
             claimes.Add(new Claim(ClaimTypes.Role, RolName.Parrent.ToString()));
             claimes.Add(new Claim(ClaimTypes.UserData, userdata));
             var ClaimIdentity = new ClaimsIdentity(RolName.Parrent.ToString());

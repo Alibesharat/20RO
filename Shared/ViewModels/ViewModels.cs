@@ -1,11 +1,7 @@
-﻿using DAL;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Shared.ViewModels
+namespace DAL.ViewModels
 {
     /// <summary>
     /// ویو مدل ثبت نام راننده

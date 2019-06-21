@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Shared;
-using Shared.Contracts;
-using Shared.ViewModels;
+using DAL;
+using DAL.Contracts;
+using DAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -65,46 +65,7 @@ namespace DriverArea.Controllers
 
 
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register([FromForm]RegisterDriverViewModel model)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (!model.PhoneNubmber.IsValidIranianMobileNumber())
-            {
-                ModelState.AddModelError(nameof(model.PhoneNubmber), "شماره موبایل  وارد شده معتبر نیست");
-                return View(model);
-            }
-            var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<Driver>>
-                (model, Const.Registerdriver, ApiMethode.Post);
-            if (data == null)
-            {
-
-                ModelState.AddModelError("", "ارتباط با سرور میسر نشد !");
-                return View();
-            }
-            if (data.statuse)
-            {
-                await AddAuthAsync(data);
-                return RedirectToLocal("");
-            }
-            ModelState.AddModelError("", data.message);
-            return View(model);
-
-
-
-        }
-
+    
 
         [HttpGet]
         public IActionResult ForgotPassowrd()
@@ -159,7 +120,7 @@ namespace DriverArea.Controllers
         {
             var claimes = new List<Claim>();
             string userdata = JsonConvert.SerializeObject(data.Data);
-            claimes.Add(new Claim(ClaimTypes.Name, data.Data.FullName));
+            claimes.Add(new Claim(ClaimTypes.Name, data.Data.Name));
             claimes.Add(new Claim(ClaimTypes.Role, RolName.Driver.ToString()));
             claimes.Add(new Claim(ClaimTypes.UserData, userdata));
             var ClaimIdentity = new ClaimsIdentity(RolName.Driver.ToString());

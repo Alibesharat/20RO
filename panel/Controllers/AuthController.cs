@@ -23,7 +23,7 @@ namespace Web.Controllers
 
         public IActionResult Login(string ReturnUrl)
         {
-            var contractor = User.GetContractor();
+            var contractor = User.GetAdmin();
             if (contractor != null)
             {
                 return RedirectToLocal(ReturnUrl);
@@ -39,21 +39,18 @@ namespace Web.Controllers
         public async Task<IActionResult> Login(string PhoneNumber, string Password)
         {
 
-            
-            var contractor = await _context.Contractors.FirstOrDefaultAsync(c => c.PhoneNubmber == PhoneNumber
+
+            Admin admin = await _context.Admins.FirstOrDefaultAsync(c => c.Username == PhoneNumber
                && c.Password == Password);
-            if (contractor != null)
+            if (admin != null)
             {
                 var claimes = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, $"{contractor.Name}"),
-                    new Claim(ClaimTypes.Role, nameof(RolName.Contractor))
+                    new Claim(ClaimTypes.Name, $"{admin.Name}"),
+                    new Claim(ClaimTypes.Role, nameof(RolName.Admin))
                 };
-                //if (contractor.IsCenterAdmin)
-                //{
-                //    claimes.Add(new Claim(ClaimTypes.Role, nameof(RolName.Admin)));
-                //}
-                string userdata = JsonConvert.SerializeObject(contractor);
+               
+                string userdata = JsonConvert.SerializeObject(admin);
                 claimes.Add(new Claim(ClaimTypes.UserData, userdata));
 
                 var ClaimIdentity = new ClaimsIdentity(claimes,
@@ -102,7 +99,7 @@ namespace Web.Controllers
 
         public IActionResult LogOut()
         {
-            HttpContext.Response.Cookies.Delete("taxi");
+            HttpContext.Response.Cookies.Delete("bisroAdmin");
             return RedirectToLocal("/");
 
         }

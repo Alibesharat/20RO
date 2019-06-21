@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Shared;
+using DAL;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -15,7 +15,7 @@ using Panel.Extention;
 namespace Panel.Controllers
 {
 
-    [Authorize(Roles = nameof(RolName.Contractor))]
+    [Authorize(Roles = nameof(RolName.Admin))]
     public class ServiceRequsetsController : Controller
     {
         private readonly TaxiContext _context;
@@ -30,7 +30,7 @@ namespace Panel.Controllers
         {
 
 
-            var contractor = User.GetContractor();
+            var contractor = User.GetAdmin();
           
             var takeStep = 10;
             var SkipStep = (pageindex - 1) * takeStep;

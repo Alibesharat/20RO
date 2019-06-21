@@ -1,4 +1,4 @@
-﻿namespace Shared.Contracts
+﻿namespace DAL.Contracts
 {
     /// <summary>
     ///شی قراردادی برای بازگشت دیتا

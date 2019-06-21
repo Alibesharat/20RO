@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace DAL
 {
     public static class utils
     {

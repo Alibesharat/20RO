@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TaxiContext))]
-    [Migration("20190525132639_add_some_proprty_to_cotractor")]
-    partial class add_some_proprty_to_cotractor
+    [Migration("20190621143700_add admin")]
+    partial class addadmin
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,9 +29,11 @@ namespace DAL.Migrations
 
                     b.Property<int>("AcademyCategoryId");
 
-                    b.Property<string>("Address");
+                    b.Property<int>("AcademyPercent")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
-                    b.Property<int>("Age");
+                    b.Property<string>("Address");
 
                     b.Property<bool>("AllowActivity")
                         .ValueGeneratedOnAdd()
@@ -45,25 +47,17 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime?>("BirthDay");
-
-                    b.Property<string>("BossName");
-
                     b.Property<int>("ContractorId");
 
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("Gender");
+                    b.Property<int>("DistrictId");
 
                     b.Property<string>("Hs_Change");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<bool>("IsEmailVerified");
-
-                    b.Property<bool>("IsMobielVerifed");
-
-                    b.Property<string>("LastName");
+                    b.Property<string>("Latitude")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("35.752308");
 
                     b.Property<string>("Longtude")
                         .ValueGeneratedOnAdd()
@@ -71,19 +65,15 @@ namespace DAL.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("OfficeNumber");
-
-                    b.Property<string>("OtherPhoneNumber");
-
                     b.Property<string>("Password");
 
                     b.Property<string>("PhoneNubmber");
 
-                    b.Property<int>("districtId");
+                    b.Property<string>("SupportNumber");
 
-                    b.Property<string>("latitude")
+                    b.Property<string>("Token")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue("35.752308");
+                        .HasDefaultValue("buf6eFpNX0OLJ9DplADVg");
 
                     b.HasKey("Id");
 
@@ -91,9 +81,9 @@ namespace DAL.Migrations
 
                     b.HasIndex("ContractorId");
 
-                    b.HasIndex("districtId");
+                    b.HasIndex("DistrictId");
 
-                    b.ToTable("academies");
+                    b.ToTable("Academies");
                 });
 
             modelBuilder.Entity("DAL.AcademyCategory", b =>
@@ -110,7 +100,67 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("academyCategories");
+                    b.ToTable("AcademyCategories");
+                });
+
+            modelBuilder.Entity("DAL.Accounting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment");
+
+                    b.Property<string>("Hs_Change");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("NextPay");
+
+                    b.Property<DateTime?>("PayDate");
+
+                    b.Property<int>("PayType");
+
+                    b.Property<int>("Payed");
+
+                    b.Property<string>("ServiceRequsetId");
+
+                    b.Property<string>("TrackNumber");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceRequsetId");
+
+                    b.ToTable("Accountings");
+                });
+
+            modelBuilder.Entity("DAL.Admin", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("cS16OYtOFket9EfX5jyng");
+
+                    b.Property<bool>("AllowActivity")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Hs_Change");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
+
+                    b.HasData(
+                        new { Id = "QieTF96XUaHoF3pt5RYCw", AllowActivity = false, IsDeleted = false, Name = "Admin", Password = "123456789", Username = "09195410188" }
+                    );
                 });
 
             modelBuilder.Entity("DAL.City", b =>
@@ -119,19 +169,19 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CityPercent")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<string>("Hs_Change");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ProvinceId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProvinceId");
-
-                    b.ToTable("cities");
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("DAL.Contractor", b =>
@@ -140,33 +190,23 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Age");
+                    b.Property<bool>("AllowActivity")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
-                    b.Property<bool>("AllowActivity");
+                    b.Property<string>("AvatarPath")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("Default.png");
 
-                    b.Property<string>("AvatarPath");
-
-                    b.Property<DateTime?>("BeginDate");
-
-                    b.Property<DateTime?>("BirthDay");
-
-                    b.Property<string>("Email");
+                    b.Property<DateTime?>("BeginDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<DateTime?>("ExpireDate");
 
-                    b.Property<bool>("Gender");
-
                     b.Property<string>("Hs_Change");
 
-                    b.Property<bool>("IsCenterAdmin");
-
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsEmailVerified");
-
-                    b.Property<bool>("IsMobielVerifed");
-
-                    b.Property<string>("LastName");
 
                     b.Property<string>("NIdCode");
 
@@ -179,6 +219,10 @@ namespace DAL.Migrations
                     b.Property<string>("RegisterCompanyNumber");
 
                     b.Property<DateTime?>("RelaseDate");
+
+                    b.Property<string>("Token")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("bPOHUpZeXEWh7pq8zI2yQ");
 
                     b.HasKey("Id");
 
@@ -193,6 +237,10 @@ namespace DAL.Migrations
 
                     b.Property<int>("CityId");
 
+                    b.Property<int>("DistrictPercent")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<string>("Hs_Change");
 
                     b.Property<bool>("IsDeleted");
@@ -203,7 +251,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("districts");
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("DAL.Driver", b =>
@@ -211,8 +259,6 @@ namespace DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Age");
 
                     b.Property<bool>("AllowActivity")
                         .ValueGeneratedOnAdd()
@@ -226,15 +272,11 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime?>("BirthDay");
-
                     b.Property<string>("CarColor");
 
                     b.Property<string>("CarName");
 
                     b.Property<string>("CarType");
-
-                    b.Property<int>("CityId");
 
                     b.Property<int>("ContractorId");
 
@@ -242,25 +284,13 @@ namespace DAL.Migrations
 
                     b.Property<string>("DrivingLicense");
 
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("Gender");
-
-                    b.Property<bool>("HasPlan");
-
                     b.Property<string>("Hs_Change");
 
                     b.Property<string>("IranianIdCode");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<bool>("IsEmailVerified");
-
                     b.Property<bool>("IsMaried");
-
-                    b.Property<bool>("IsMobielVerifed");
-
-                    b.Property<string>("LastName");
 
                     b.Property<string>("Name");
 
@@ -270,42 +300,15 @@ namespace DAL.Migrations
 
                     b.Property<string>("PhoneNubmber");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Token")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("P5sbMmmoaUiEAMzWQcz9Kw");
 
-                    b.HasIndex("CityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ContractorId");
 
-                    b.ToTable("drivers");
-                });
-
-            modelBuilder.Entity("DAL.DriverFactor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("From");
-
-                    b.Property<string>("Hs_Change");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("SeassionCount");
-
-                    b.Property<DateTime?>("To");
-
-                    b.Property<int>("serviceRequsetId");
-
-                    b.Property<int?>("taxiCabeid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("serviceRequsetId");
-
-                    b.HasIndex("taxiCabeid");
-
-                    b.ToTable("driverFactors");
+                    b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("DAL.GeneralSetting", b =>
@@ -316,94 +319,19 @@ namespace DAL.Migrations
 
                     b.Property<string>("LogoPath");
 
-                    b.Property<int>("SeasionCount");
-
                     b.Property<string>("SiteName");
 
+                    b.Property<int>("TaxiPercent");
+
+                    b.Property<int>("VanPercent");
+
                     b.HasKey("Id");
 
-                    b.ToTable("generalSettings");
+                    b.ToTable("GeneralSettings");
 
                     b.HasData(
-                        new { Id = 1, LogoPath = "", SeasionCount = 0, SiteName = "" }
+                        new { Id = 1, LogoPath = "", SiteName = "", TaxiPercent = 2500, VanPercent = 2000 }
                     );
-                });
-
-            modelBuilder.Entity("DAL.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Ammount");
-
-                    b.Property<string>("Hs_Change");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("ParrentId");
-
-                    b.Property<int?>("RequsetServiceId");
-
-                    b.Property<bool>("Success");
-
-                    b.Property<string>("TrackingCode");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParrentId");
-
-                    b.HasIndex("RequsetServiceId");
-
-                    b.ToTable("payments");
-                });
-
-            modelBuilder.Entity("DAL.Pricing", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AcademyId");
-
-                    b.Property<int>("Comission");
-
-                    b.Property<int>("ConstPrice");
-
-                    b.Property<decimal>("FormKilometer");
-
-                    b.Property<string>("Hs_Change");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("PricePerKilometer");
-
-                    b.Property<decimal>("ToKilometer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AcademyId");
-
-                    b.ToTable("pricings");
-                });
-
-            modelBuilder.Entity("DAL.Province", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Hs_Change");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("provinces");
                 });
 
             modelBuilder.Entity("DAL.Role", b =>
@@ -420,7 +348,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new { Id = 1, IsDeleted = false, Name = "برنامه نویس" },
@@ -431,11 +359,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.ServiceRequset", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasDefaultValue("KdaHAvmO5UmgCwKxrcg5Q");
 
-                    b.Property<int?>("AcademyId");
+                    b.Property<int>("AcademyId");
 
                     b.Property<string>("Address");
 
@@ -447,11 +375,11 @@ namespace DAL.Migrations
 
                     b.Property<string>("Hs_Change");
 
-                    b.Property<string>("IamgePath");
-
                     b.Property<string>("IrIdCod");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Latitue");
 
                     b.Property<string>("Longtude");
 
@@ -459,23 +387,15 @@ namespace DAL.Migrations
 
                     b.Property<int>("NotifState");
 
-                    b.Property<string>("RequsetCode");
+                    b.Property<int>("Price");
 
                     b.Property<int>("RequsetState");
 
+                    b.Property<int>("ServiceType");
+
                     b.Property<int>("StudentParrentId");
 
-                    b.Property<int?>("cabAsFirstId");
-
-                    b.Property<int?>("cabAsFourthId");
-
-                    b.Property<int?>("cabAsSecondId");
-
-                    b.Property<int?>("cabAsThirdId");
-
-                    b.Property<string>("latitue");
-
-                    b.Property<int>("price");
+                    b.Property<string>("TaxiServiceId");
 
                     b.HasKey("Id");
 
@@ -483,15 +403,9 @@ namespace DAL.Migrations
 
                     b.HasIndex("StudentParrentId");
 
-                    b.HasIndex("cabAsFirstId");
+                    b.HasIndex("TaxiServiceId");
 
-                    b.HasIndex("cabAsFourthId");
-
-                    b.HasIndex("cabAsSecondId");
-
-                    b.HasIndex("cabAsThirdId");
-
-                    b.ToTable("serviceRequsets");
+                    b.ToTable("ServiceRequsets");
                 });
 
             modelBuilder.Entity("DAL.StudentParent", b =>
@@ -502,37 +416,21 @@ namespace DAL.Migrations
 
                     b.Property<bool>("AccesptTerms");
 
-                    b.Property<int>("Age");
-
                     b.Property<bool>("AllowActivity")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(true);
 
-                    b.Property<string>("AvatarPath")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue("Default.png");
+                    b.Property<string>("AvatarPath");
 
                     b.Property<DateTime?>("BeginDate")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime?>("BirthDay");
-
                     b.Property<string>("ClassName");
-
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("Gender");
 
                     b.Property<string>("Hs_Change");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsEmailVerified");
-
-                    b.Property<bool>("IsMobielVerifed");
-
-                    b.Property<string>("LastName");
 
                     b.Property<string>("Name");
 
@@ -540,30 +438,32 @@ namespace DAL.Migrations
 
                     b.Property<string>("PhoneNubmber");
 
+                    b.Property<string>("Token");
+
                     b.HasKey("Id");
 
-                    b.ToTable("studentParents");
+                    b.ToTable("StudentParents");
                 });
 
-            modelBuilder.Entity("DAL.TaxiCab", b =>
+            modelBuilder.Entity("DAL.TaxiService", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasDefaultValue("1Rkye9jGn0GdItPuLqKLyQ");
 
                     b.Property<int>("DriverId");
 
                     b.Property<int>("DriverPercent")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(80);
+                        .HasDefaultValue(75);
 
                     b.Property<string>("Hs_Change");
-
-                    b.Property<bool>("IsCompelete");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name");
+
+                    b.Property<int>("ServiceType");
 
                     b.Property<int>("TaxiCabState");
 
@@ -571,33 +471,32 @@ namespace DAL.Migrations
 
                     b.HasIndex("DriverId");
 
-                    b.ToTable("taxiCabs");
+                    b.ToTable("TaxiServices");
                 });
 
             modelBuilder.Entity("DAL.Academy", b =>
                 {
-                    b.HasOne("DAL.AcademyCategory", "category")
-                        .WithMany()
+                    b.HasOne("DAL.AcademyCategory", "Category")
+                        .WithMany("Academies")
                         .HasForeignKey("AcademyCategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DAL.Contractor", "Contractor")
-                        .WithMany("Academy")
+                        .WithMany("Academies")
                         .HasForeignKey("ContractorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.District", "district")
+                    b.HasOne("DAL.District", "District")
                         .WithMany("Academies")
-                        .HasForeignKey("districtId")
+                        .HasForeignKey("DistrictId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DAL.City", b =>
+            modelBuilder.Entity("DAL.Accounting", b =>
                 {
-                    b.HasOne("DAL.Province", "Province")
-                        .WithMany("Cities")
-                        .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("DAL.ServiceRequset", "ServiceRequset")
+                        .WithMany("Accountings")
+                        .HasForeignKey("ServiceRequsetId");
                 });
 
             modelBuilder.Entity("DAL.District", b =>
@@ -610,80 +509,33 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Driver", b =>
                 {
-                    b.HasOne("DAL.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DAL.Contractor", "Contractor")
-                        .WithMany("Driver")
+                        .WithMany("Drivers")
                         .HasForeignKey("ContractorId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.DriverFactor", b =>
-                {
-                    b.HasOne("DAL.ServiceRequset", "ServiceRequset")
-                        .WithMany("DriverFactors")
-                        .HasForeignKey("serviceRequsetId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.TaxiCab", "TaxiCab")
-                        .WithMany("DriverFactors")
-                        .HasForeignKey("taxiCabeid");
-                });
-
-            modelBuilder.Entity("DAL.Payment", b =>
-                {
-                    b.HasOne("DAL.StudentParent", "Parent")
-                        .WithMany("Payments")
-                        .HasForeignKey("ParrentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.ServiceRequset", "ServiceRequset")
-                        .WithMany("payments")
-                        .HasForeignKey("RequsetServiceId");
-                });
-
-            modelBuilder.Entity("DAL.Pricing", b =>
-                {
-                    b.HasOne("DAL.Academy", "academy")
-                        .WithMany("Pricings")
-                        .HasForeignKey("AcademyId");
                 });
 
             modelBuilder.Entity("DAL.ServiceRequset", b =>
                 {
                     b.HasOne("DAL.Academy", "Academy")
                         .WithMany("ServiceRequsets")
-                        .HasForeignKey("AcademyId");
+                        .HasForeignKey("AcademyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.StudentParent", "studentParent")
+                    b.HasOne("DAL.StudentParent", "StudentParent")
                         .WithMany("ServiceRequsets")
                         .HasForeignKey("StudentParrentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.TaxiCab", "cabAsFirst")
-                        .WithMany("FirstPassnger")
-                        .HasForeignKey("cabAsFirstId");
-
-                    b.HasOne("DAL.TaxiCab", "cabAsFourth")
-                        .WithMany("FourthPassnger")
-                        .HasForeignKey("cabAsFourthId");
-
-                    b.HasOne("DAL.TaxiCab", "cabAsSecond")
-                        .WithMany("SecondPassnger")
-                        .HasForeignKey("cabAsSecondId");
-
-                    b.HasOne("DAL.TaxiCab", "cabAsThird")
-                        .WithMany("ThirdPassnger")
-                        .HasForeignKey("cabAsThirdId");
+                    b.HasOne("DAL.TaxiService", "TaxiService")
+                        .WithMany("Passnegers")
+                        .HasForeignKey("TaxiServiceId");
                 });
 
-            modelBuilder.Entity("DAL.TaxiCab", b =>
+            modelBuilder.Entity("DAL.TaxiService", b =>
                 {
                     b.HasOne("DAL.Driver", "Driver")
-                        .WithMany()
+                        .WithMany("TaxiServices")
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

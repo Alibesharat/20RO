@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace DAL
 {
     public static class ConnectApi
     {

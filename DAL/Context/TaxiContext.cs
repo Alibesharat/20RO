@@ -21,6 +21,13 @@ namespace DAL
         {
             #region DefaultValues
 
+            //ادمین
+            modelBuilder.Entity<Admin>()
+            .Property(C => C.AllowActivity).HasDefaultValue(true);
+            modelBuilder.Entity<Admin>()
+           .Property(C => C.Id).HasDefaultValue(Const.Generatetoken());
+
+
             //والدین
             modelBuilder.Entity<StudentParent>()
               .Property(C => C.BeginDate).HasDefaultValueSql("GETDATE()");
@@ -100,11 +107,17 @@ namespace DAL
                 new Role() { Id = 2, Name = "مدیر" },
                 new Role() { Id = 3, Name = "کاربر  معمولی" }
                 );
+
+            modelBuilder.Entity<Admin>()
+               .HasData(
+               new Admin() {Id=Const.Generatetoken(), Name = "Admin", Password = "123456789", Username = "09195410188" });
+           
             #endregion
 
             base.OnModelCreating(modelBuilder);
         }
 
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<City> Cities { get; set; }

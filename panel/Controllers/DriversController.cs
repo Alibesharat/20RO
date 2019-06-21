@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Panel.Controllers
 {
 
-    [Authorize(Roles = nameof(RolName.Contractor))]
+    [Authorize(Roles = nameof(RolName.Admin))]
     public class DriversController : Controller
     {
         private readonly TaxiContext _context;
@@ -26,9 +26,7 @@ namespace Panel.Controllers
         // GET: Drivers
         public async Task<IActionResult> Index(int? ContractorId, int pageindex = 1, string searchterm = "")
         {
-            var contractor = User.GetContractor();
-            if (contractor == null || !ContractorId.HasValue)
-                return Unauthorized();
+          
 
             var takeStep = 10;
             var SkipStep = (pageindex - 1) * takeStep;
@@ -42,10 +40,6 @@ namespace Panel.Controllers
                 _drivers = _drivers.Where(c => c.Name.Contains(searchterm));
                 ViewBag.searchterm = searchterm;
             }
-           
-                ContractorId = contractor.Id;
-
-           
             _drivers = _drivers.Where(c => c.ContractorId == ContractorId);
             AllRouteData.Add(nameof(ContractorId), ContractorId.Value.ToString());
             count = _drivers.Count();
@@ -75,55 +69,14 @@ namespace Panel.Controllers
         }
 
         // GET: Drivers/Create
-        [Authorize(Roles = nameof(RolName.Contractor))]
+        [Authorize(Roles = nameof(RolName.Admin))]
         public IActionResult Create()
         {
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name");
             return View();
         }
 
-        // POST: Drivers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarName,CarType,CarColor,IranianIdCode,DrivingLicense,DriverCode,PelakNumber,CityId,IsMaried,HasPlan,Id,Name,LastName,Age,Gender,Password,PhoneNubmber,IsMobielVerifed,Email,IsEmailVerified,BirthDay,BeginDate,AllowActivity")] Driver driver, IFormFile AvatarPath)
-        {
-            var contractor = User.GetContractor();
-            if (contractor == null)
-                return Unauthorized();
-            driver.ContractorId = contractor.Id;
-
-            if (AvatarPath == null)
-            {
-                ModelState.AddModelError(nameof(AvatarPath), "تصویر راننده وارد شود");
-            }
-            if (AvatarPath != null && AvatarPath.Length > (500 * 1024))
-            {
-                ModelState.AddModelError(nameof(AvatarPath), "حجم تصویر نباید بیش از 500 کیلو بایت باشد");
-            }
-            if (ModelState.IsValid)
-            {
-                List<string> AllowedExtention = new List<string>()
-                    {
-                       ".jpg",
-                       ".png"
-                    };
-                var data = await AlphaRest.File.SendFileAsync(AvatarPath, AllowedExtention, (500 * 1024), $"{Const.StudentparrentPath}/api/api/Getdriverpic");
-                if (data != null && data != "false")
-                {
-                    driver.AvatarPath = data;
-                }
-
-
-                _context.Add(driver);
-                await _context.SaveChangesWithHistoryAsync(HttpContext);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(driver);
-        }
-
-        // GET: Drivers/Edit/5
+     
         [Authorize(Roles = nameof(RolName.Admin))]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -148,7 +101,6 @@ namespace Panel.Controllers
         [Authorize(Roles = nameof(RolName.Admin))]
         public async Task<IActionResult> Edit(int id, [Bind("CarName,CarType,CarColor,IranianIdCode,DrivingLicense,DriverCode,PelakNumber,CityId,IsMaried,HasPlan,Id,Name,LastName,Age,Gender,Password,PhoneNubmber,IsMobielVerifed,Email,IsEmailVerified,BirthDay,BeginDate,AllowActivity,ContractorId")] Driver driver, IFormFile AvatarPath)
         {
-
 
             if (AvatarPath != null && AvatarPath.Length > (500 * 1024))
             {
@@ -203,13 +155,13 @@ namespace Panel.Controllers
             {
                 return NotFound();
             }
-            var contractor = User.GetContractor();
+            var contractor = User.GetAdmin();
             if (contractor == null)
                 return Unauthorized();
 
             var driver = await _context.Drivers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (driver == null || driver.ContractorId != contractor.Id)
+            if (driver == null )
             {
                 return NotFound();
             }
@@ -223,11 +175,11 @@ namespace Panel.Controllers
         [Authorize(Roles = nameof(RolName.Admin))]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contractor = User.GetContractor();
+            var contractor = User.GetAdmin();
             if (contractor == null)
                 return Unauthorized();
             var driver = await _context.Drivers.FindAsync(id);
-            if (driver == null || driver.ContractorId != contractor.Id)
+            if (driver == null )
             {
                 return NotFound();
             }
