@@ -94,7 +94,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Address,DistrictId,AcademyCategoryId,SupportNumber,Id,Name,Password,PhoneNubmber,AllowActivity,ContractorId")] Academy academy)
+        public async Task<IActionResult> Create([Bind("Address,DistrictId,AcademyCategoryId,SupportNumber,Id,Name,Password,PhoneNubmber,AllowActivity,ContractorId,AcademyPercent")] Academy academy)
         {
             if (ModelState.IsValid)
             {
@@ -134,7 +134,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Address,DistrictId,AcademyCategoryId,SupportNumber,Id,Name,Password,PhoneNubmber,AllowActivity,ContractorId")] Academy academy)
+        public async Task<IActionResult> Edit(int id, [Bind("Address,DistrictId,AcademyCategoryId,SupportNumber,Id,Name,Password,PhoneNubmber,AllowActivity,ContractorId,AcademyPercent")] Academy academy)
         {
             if (id != academy.Id)
             {

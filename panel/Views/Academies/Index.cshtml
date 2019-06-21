@@ -48,13 +48,16 @@
                         </th>
 
                         <th>
-                           منطقه
+                            منطقه
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Category)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Contractor)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AcademyPercent)
                         </th>
 
                         <th>
@@ -80,6 +83,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Contractor.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AcademyPercent)
                         </td>
 
                         <td>

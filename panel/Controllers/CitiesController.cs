@@ -76,7 +76,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] City city)
+        public async Task<IActionResult> Create([Bind("Id,Name,CityPercent")] City city)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace Panel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] City city)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CityPercent")] City city)
         {
             if (id != city.Id)
             {

@@ -24,7 +24,7 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-        
+
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
@@ -36,14 +36,14 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
             </div>
             <div class="form-group">
                 <label asp-for="DistrictId" class="control-label"></label>
-                <select asp-for="DistrictId" class="form-control Select2" asp-items="ViewBag.ContractorId"></select>
+                <select asp-for="DistrictId" class="form-control Select2" asp-items="ViewBag.DistrictId"></select>
             </div>
-          
+
             <div class="form-group">
                 <label asp-for="AcademyCategoryId" class="control-label"></label>
                 <select asp-for="AcademyCategoryId" class="form-control Select2" asp-items="ViewBag.AcademyCategoryId"></select>
             </div>
-           
+
             <div class="form-group">
                 <label asp-for="SupportNumber" class="control-label"></label>
                 <input asp-for="SupportNumber" class="form-control" />
@@ -61,8 +61,12 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
                 <input asp-for="PhoneNubmber" class="form-control" />
                 <span asp-validation-for="PhoneNubmber" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="AcademyPercent" class="control-label"></label>
+                <input asp-for="AcademyPercent" class="form-control" />
+                <span asp-validation-for="AcademyPercent" class="text-danger"></span>
+            </div>
 
-           
 
 
             <div class="form-group">
