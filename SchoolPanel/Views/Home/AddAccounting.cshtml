@@ -1,4 +1,6 @@
 ﻿@model DAL.Accounting
+@using DNTPersianUtils.Core
+@using Panel.Extention
 
 @{
     ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
@@ -18,28 +20,28 @@
     <div class="box-body">
         <div class="row">
             <div class="col-md-4">
-                <form asp-action="Accounting">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                  
+                <form asp-action="AddAccounting">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="ServiceRequsetId" value="@ViewBag.reqId" />
 
                     <div class="form-group">
                         <label asp-for="PayType" class="control-label"></label>
-                        <select asp-for="PayType" class="form-control Select2"></select>
+                        <select asp-for="PayType" asp-items="Html.GetEnumSelectList<DAL.PayType>()" class="form-control Select2"></select>
                         <span asp-validation-for="PayType" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Payed" class="control-label"></label>
-                        <input asp-for="Payed" class="form-control" />
+                        <input asp-for="Payed" class="form-control"  />
                         <span asp-validation-for="Payed" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="PayDate" class="control-label"></label>
-                        <input asp-for="PayDate" class="form-control" />
+                        <input name="pay" class="form-control" onclick="OpendatePicker(this)"/>
                         <span asp-validation-for="PayDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="NextPay" class="control-label"></label>
-                        <input asp-for="NextPay" class="form-control" />
+                        <input  name="next" class="form-control" onclick="OpendatePicker(this)"/>
                         <span asp-validation-for="NextPay" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -52,8 +54,8 @@
                         <input asp-for="Comment" class="form-control" />
                         <span asp-validation-for="Comment" class="text-danger"></span>
                     </div>
-                   
-                 
+
+
                     <div class="form-group">
                         <input type="submit" value="ثبت" class="btn btn-success  btn-block" />
                     </div>
@@ -63,6 +65,81 @@
     </div>
 </div>
 <div>
-    <a class="btn btn-danger" onclick="Window.history.back()"> بازگشت به لیست </a>
+    <a class="btn btn-danger" onclick="window.history.back()"> بازگشت به لیست </a>
 </div>
+<div id="datePicker" data-iziModal-title="انتخاب تاریخ" data-iziModal-icon="icon-home">
+    <div class="row">
+        <br />
+        <div class="col-lg-2 col-lg-offset-2">
+            <div class="form-group">
+                <select type="text" class="form-control" placeholder="روز" id="day">
+                    @for (int i = 1; i < 32; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <select type="text" class="form-control" placeholder="روز" id="mount">
+                    @for (int i = 1; i < 13; i++)
+                    {
+                        <option value="@i">@i.ToPersionMount()</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <select type="text" class="form-control" placeholder="روز" id="year">
+
+                    <option value="@DateTime.Now.GetPersianYear()"> @DateTime.Now.GetPersianYear()  </option>
+                    <option value="@(DateTime.Now.GetPersianYear()+1)"> @(DateTime.Now.GetPersianYear() +1) </option>
+                    <option value="@(DateTime.Now.GetPersianYear()+2)"> @(DateTime.Now.GetPersianYear() +2) </option>
+
+
+
+                </select>
+            </div>
+        </div>
+
+       
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <br />
+            <button class="btn btn-success btn-block" onclick="setpicker()">تایید</button>
+            <br />
+        </div>
+    </div>
+    <!-- Modal content -->
+
+
+</div>
+@section Scripts{
+    <script>
+        var datePickerEl = "";
+        function setpicker() {
+            var day = $("#day").val();
+            var mount = $("#mount").val();
+            var year = $("#year").val();
+            $(datePickerEl).val(year + '/' + mount + '/' + day);
+            picker.iziModal('close');
+        }
+        var picker = $('#datePicker').iziModal();
+       
+        function OpendatePicker(el) {
+           
+            datePickerEl = el;
+           
+        picker.iziModal('open', {
+            transition: 'bounceInDown' // Here transitionIn is the same property.
+        });
+
+       
+    }
+    </script>
+}
+
 

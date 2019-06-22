@@ -20,7 +20,7 @@ namespace Droid
     {
         public string mGeolocationOrigin;
         public GeolocationPermissions.ICallback mGeolocationCallback;
-        public ProgressBar progress;
+       
         public WebView webView;
         bool IsRestart = false;
         protected override void OnCreate(Bundle savedInstanceState)

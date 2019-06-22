@@ -33,7 +33,7 @@ namespace DAL
         [Display(Name = "والدین")]
         public virtual StudentParent StudentParent { get; set; }
 
-        [Display(Name = " نام و نام خادنوادگی دانش آموز")]
+        [Display(Name = " نام و نام خانوادگی دانش آموز")]
         public string FullName { get; set; }
 
         [Display(Name = "کد ملی دانش آموز")]

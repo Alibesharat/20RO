@@ -2,18 +2,20 @@
 using DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Panel.Extention;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DNTPersianUtils.Core;
 
 namespace SchoolPanel.Controllers
 {
 
 
-    [Authorize(nameof(RolName.academy))]
+    [Authorize(Roles = nameof(RolName.academy))]
     public class HomeController : Controller
     {
         private readonly TaxiContext _context;
@@ -25,7 +27,7 @@ namespace SchoolPanel.Controllers
 
 
         // لیست درخواست ها
-        public async Task<IActionResult> Index(int pageindex = 1, string RequsetId = "", string IdCode = "", RequsetSate requsetSate = RequsetSate.AwaitingAcademy)
+        public async Task<IActionResult> Index(int pageindex = 1, string RequsetId = "", string IdCode = "", RequsetSate requsetSate = RequsetSate.Reserve)
         {
             var Academyid = User.GetAcademy()?.Id;
             var takeStep = 10;
@@ -34,10 +36,12 @@ namespace SchoolPanel.Controllers
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>
             {
-                { nameof(requsetSate), requsetSate.ToString() }
+                { nameof(requsetSate), requsetSate.ToString() },
+               
             };
 
-
+            ViewBag.selectedName = requsetSate.GetDisplayName();
+            ViewBag.selectedvalue = requsetSate;
             var _ServiceRequsets = _context.ServiceRequsets.Undelited().AsQueryable();
             _ServiceRequsets = _ServiceRequsets
                 .Include(s => s.Accountings)
@@ -117,8 +121,8 @@ namespace SchoolPanel.Controllers
 
                 throw ex;
             }
-         
-          
+
+
         }
 
 
@@ -154,7 +158,7 @@ namespace SchoolPanel.Controllers
             {
                 throw new Exception($" academy by Id :  [{academyId}] try to  AddAccounting out of his scope");
             }
-            TempData["id"] = id;
+            ViewBag.reqId = id;
             return View();
         }
 
@@ -164,16 +168,23 @@ namespace SchoolPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //افزدون پرداخت
-        public async Task<IActionResult> AddAccounting([Bind("Id,PayType,Payed,PayDate,NextPay,TrackNumber,Comment")] Accounting accounting)
+        public async Task<IActionResult> AddAccounting([Bind("ServiceRequsetId,PayType,Payed,PayDate,NextPay,TrackNumber,Comment")] Accounting accounting,string pay,string next)
         {
-            var ServiceRequsetId = TempData["id"]?.ToString();
-            if (!string.IsNullOrWhiteSpace(ServiceRequsetId))
-                accounting.ServiceRequsetId = ServiceRequsetId;
+           
+            var PayDate = pay.ToGregorianDateTime();
+            var NextPay = next.ToGregorianDateTime();
+            if (!PayDate.HasValue)
+                ModelState.AddModelError("PayDate", "تاریخ پرداخت اشتباه است");
+            if (!NextPay.HasValue)
+                ModelState.AddModelError("NextPay", "تاریخ سررسید اشتباه است");
             if (ModelState.IsValid)
             {
+                accounting.PayDate = PayDate;
+                accounting.NextPay = NextPay;
+
                 _context.Add(accounting);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
-                return RedirectToAction(nameof(Accounting), ServiceRequsetId);
+                return RedirectToAction(nameof(Accounting),new { id = accounting.ServiceRequsetId });
             }
             return View(accounting);
         }
@@ -201,9 +212,14 @@ namespace SchoolPanel.Controllers
         [ValidateAntiForgeryToken]
 
         //ویرایش پرداخت
-        public async Task<IActionResult> EditAccounting([Bind("Id,ServiceRequsetId,PayType,Payed,PayDate,NextPay,TrackNumber,Comment")] Accounting accounting)
+        public async Task<IActionResult> EditAccounting([Bind("Id,ServiceRequsetId,PayType,Payed,PayDate,NextPay,TrackNumber,Comment")] Accounting accounting, string pay, string next)
         {
-
+            var PayDate = pay.ToGregorianDateTime();
+            var NextPay = next.ToGregorianDateTime();
+            if (!PayDate.HasValue)
+                ModelState.AddModelError("PayDate", "تاریخ پرداخت اشتباه است");
+            if (!NextPay.HasValue)
+                ModelState.AddModelError("NextPay", "تاریخ سررسید اشتباه است");
             if (ModelState.IsValid)
             {
 
@@ -216,9 +232,11 @@ namespace SchoolPanel.Controllers
                     {
                         throw new Exception($"acadmy by Id : [{acadmyId}] try to    EditAccounting out of his scope");
                     }
+                    accounting.PayDate = PayDate;
+                    accounting.NextPay = NextPay;
                     _context.Update(accounting);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    return RedirectToAction(nameof(Accounting), serviceRequset.Id);
+                    return RedirectToAction(nameof(Accounting), new { id= serviceRequset.Id });
 
                 }
                 catch (DbUpdateConcurrencyException ex)

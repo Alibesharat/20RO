@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<DAL.Accounting>
 @using DAL
+@using DNTPersianUtils.Core
 
 @{
     var def = ViewData["Count"] ?? "0";
@@ -30,13 +31,13 @@
             <table class="table table-bordered table-condensed table-hover table-striped text-center">
                 <thead>
                     <tr>
-
-                        <th>
-                            @Html.DisplayNameFor(model => model.Payed)
-                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.PayType)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Payed)
+                        </th>
+
 
                         <th>
                             @Html.DisplayNameFor(model => model.PayDate)
@@ -59,17 +60,18 @@
                     {
 
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Payed)
-                        </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.PayType)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.PayDate)
+                            @Html.DisplayFor(modelItem => item.Payed)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.NextPay)
+                            @item.PayDate.ToPersianDateTextify()
+                        </td>
+                        <td>
+                            @item.NextPay.ToPersianDateTextify()
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TrackNumber)
@@ -81,10 +83,21 @@
                             <a asp-action="EditAccounting" class="btn btn-sm btn-info" asp-route-id="@item.Id"> ویرایش </a>
                         </td>
                     </tr>
+
                     }
                 </tbody>
+                <tfoot class="bg-red">
+                    <tr>
+                        <td>جمع کل</td>
+                        <td> @(Model.Sum(c=>c.Payed).ToString("N0")) </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
+
+        
+        <a asp-action="index" class="btn btn-sm btn-default"> بازگشت به لیست درخواست ها </a>
+
         <partial name="~/Views/Shared/_paging.cshtml" />
     </div>
 </div>

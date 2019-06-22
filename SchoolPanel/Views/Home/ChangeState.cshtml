@@ -2,7 +2,7 @@
 @using DAL;
 
 @{
-   
+
     ViewData["Title"] = $"تغییر وضعیت سرویس";
 }
 
@@ -28,7 +28,8 @@
 
                     <div class="form-group">
                         <label asp-for="RequsetState" class="control-label"></label>
-                        <select asp-for="RequsetState" asp-items="@Html.GetEnumSelectList<RequsetSate>()" class="form-control" />
+                        <select asp-for="RequsetState" class="form-control Select2" name="RequsetSate" asp-items="Html.GetEnumSelectList<RequsetSate>()"></select>
+
                         <span asp-validation-for="RequsetState" class="text-danger"></span>
                     </div>
 
@@ -42,6 +43,6 @@
     </div>
 </div>
 <div>
-    <a class="btn btn-danger" onclick="Window.history.back()"> بازگشت به لیست </a>
+    <a class="btn btn-danger" onclick="window.history.back()"> بازگشت به لیست </a>
 </div>
 
