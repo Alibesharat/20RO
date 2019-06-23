@@ -127,7 +127,7 @@ namespace SchoolPanel.Controllers
 
 
 
-        //لیست پرداخت ها
+        //لیست پرداخت هایی یک سرویس  
         public async Task<IActionResult> Accounting(string id)
         {
             if (id == null)
@@ -137,10 +137,27 @@ namespace SchoolPanel.Controllers
 
             var accounting = await _context.Accountings.Undelited()
                .Where(c => c.ServiceRequsetId == id).ToListAsync();
+            ViewBag.FullName = _context.ServiceRequsets.Find(id).FullName;
             ViewBag.ServiceRequsetId = id;
             ViewData["Count"] = accounting.Count();
             return View(accounting);
         }
+
+
+
+        //لیست پرداخت هایی یک سرویس  
+        public async Task<IActionResult> FullAccounting()
+        {
+
+            var accounting = await _context.Accountings.Undelited()
+                .Include(c => c.ServiceRequset)
+                .Where(c => c.ServiceRequset.AcademyId == User.GetAcademy().Id)
+                .ToListAsync();
+               
+          
+            return View(accounting);
+        }
+
 
 
 
