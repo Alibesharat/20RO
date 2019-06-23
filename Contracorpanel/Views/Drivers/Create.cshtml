@@ -17,11 +17,11 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
     <div class="box-body">
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="application/x-www-form-urlencoded">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="AvatarPath" class="control-label"></label>
-                <input type="file" asp-for="AvatarPath" class="form-control" />
+                <input type="file" name="AvatarPath" class="form-control" />
                 <span asp-validation-for="AvatarPath" class="text-danger"></span>
             </div>
             <div class="form-group">

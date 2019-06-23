@@ -29,14 +29,11 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
                 <label asp-for="DriverId" class="control-label"></label>
                 <select asp-for="DriverId" class ="form-control" asp-items="ViewBag.DriverId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="TaxiCabState" class="control-label"></label>
-                <select asp-for="TaxiCabState" class="form-control Select2"></select>
-                <span asp-validation-for="TaxiCabState" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">
                 <label asp-for="ServiceType" class="control-label"></label>
-                <select class="form-control" asp-for="ServiceType" asp-items="@Html.GetEnumSelectList<ServiceType>()"></select>
+                <select class="form-control select2"  asp-for="ServiceType" asp-items="Html.GetEnumSelectList<ServiceType>()">
+</select>
                 <span asp-validation-for="ServiceType" class="text-danger"></span>
             </div>
           

@@ -88,9 +88,9 @@ namespace Web
                             DateTime.UtcNow.AddHours(12).ToString("R");
                 }
             });
-
             app.UseCookiePolicy();
             app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

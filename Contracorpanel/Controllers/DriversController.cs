@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Contracorpanel.Controllers
 {
-    [Authorize(nameof(RolName.Contractor))]
+    [Authorize(Roles = nameof(RolName.Contractor))]
     public class DriversController : Controller
     {
         private readonly TaxiContext _context;
@@ -102,13 +102,13 @@ namespace Contracorpanel.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(nameof(AvatarPath),"تصویر آپلود نشد");
+                        ModelState.AddModelError(nameof(AvatarPath), "تصویر آپلود نشد");
                         return View(driver);
                     }
 
                     _context.Add(driver);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    return RedirectToAction(nameof(Details),new { id=driver.Id});
+                    return RedirectToAction(nameof(Details), new { id = driver.Id });
                 }
                 catch (Exception ex)
                 {
@@ -133,6 +133,7 @@ namespace Contracorpanel.Controllers
             {
                 return NotFound();
             }
+            TempData["pic"] = driver.AvatarPath;
             return View(driver);
         }
 
@@ -141,11 +142,11 @@ namespace Contracorpanel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarName,CarType,CarColor,IranianIdCode,DrivingLicense,DriverCode,PelakNumber,IsMaried,Id,Name,PhoneNubmber,Password,BeginDate,AllowActivity")] Driver driver, IFormFile AvatarPath)
+        public async Task<IActionResult> Edit(int id, [Bind("CarName,CarType,CarColor,IranianIdCode,DrivingLicense,DriverCode,PelakNumber,IsMaried,Id,Name,PhoneNubmber,Password,BeginDate,AllowActivity,AvatarPath")] Driver driver, IFormFile Avatar)
         {
-            if (AvatarPath != null && AvatarPath.Length > (500 * 1024))
+            if (Avatar != null && Avatar.Length > (500 * 1024))
             {
-                ModelState.AddModelError(nameof(AvatarPath), "حجم تصویر نباید بیش از 500 کیلو بایت باشد");
+                ModelState.AddModelError(nameof(Avatar), "حجم تصویر نباید بیش از 500 کیلو بایت باشد");
             }
             if (id != driver.Id)
             {
@@ -154,22 +155,28 @@ namespace Contracorpanel.Controllers
 
             if (ModelState.IsValid)
             {
-                if (AvatarPath != null)
+                if (Avatar != null)
                 {
                     List<string> AllowedExtention = new List<string>()
                     {
                        ".jpg",
                        ".png"
                     };
-                    var data = await AlphaRest.File.SendFileAsync(AvatarPath, AllowedExtention, (500 * 1024), $"{Const.DriverUploadFileApi}");
+                    var data = await AlphaRest.File.SendFileAsync(Avatar, AllowedExtention, (500 * 1024), $"{Const.DriverUploadFileApi}");
                     if (!string.IsNullOrWhiteSpace(data) && data != "false")
                     {
                         driver.AvatarPath = data;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(Avatar), "تصویر آپلود نشد");
+                        return View(driver);
                     }
                 }
                 try
                 {
                     driver.ContractorId = User.GetContractor().Id;
+
                     _context.Update(driver);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                 }

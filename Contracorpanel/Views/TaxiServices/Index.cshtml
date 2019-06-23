@@ -52,9 +52,8 @@
                         <th>
                             @Html.DisplayNameFor(model => model.TaxiCabState)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DriverPercent)
-                        </th>
+                      
+
 
                         <th></th>
                     </tr>
@@ -67,15 +66,12 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                <a asp-action="Detailes" asp-controller="Drivers" asp-route="@item.Id">
+                                <a asp-action="Details" asp-controller="Drivers" asp-route-id="@item.DriverId">
                                     @Html.DisplayFor(modelItem => item.Driver.Name)
                                 </a>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.TaxiCabState)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DriverPercent)
                             </td>
                            
                             <td>

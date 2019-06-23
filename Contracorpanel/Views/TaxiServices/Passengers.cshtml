@@ -31,22 +31,32 @@
     <div class="box-body">
         <div class="table-responsive">
             <table class="table table-bordered table-condensed table-hover table-striped text-center">
-                <thead>
+                <thead class="bg-light-blue-active">
                     <tr>
-                        <th>راننده</th>
-                        <th>نوع سرویس</th>
-                        <th> تعداد مسافران </th>
+                        <th colspan="2">راننده</th>
+                        <th colspan="2">نوع سرویس</th>
+
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>@Model.Driver.Name</td>
-                        <td>@Model.ServiceType</td>
-                        <td>@Model.Passnegers.Count()</td>
+                <tbody class="bg-fuchsia">
+                    <tr style="color:black">
+                        <td colspan="2">
+                            <a asp-action="Details" asp-controller="Drivers" asp-route-id="@Model.DriverId">
+                                @Model.Driver.Name
+                            </a>
+
+                        </td>
+                        <td colspan="2">@Html.DisplayFor(c => c.ServiceType)</td>
+
 
                     </tr>
                 </tbody>
+                <thead>
+                    <tr>
+                        <th colspan="4">مسافران</th>
 
+                    </tr>
+                </thead>
                 <thead>
                     <tr>
                         <th>
@@ -68,6 +78,7 @@
                     {
                         <tr>
                             <td>
+                                
                                 @Html.DisplayFor(modelItem => item.FullName)
                             </td>
 
@@ -80,11 +91,9 @@
                             </td>
 
                             <td>
-                                <form asp-action="RemovePassenger" method="post">
-                                    <input type="hidden" value="@Model.Id" name="Id" />
-                                    <input type="hidden" value="@item.Id" name="PassngerId" />
-                                    <button type="submit" class="btn btn-sm btn-danger" asp-route-id="@item.Id">حذف مسافر</button> |
-                                </form>
+
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="Send('@item.TaxiServiceId','@item.Id')">حذف مسافر</button> |
+
                                 <a asp-action="Details" asp-controller="Home" class="btn btn-sm btn-warning" asp-route-id="@item.Id">جزییات</a>
                             </td>
                         </tr>
@@ -94,3 +103,21 @@
         </div>
     </div>
 </div>
+<form asp-action="RemovePassenger" method="post" id="frm">
+    <input type="hidden" id="Id" name="Id" />
+    <input type="hidden" id="PassngerId" name="PassngerId" />
+
+</form>
+
+@section Scripts{
+    <script>
+      function Send(servid, passsngerid) {
+          $("#Id").val(servid);
+          $("#PassngerId"  ).val(passsngerid);
+          $("#frm").submit();
+
+      }
+
+
+    </script>
+}

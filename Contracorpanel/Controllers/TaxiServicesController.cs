@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Contracorpanel.Controllers
 {
-    [Authorize(nameof(RolName.Contractor))]
+    [Authorize(Roles = nameof(RolName.Contractor))]
     public class TaxiServicesController : Controller
     {
         private readonly TaxiContext _context;
@@ -61,10 +61,11 @@ namespace Contracorpanel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DriverId,TaxiCabState,DriverPercent,ServiceType")] TaxiService taxiService)
+        public async Task<IActionResult> Create([Bind("Id,Name,DriverId,DriverPercent,ServiceType")] TaxiService taxiService)
         {
             if (ModelState.IsValid)
             {
+                taxiService.TaxiCabState = TaxiCabState.wait;
                 _context.Add(taxiService);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return RedirectToAction(nameof(Index));
@@ -173,7 +174,10 @@ namespace Contracorpanel.Controllers
             }
             ViewData["ServiceRequsets"] = new SelectList(_context.ServiceRequsets.Undelited()
                 .Include(c => c.Academy)
-                .Where(c => c.Academy.ContractorId == User.GetContractor().Id), "Id", "FullName");
+                .Where(c => c.Academy.ContractorId == User.GetContractor().Id
+                && c.TaxiServiceId == null)
+                .OrderBy(c => c.Longtude).ThenBy(c => c.Latitue).ThenBy(c => c.Distance)
+                , "Id", "FullName");
 
             return View(taxiService);
         }
@@ -215,8 +219,9 @@ namespace Contracorpanel.Controllers
                 return View(nameof(Passengers), new { id = Id });
             }
             TaxiService.Passnegers.Add(passnger);
+            _context.Update(TaxiService);
             await _context.SaveChangesWithHistoryAsync(HttpContext);
-            return View(nameof(Passengers), new { id = Id });
+            return RedirectToAction(nameof(Passengers), new { id = Id });
 
         }
 
@@ -246,9 +251,11 @@ namespace Contracorpanel.Controllers
                 ViewBag.msg = "مسافری با این مشخصات  یافت نشد";
                 return View(nameof(Passengers), new { id = Id });
             }
-            TaxiService.Passnegers.Remove(passnger);
-            await _context.SaveChangesWithHistoryAsync(HttpContext);
-            return View(nameof(Passengers), new { id = Id });
+
+            passnger.TaxiServiceId = null;
+            _context.Entry(passnger).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Passengers), new { id = Id });
 
         }
 

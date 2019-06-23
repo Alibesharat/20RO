@@ -2,6 +2,7 @@
 using DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Panel.Extention;
 using System.Collections.Generic;
@@ -22,23 +23,30 @@ namespace Web.Controllers
             _context = context;
         }
         // لیست درخواست ها
-        public async Task<IActionResult> Index(int pageindex = 1, string RequsetId = "", string IdCode = "", RequsetSate requsetSate = RequsetSate.AwaitingAcademy)
+        public async Task<IActionResult> Index(int? AcademyId, int pageindex = 1, string RequsetId = "", string IdCode = "", RequsetSate requsetSate = RequsetSate.AwaitingContractor)
         {
             var ContractorId = User.GetContractor()?.Id;
+            var acadmeys = new SelectList(_context.Academies.Undelited().Where(c => c.ContractorId == ContractorId), "Id", "Name", AcademyId);
+            ViewData["academys"] = acadmeys;
+            var acadmyIds = acadmeys.Select(c => c.Value).ToList();
+
             var takeStep = 10;
             var SkipStep = (pageindex - 1) * takeStep;
             int count = 0;
             ViewBag.curent = pageindex;
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>
             {
-                { nameof(requsetSate), requsetSate.ToString() }
+                { nameof(requsetSate), requsetSate.ToString() },
+
             };
 
-            
-            var _ServiceRequsets = _context.ServiceRequsets.AsQueryable();
+            ViewBag.selectedName = requsetSate.GetDisplayName();
+            ViewBag.selectedvalue = requsetSate;
+            var _ServiceRequsets = _context.ServiceRequsets.Undelited().AsQueryable();
             _ServiceRequsets = _ServiceRequsets
-                .Include(c=>c.Academy)
-                .Where(c =>c.Academy.ContractorId==ContractorId
+                .Include(s => s.Accountings)
+                .Include(s => s.Academy)
+                .Where(c => acadmyIds.Contains(c.AcademyId.ToString())
                 && c.RequsetState == requsetSate);
             if (!string.IsNullOrWhiteSpace(RequsetId))
             {
@@ -53,6 +61,13 @@ namespace Web.Controllers
                    .Where(c => c.IrIdCod.Contains(IdCode));
                 ViewBag.IdCode = IdCode;
                 AllRouteData.Add(nameof(IdCode), IdCode);
+            }
+            if (AcademyId.HasValue)
+            {
+                _ServiceRequsets = _ServiceRequsets
+                 .Where(c => c.AcademyId == AcademyId);
+                ViewBag.AcademyId = AcademyId;
+                AllRouteData.Add(nameof(AcademyId), AcademyId.ToString());
             }
 
             count = _ServiceRequsets.Count();
@@ -72,7 +87,7 @@ namespace Web.Controllers
 
             var serviceRequset = await _context.ServiceRequsets
                 .Include(s => s.StudentParent)
-                .Include(s=>s.Academy)
+                .Include(s => s.Academy)
                 .FirstOrDefaultAsync(m => m.Id == id && m.Academy.ContractorId == User.GetContractor().Id);
             if (serviceRequset == null)
             {
@@ -87,9 +102,9 @@ namespace Web.Controllers
         public async Task<IActionResult> ChangeState(string id)
         {
             var serviceRequset = await _context.ServiceRequsets
-                .Include(c=>c.Academy)
+                .Include(c => c.Academy)
                .FirstOrDefaultAsync(m => m.Id == id && m.Academy.ContractorId == User.GetContractor().Id);
-            if (serviceRequset == null || serviceRequset.RequsetState==RequsetSate.AwaitingAcademy)
+            if (serviceRequset == null || serviceRequset.RequsetState == RequsetSate.AwaitingAcademy)
                 return NotFound();
 
             return View(serviceRequset);
@@ -100,7 +115,7 @@ namespace Web.Controllers
         //تغییر وضعیت درخواست
         public async Task<IActionResult> ChangeState(string id, RequsetSate requsetSate)
         {
-          
+
             var serviceRequset = await _context.ServiceRequsets
                .Include(c => c.Academy)
               .FirstOrDefaultAsync(m => m.Id == id && m.Academy.ContractorId == User.GetContractor().Id);
@@ -126,6 +141,22 @@ namespace Web.Controllers
             }
 
 
+        }
+
+
+        //لیست پرداخت هایی یک سرویس  
+        public async Task<IActionResult> Accounting(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var accounting = await _context.Accountings.Undelited()
+               .Where(c => c.ServiceRequsetId == id).ToListAsync();
+            ViewBag.FullName = _context.ServiceRequsets.Find(id).FullName;
+            ViewData["Count"] = accounting.Count();
+            return View(accounting);
         }
 
 

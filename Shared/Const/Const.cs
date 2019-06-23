@@ -80,7 +80,7 @@ public class Const
 
 
     public const string DriverUploadFileApi = CdnRootpath + "/api/bisro/Getdriverpic";
-    public const string Driver_20ro_AvatarPath_Relative = "bisro/Dynamics/Drivers";
+    public const string Driver_20ro_AvatarPath_Relative = "20ro/Dynamics/Drivers";
     public const string Driver_20ro_AvatarPath_full = CdnRootpath + "/" + Driver_20ro_AvatarPath_Relative;
 
 
