@@ -1,0 +1,52 @@
+﻿@model DAL.Accounting
+
+@{
+    ViewData["ClassName"] = @Html.DisplayNameFor(c => c.ClassName);
+    ViewData["Title"] = $"حذف {ViewData["ClassName"]} ";
+}
+
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-header text-center">
+            <span class="text-warning">
+                @ViewData["Title"]
+            </span>
+
+        </h3>
+       
+        <hr />
+    </div>
+    <div class="box-body">
+        <h5>ایا از حذف این آیتم اطمینان دارید ؟</h5>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.TrackNumber)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.TrackNumber)
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <hr />
+
+            <form asp-action="DeleteAccounting">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="بله اطمینان دارم این آیتم  حذف شود " class="btn btn-danger" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-default" asp-action="Accounting" asp-route-id="@Model.ServiceRequsetId"> بازگشت به لیست </a>
+</div>

@@ -37,7 +37,7 @@ namespace SchoolPanel.Controllers
             Dictionary<string, string> AllRouteData = new Dictionary<string, string>
             {
                 { nameof(requsetSate), requsetSate.ToString() },
-               
+
             };
 
             ViewBag.selectedName = requsetSate.GetDisplayName();
@@ -153,8 +153,8 @@ namespace SchoolPanel.Controllers
                 .Include(c => c.ServiceRequset)
                 .Where(c => c.ServiceRequset.AcademyId == User.GetAcademy().Id)
                 .ToListAsync();
-               
-          
+
+
             return View(accounting);
         }
 
@@ -185,9 +185,9 @@ namespace SchoolPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //افزدون پرداخت
-        public async Task<IActionResult> AddAccounting([Bind("ServiceRequsetId,PayType,Payed,PayDate,NextPay,TrackNumber,Comment")] Accounting accounting,string pay,string next)
+        public async Task<IActionResult> AddAccounting([Bind("ServiceRequsetId,PayType,Payed,PayDate,NextPay,TrackNumber,Comment")] Accounting accounting, string pay, string next)
         {
-           
+
             var PayDate = pay.ToGregorianDateTime();
             var NextPay = next.ToGregorianDateTime();
             if (!PayDate.HasValue)
@@ -201,7 +201,7 @@ namespace SchoolPanel.Controllers
 
                 _context.Add(accounting);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
-                return RedirectToAction(nameof(Accounting),new { id = accounting.ServiceRequsetId });
+                return RedirectToAction(nameof(Accounting), new { id = accounting.ServiceRequsetId });
             }
             return View(accounting);
         }
@@ -227,7 +227,6 @@ namespace SchoolPanel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         //ویرایش پرداخت
         public async Task<IActionResult> EditAccounting([Bind("Id,ServiceRequsetId,PayType,Payed,PayDate,NextPay,TrackNumber,Comment")] Accounting accounting, string pay, string next)
         {
@@ -253,7 +252,7 @@ namespace SchoolPanel.Controllers
                     accounting.NextPay = NextPay;
                     _context.Update(accounting);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
-                    return RedirectToAction(nameof(Accounting), new { id= serviceRequset.Id });
+                    return RedirectToAction(nameof(Accounting), new { id = serviceRequset.Id });
 
                 }
                 catch (DbUpdateConcurrencyException ex)
@@ -268,7 +267,38 @@ namespace SchoolPanel.Controllers
 
 
 
+        public async Task<IActionResult> DeleteAccounting(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var accounting = await _context.Accountings.FindAsync(id);
+            if (accounting == null)
+            {
+                return NotFound();
+            }
+            return View(accounting);
+        }
+
+
+        [HttpPost, ActionName("DeleteAccounting")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
+        {
+
+            if (!id.HasValue)
+                return NotFound();
+            var accounting = await _context.Accountings.Undelited().Include(c => c.ServiceRequset)
+                .FirstOrDefaultAsync(c => c.Id == id && c.ServiceRequset.AcademyId == User.GetAcademy().Id);
+            if (accounting == null)
+                return BadRequest();
+            var reqid = accounting.ServiceRequsetId;
+            _context.Remove(accounting);
+            await _context.SaveChangesWithHistoryAsync(HttpContext);
+            return RedirectToAction(nameof(accounting), new { id = reqid });
+        }
 
 
     }
