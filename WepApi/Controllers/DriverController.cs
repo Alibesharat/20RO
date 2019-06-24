@@ -167,7 +167,7 @@ namespace WepApi.Controllers
                 _context.Update(Service);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 var number = Service.StudentParent.PhoneNubmber;
-                string token = "ServiceDetail";
+                string token = Service.Id;
                 await _notify.SendNotifyWithTemplateAsync(number, token, MessageTemplate.ilicarbrief);
 
                 return Ok(new ResultContract<bool>() { statuse = true, Data = true });
