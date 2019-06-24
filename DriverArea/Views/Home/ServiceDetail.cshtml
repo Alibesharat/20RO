@@ -37,7 +37,7 @@
                                             <span class="btn contant">@item.Age ساله </span>
                                             <span class="btn contant">@item.Address  </span>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.FullGeo)">
+                                                <a class="btn btn-block waves-effect blue" onclick="gta('@item.FullGeo')">
                                                     مسیر منزل
                                                     <i class="fa fa-map-o"></i>
                                                 </a>
@@ -49,7 +49,7 @@
                                                 </a>
                                             </p>
                                             <p class="center">
-                                                <a class="btn btn-block waves-effect blue" onclick="getLocation(@item.Academy?.FullGeo)">
+                                                <a class="btn btn-block waves-effect blue" onclick="getLocation('@item.Academy?.FullGeo')">
                                                     مسیر آموزشگاه
                                                     <i class="fa fa-map-o"></i>
                                                 </a>
@@ -66,7 +66,7 @@
                                             <div class="col s12 ">
                                                 <p class="center">
                                                     <br />
-                                                    <a class="btn  waves-effect orange" onclick="changestate(@item.Id,@Model.Id)">
+                                                    <a class="btn  waves-effect orange" onclick="changestate('@item.Id','@Model.Id')">
                                                         اطلاع رسانی
                                                         <i class="fa fa-bullhorn" aria-hidden="true"></i>
                                                     </a>
@@ -151,20 +151,16 @@
 
 @section Scripts{
     <script>
-        var chstate={
-            requseteId: 0,
-            taxicabId: 0,
-            DriverId: 0,
-            notifState: 0,
-        }
         var destinition = "";
         var source = "";
-        function getLocation(lat,lng) {
+        function getLocation(lat, lng) {
             destinition = lat+","+lng;
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
             }
+            console.log(lat,lng);
         }
+
         function showPosition(position) {
             source = position.coords.latitude + "," + position.coords.longitude;
             $("#choiseapp").modal('open');
@@ -185,6 +181,19 @@
 
         }
 
+
+    </script>
+    <script>
+        var chstate={
+            requseteId: 0,
+            taxicabId: 0,
+            DriverId: 0,
+            notifState: 0,
+        }
+      
+       
+       
+      
         function runchagestate(state)
         {
             $("#changestatemodal").modal('close');
@@ -211,29 +220,7 @@
         }
 
 
-        function Accept() {
-            LoadingStart();
-            var accept = {
-                taxiCabId:@Model.Id,
-                }
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("AcceptTaxiCab", "Home")',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(accept),
-                success: function (response) {
-                    LoadingEnd();
-                    if (response.statuse == true) {
-                        ShowMessage('سرویس شما با موفقیت تایید شد ، منتظر اعلام پشتیبان باشید');
-                    } else {
-                        ShowMessage(response.message);
-                    }
-                },
-                failure: function (response) {
-                    LoadingEnd();
-                    ShowMessage("ارتباط با سرور میسر نبود");
-                }
-            });
-        }
+       
+        
     </script>
 }

@@ -259,5 +259,16 @@ namespace Contracorpanel.Controllers
 
         }
 
+
+
+
+        public async Task<IActionResult> ShowOnmap(string taxiServiceId)
+        {
+            var taxiServices = await _context.ServiceRequsets
+                .Where(c => c.TaxiServiceId == taxiServiceId && c.Academy.ContractorId == User.GetContractor().Id)
+                .ToListAsync();
+            return View(taxiServices);
+        }
+
     }
 }

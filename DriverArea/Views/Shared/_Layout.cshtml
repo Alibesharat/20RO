@@ -111,22 +111,7 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-         function SendData(url,data) {
-            $.ajax({
-                type: "POST",
-                url: url,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(data),
-                success: function (response) {
-                    return response;
-                },
-                failure: function (response) {
-                    console.log(response);
-                    return -1;
-                },
-            });
-         }
+       
 
          function Logoff()
          {
