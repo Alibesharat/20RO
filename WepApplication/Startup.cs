@@ -48,19 +48,7 @@ namespace WepApplication
 
             });
 
-            services.AddScoped<SmtpClient>((serviceProvider) =>
-            {
-              
-                return new SmtpClient()
-                {
-                    Host = Configuration.GetValue<string>("Email:Smtp:Host"),
-                    Port = Configuration.GetValue<int>("Email:Smtp:Port"),
-                    Credentials = new NetworkCredential(
-                            Configuration.GetValue<string>("Email:Smtp:Username"),
-                            Configuration.GetValue<string>("Email:Smtp:Password")
-                        )
-                };
-            });
+          
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddHsts(options =>
             {

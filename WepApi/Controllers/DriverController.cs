@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NotifCore;
+using Kavenegar.Core.Models;
 
 namespace WepApi.Controllers
 {
@@ -23,11 +25,14 @@ namespace WepApi.Controllers
     {
         private readonly TaxiContext _context;
         private readonly ICoreLogger _logger;
+        private readonly ISMS<List<SendResult>> _notify;
 
-        public DriverController(TaxiContext context, ICoreLogger logger)
+
+        public DriverController(TaxiContext context, ICoreLogger logger, ISMS<List<SendResult>> notify)
         {
             _context = context;
             _logger = logger;
+            _notify = notify;
         }
 
         #region راننده
@@ -87,7 +92,7 @@ namespace WepApi.Controllers
                 else
                 {
                     var driver = model.Adapt<Driver>();
-                  
+
                     await _context.Drivers.AddAsync(driver);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                     return Ok(new ResultContract<Driver>() { statuse = true, Data = driver, message = "" });
@@ -150,7 +155,7 @@ namespace WepApi.Controllers
                 }
                 #endregion
 
-                var Service = await _context.ServiceRequsets.FirstOrDefaultAsync(c => c.Id == model.RequseteId);
+                var Service = await _context.ServiceRequsets.Include(c => c.StudentParent).FirstOrDefaultAsync(c => c.Id == model.RequseteId);
 
                 if (Service == null)
                 {
@@ -161,6 +166,10 @@ namespace WepApi.Controllers
                 Service.NotifState = model.NotifState;
                 _context.Update(Service);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
+                var number = Service.StudentParent.PhoneNubmber;
+                string token = "ServiceDetail";
+                await _notify.SendNotifyWithTemplateAsync(number, token, MessageTemplate.ilicarbrief);
+
                 return Ok(new ResultContract<bool>() { statuse = true, Data = true });
             }
             catch (Exception ex)
@@ -172,7 +181,7 @@ namespace WepApi.Controllers
 
         }
 
-       
+
 
 
         /// <summary>
@@ -185,7 +194,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var TaxiCabs = _context.TaxiServices.Undelited().Include(c=>c.Passnegers).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
+                var TaxiCabs = _context.TaxiServices.Undelited().Include(c => c.Passnegers).Where(c => c.DriverId == model.DriverId && c.TaxiCabState == model.TaxiCabState).ToList();
                 var setting = new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects

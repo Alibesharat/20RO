@@ -41,17 +41,7 @@ namespace DriverArea.Controllers
         }
 
 
-        public async Task<IActionResult> GetRoute([FromBody] RouteViewModel model)
-        {
-            var navigation = await utils.GetNavigation(model.Origin, model.Distination);
-            if (navigation != null && navigation.code == "Ok")
-            {
-                //var dis = navigation.routes.FirstOrDefault().distance;
-                var geometry = navigation.routes.FirstOrDefault().geometry;
-                return Json(geometry);
-            }
-            return Json(null);
-        }
+     
 
 
         /// <summary>
