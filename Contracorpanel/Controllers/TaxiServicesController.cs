@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoHistoryCore;
+using DAL;
+using DAL.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AutoHistoryCore;
-using DAL;
 using Panel.Extention;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Contracorpanel.Controllers
 {
@@ -226,6 +227,7 @@ namespace Contracorpanel.Controllers
         }
 
 
+
         /// <summary>
         /// حذف مسافر
         /// </summary>
@@ -270,5 +272,102 @@ namespace Contracorpanel.Controllers
             return View(taxiServices);
         }
 
+
+
+        [HttpPost]
+        [Route(nameof(Servicification))]
+        public async Task<IActionResult> Servicification()
+        {
+            var contractorId = User.GetContractor().Id;
+            var Drivers = _context.Drivers.Where(c => c.ContractorId == contractorId).ToList();
+            if (Drivers == null || Drivers.Count <= 0)
+            {
+                return Json(new ResultContract<int>() { Data = 0, statuse = false, message = "هیچ راننده فعالی یافت نشد" });
+            }
+
+            int Count = _context.TaxiServices.Undelited().Include(c => c.Driver).Where(c => c.Driver.ContractorId == contractorId).Count();
+
+            List<ServiceRequset> Requests = await _context.ServiceRequsets.Undelited()
+                .Include(c => c.Academy)
+                .Where(c => c.TaxiServiceId == null
+                && c.RequsetState == RequsetSate.AwaitingContractor
+                && c.Academy.ContractorId == contractorId)
+                .OrderBy(c => c.Longtude).ThenBy(c => c.Latitue).ThenBy(c => c.Distance).ToListAsync();
+
+            if (Requests == null || Requests.Count() <= 0)
+            {
+                return Json(new ResultContract<int>() { Data = 0, statuse = false, message = "هیچ درخواست سرویسی  یافت نشد" });
+
+            }
+            List<TaxiService> lst = new List<TaxiService>();
+            var taxineeds = Requests.Where(c => c.ServiceType == ServiceType.taxi);
+            var vanneeds = Requests.Where(c => c.ServiceType == ServiceType.van);
+            for (int i = 0; i <= taxineeds.Count(); i += 4)
+            {
+                var reqs = taxineeds.Skip(i).Take(4);
+                int DriverId = GetRandomDriver(Drivers);
+                if (DriverId == 0)
+                    break;
+                TaxiService sr = new TaxiService()
+                {
+                    DriverId = DriverId,
+                    DriverPercent = 75,
+                    IsDeleted = false,
+                    Name = $"سرویس شماره {(Count + 1)}",
+                    ServiceType = ServiceType.taxi,
+                    TaxiCabState = TaxiCabState.wait
+                };
+                foreach (var item in reqs)
+                {
+                    sr.Passnegers.Add(item);
+                }
+                lst.Add(sr);
+                Count += 1;
+
+            }
+            for (int i = 0; i <= vanneeds.Count(); i += 8)
+            {
+                var reqs = vanneeds.Skip(i).Take(8);
+                int DriverId = GetRandomDriver(Drivers);
+                if (DriverId == 0)
+                    break;
+                TaxiService sr = new TaxiService()
+                {
+                    DriverId = DriverId,
+                    DriverPercent = 75,
+                    IsDeleted = false,
+                    Name = $"سرویس شماره {(Count + 1)}",
+                    ServiceType = ServiceType.van,
+                    TaxiCabState = TaxiCabState.wait
+                };
+                foreach (var item in reqs)
+                {
+                    sr.Passnegers.Add(item);
+                }
+                lst.Add(sr);
+                Count += 1;
+
+            }
+
+
+            await _context.TaxiServices.AddRangeAsync(lst);
+            await _context.SaveChangesWithHistoryAsync(HttpContext);
+            return Json(new ResultContract<int>() { Data = 1, statuse = true, message = $"تعداد {lst.Count} سرویس با موفقیت  تنظیم شد" });
+
+
+
+
+        }
+
+        private int GetRandomDriver(List<Driver> drivers)
+        {
+            var count = drivers.Count();
+            if (count <= 0) return 0;
+            Random r = new Random();
+            var res = r.Next(count);
+            var id = drivers[res].Id;
+            drivers.Remove(drivers[res]);
+            return id;
+        }
     }
 }
