@@ -104,7 +104,9 @@ namespace WepApi.Controllers
                     {
                         telNumber = model.TelNumber,
                         PhoneNubmber = model.PhoneNumber,
-                        Name = model.Name
+                        Name = model.Name,
+                        Token = Const.Generatetoken()
+
                     };
                     await _context.StudentParents.AddAsync(parrent);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
@@ -144,7 +146,8 @@ namespace WepApi.Controllers
 
                 parrent.telNumber = model.TelNumber;
                 parrent.Name = model.Name;
-               
+
+
                 _context.Update(parrent);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent, message = "ویرایش اطلاعات با موفقیت انجام شد" });
@@ -180,6 +183,9 @@ namespace WepApi.Controllers
 
             if (parrent == null)
                 return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "نام کاربری یا رمز عبور اشتباه است" });
+            parrent.Token = Const.Generatetoken();
+            _context.Update(parrent);
+            _context.SaveChanges();
             return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent, });
 
 
