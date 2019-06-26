@@ -5,15 +5,15 @@ using System.Text.RegularExpressions;
 public class Const
 {
 
-    public const string WebSiteName = "20RO ";
+    public const string WebSiteName = "بیسترو ";
 
     public const string kewords = "طراحی وبسایت";
 
     /// <summary>
     /// آدرس وبسایت
     /// </summary>
-    public const string Apirootpath = "https://localhost:44353";
-    //public const string Apirootpath = "http://Api.20ro.net";
+    //public const string Apirootpath = "https://localhost:44353";
+    public const string Apirootpath = "http://Api.20ro.net";
 
     public const string StudentparrentPath = "https://web.20ro.net";
     public const string Driverpath = "https://driver.20ro.net";

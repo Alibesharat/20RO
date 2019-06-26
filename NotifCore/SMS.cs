@@ -80,7 +80,8 @@ namespace NotifCore
       
         Bisroverify,
         Bistogeton,
-        Bistrogetoff
+        Bistrogetoff,
+        Bisrobreif
 
 
     }

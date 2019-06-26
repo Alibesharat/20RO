@@ -154,7 +154,7 @@ namespace Panel.Controllers
                             
                             foreach (var item in txn.Passnegers)
                             {
-                                await _sms.SendNotifyWithTemplateAsync(item.StudentParent.PhoneNubmber, "https://ilicar.ir/Home/ActiveSerive", MessageTemplate.ilicarbrief);
+                                await _sms.SendNotifyWithTemplateAsync(item.StudentParent.PhoneNubmber, "https://20ro.net/Home/ActiveSerive", MessageTemplate.Bisrobreif);
                             }
 
                         }
