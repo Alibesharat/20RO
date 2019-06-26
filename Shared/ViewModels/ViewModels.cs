@@ -78,6 +78,11 @@ namespace DAL.ViewModels
         public string LastName { get; set; }
 
 
+        [Display(Name = "شماره ثابت")]
+        [Required(ErrorMessage = "{0}  الزامی است")]
+        public string TelNumber { get; set; }
+
+
 
     }
 
@@ -111,7 +116,7 @@ namespace DAL.ViewModels
         [Display(Name = "نام و نام خانوداگی")]
         [Required(ErrorMessage = "نام و نام خانوادگی را وارد نمایید")]
         public string FullName { get; set; }
-        
+
 
         [Display(Name = "آدرس")]
         [Required(ErrorMessage = "آدرس باید وارد شود")]
@@ -121,7 +126,7 @@ namespace DAL.ViewModels
         public string Note { get; set; }
 
 
-       
+
         public int AcademyId { get; set; }
 
 
@@ -195,7 +200,7 @@ namespace DAL.ViewModels
     {
         public int DriverId { get; set; }
 
-        public  TaxiCabState  TaxiCabState{ get; set; }
+        public TaxiCabState TaxiCabState { get; set; }
 
 
     }

@@ -15,6 +15,9 @@ namespace DAL
         [Display(Name = "والدین")]
         public string ClassName { get; set; }
 
+        [Display(Name = "شماره ثابت")]
+        public string telNumber { get; set; }
+
 
 
         [Display(Name = "تایید قوانین")]

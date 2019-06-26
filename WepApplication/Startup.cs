@@ -41,7 +41,7 @@ namespace WepApplication
             }).AddCookie(option =>
             {
                 option.AccessDeniedPath = "/Account/Denied";
-                option.LoginPath = "/Account/UerChalenge";
+                option.LoginPath = "/Account/UserChalenge";
                 option.SlidingExpiration = true;
                 option.Cookie.Name = "btscores";
                 option.ExpireTimeSpan = TimeSpan.FromDays(15);

@@ -36,13 +36,13 @@ namespace WepApplication.Controllers
 
         [HttpGet]
 
-        public IActionResult UerChalenge()
+        public IActionResult UserChalenge()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UerChalenge(string phoneNumber)
+        public async Task<IActionResult> UserChalenge(string phoneNumber)
         {
 
 
@@ -123,8 +123,14 @@ namespace WepApplication.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Complete(RegisterStudentParrentViewModel model)
         {
+            if (!model.TelNumber.IsValidIranianPhoneNumber())
+            {
+                ModelState.AddModelError(nameof(model.TelNumber),"شماره تلفن وارد شده صحیح نیست" );
+             
+            }
             if (ModelState.IsValid)
             {
+                
                 var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
              (model, Const.RegisterStudentParent, ApiMethode.Post);
                 if (data == null)
