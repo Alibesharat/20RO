@@ -89,8 +89,9 @@ namespace WepApplication.Controllers
                 {
                     PhoneNubmber = phoneNumber,
                     Name = "user",
-                    LastName = "Name"
-
+                    LastName = "Name",
+                    TelNumber="00"
+                    
                 };
                 var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
            (model, Const.IsExistStudentparrent, ApiMethode.Post);
