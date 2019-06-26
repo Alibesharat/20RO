@@ -93,7 +93,7 @@
             </div>
         </div>
     </div>
- 
+
 
 </div>
 
@@ -113,33 +113,17 @@
         <div class="row">
             <div class="col l10 offset-l2">
 
-                <div class="col s12 m2 l2">
+                <div class="col s12 m6 l2">
                     <p class="center">
-                        <a class="btn waves-effect blue btn-block" onclick="runchagestate('drivingToSource')">حرکت به سمت مبدا</a>
+                        <a class="btn waves-effect blue btn-block" onclick="runchagestate('GetOn')"> سوار شد  </a>
                     </p>
                 </div>
-                <div class="col s12 m2 l2">
+                <div class="col s12 m6 l2">
                     <p class="center">
-                        <a class="btn waves-effect red btn-block" onclick="runchagestate('OnSource')">در مبدا</a>
+                        <a class="btn waves-effect red btn-block" onclick="runchagestate('GetOff')"> پیاده شد </a>
+                    </p>
+                </div>
 
-                    </p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <p class="center">
-                        <a class="btn waves-effect green btn-block" onclick="runchagestate('DrivingToDestination')">حرکت به سمت مقصد</a>
-
-                    </p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <p class="center">
-                        <a class="btn waves-effect orang btn-block" onclick="runchagestate('OnDestination')">در مقصد</a>
-                    </p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <p class="center">
-                        <a class="btn waves-effect grey btn-block" onclick="runchagestate('Absent')"> غایب بود  </a>
-                    </p>
-                </div>
             </div>
 
         </div>
@@ -183,6 +167,7 @@
 
 
     </script>
+
     <script>
         var chstate={
             requseteId: 0,
@@ -190,10 +175,10 @@
             DriverId: 0,
             notifState: 0,
         }
-      
-       
-       
-      
+
+
+
+
         function runchagestate(state)
         {
             $("#changestatemodal").modal('close');
@@ -220,7 +205,7 @@
         }
 
 
-       
-        
+
+
     </script>
 }

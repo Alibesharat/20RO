@@ -7,7 +7,7 @@ namespace DAL
     /// </summary>
     public enum ServiceType
     {
-        [Display(Name="سواری")]
+        [Display(Name = "سواری")]
         taxi,
         [Display(Name = "ون")]
         van
@@ -57,16 +57,11 @@ namespace DAL
     public enum NotifState
     {
 
-        [Display(Name = "حرکت به سمت مبدا")]
-        drivingToSource,
-        [Display(Name = "حاضر در مبدا")]
-        OnSource,
-        [Display(Name = "حرکت به سمت مقصد")]
-        DrivingToDestination,
-        [Display(Name = "حاضر در مقصد")]
-        OnDestination,
-        [Display(Name = "غایب")]
-        Absent
+        [Display(Name = "سوار شد")]
+        GetOn,
+        [Display(Name = "پیاده شد")]
+        GetOff
+
 
     }
 

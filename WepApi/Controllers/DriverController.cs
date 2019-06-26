@@ -165,10 +165,17 @@ namespace WepApi.Controllers
 
                 Service.NotifState = model.NotifState;
                 _context.Update(Service);
-                await _context.SaveChangesWithHistoryAsync(HttpContext);
+                await _context.SaveChangesAsync();
                 var number = Service.StudentParent.PhoneNubmber;
                 string token = Service.Id;
-                await _notify.SendNotifyWithTemplateAsync(number, token, MessageTemplate.ilicarbrief);
+                if (model.NotifState == NotifState.GetOn)
+                {
+                    await _notify.SendNotifyWithTemplateAsync(number, token, MessageTemplate.Bistrogetoff);
+                }
+                else
+                {
+                    await _notify.SendNotifyWithTemplateAsync(number, token, MessageTemplate.Bistogeton);
+                }
 
                 return Ok(new ResultContract<bool>() { statuse = true, Data = true });
             }

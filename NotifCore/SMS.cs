@@ -77,9 +77,11 @@ namespace NotifCore
 
     public enum MessageTemplate
     {
-        kanoonverify,
-        ilicarbrief,
-        Bisroverify
+      
+        Bisroverify,
+        Bistogeton,
+        Bistrogetoff
+
 
     }
 }
