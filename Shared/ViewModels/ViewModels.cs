@@ -65,17 +65,36 @@ namespace DAL.ViewModels
     public class RegisterStudentParrentViewModel
     {
         [Display(Name = "شماره موبایل")]
-        [Required(ErrorMessage = "شماره موبایل الزامی است")]
-        [Phone]
-        public string PhoneNubmber { get; set; }
+        public string PhoneNumber { get; set; }
 
-        [Display(Name = "نام")]
+
+        [Display(Name = "نام و نام خانوداگی")]
         [Required(ErrorMessage = "{0}  الزامی است")]
         public string Name { get; set; }
 
-        [Display(Name = "نام خانوداگی")]
+      
+        [Display(Name = "شماره ثابت")]
         [Required(ErrorMessage = "{0}  الزامی است")]
-        public string LastName { get; set; }
+        public string TelNumber { get; set; }
+
+
+
+    }
+
+
+
+    /// <summary>
+    /// ویومدل  ویرایش والدین
+    /// </summary>
+    public class EditStudentParrentViewModel
+    {
+        [Display(Name = "شماره موبایل")]
+        public string PhoneNubmber { get; set; }
+
+        [Display(Name = "نام و نام خانوداگی")]
+        [Required(ErrorMessage = "{0}  الزامی است")]
+        public string Name { get; set; }
+
 
 
         [Display(Name = "شماره ثابت")]
@@ -85,6 +104,13 @@ namespace DAL.ViewModels
 
 
     }
+
+
+
+
+
+
+
 
     /// <summary>
     /// ویو مدل لاگین والدین

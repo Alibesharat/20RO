@@ -97,9 +97,16 @@ public class Const
     public const string IsExistStudentparrent = Apirootpath + "/api/Parent/IsExistStudentparrent";
 
     /// <summary>
-    /// ثبت نام راننده
+    /// ثبت نام والدین
     /// </summary>
-    public const string RegisterStudentParent = Apirootpath + "/api/Parent/RegisterStudentParent";
+    public const string RegisterStudentParent = Apirootpath + "/api/Parent/RegisterStudentParent"; 
+    
+    
+    
+    /// <summary>
+    /// ویرایش  والدین
+    /// </summary>
+    public const string EditStudentParent = Apirootpath + "/api/Parent/EditStudentParent";
 
     /// <summary>
     /// ورود والدین

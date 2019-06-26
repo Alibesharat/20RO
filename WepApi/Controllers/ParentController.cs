@@ -62,7 +62,7 @@ namespace WepApi.Controllers
         {
             try
             {
-                var parrent = _context.StudentParents.FirstOrDefault(c => c.PhoneNubmber == model.PhoneNubmber);
+                var parrent = _context.StudentParents.FirstOrDefault(c => c.PhoneNubmber == model.PhoneNumber);
                 if (parrent != null)
                 {
                     return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent });
@@ -88,18 +88,24 @@ namespace WepApi.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("RegisterStudentParent")]
+        [HttpPost(nameof(RegisterStudentParent))]
         public async Task<IActionResult> RegisterStudentParent([FromBody] RegisterStudentParrentViewModel model)
         {
             try
             {
-                if (CheckStudentparrent(model.PhoneNubmber))
+                if (CheckStudentparrent(model.PhoneNumber))
                 {
                     return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "این شماره موبایل قبلا ثبت نام کرده است" });
                 }
                 else
                 {
-                    var parrent = model.Adapt<StudentParent>();
+
+                    StudentParent parrent = new StudentParent()
+                    {
+                        telNumber = model.TelNumber,
+                        PhoneNubmber = model.PhoneNumber,
+                        Name = model.Name
+                    };
                     await _context.StudentParents.AddAsync(parrent);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
                     return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent, message = "" });
@@ -113,6 +119,51 @@ namespace WepApi.Controllers
 
             }
         }
+
+
+
+        /// <summary>
+        /// ویرایش اطلاعات والدین  
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost(nameof(EditStudentParent))]
+        public async Task<IActionResult> EditStudentParent([FromBody] EditStudentParrentViewModel model)
+        {
+            try
+            {
+
+
+
+                var parrent = _context.StudentParents.FirstOrDefault(c => c.PhoneNubmber == model.PhoneNubmber);
+                if (parrent == null)
+                {
+                    return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "این شماره موبایل  ثبت نام نکرده است" });
+
+                }
+
+                parrent.telNumber = model.TelNumber;
+                parrent.Name = model.Name;
+               
+                _context.Update(parrent);
+                await _context.SaveChangesWithHistoryAsync(HttpContext);
+                return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent, message = "ویرایش اطلاعات با موفقیت انجام شد" });
+
+
+            }
+            catch (Exception ex)
+            {
+                await _logger.LogAsync(HttpContext, ex);
+                return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "مشکلی بوجود  آمد" });
+
+            }
+        }
+
+
+
+
+
+
 
 
         /// <summary>
@@ -418,7 +469,7 @@ namespace WepApi.Controllers
             {
                 message = "درخواست سرویس شما   با موفقییت لغو شد";
             }
-            else if(model.RequsetState == RequsetSate.Reserve)
+            else if (model.RequsetState == RequsetSate.Reserve)
             {
                 message = "درخواست سرویس شما   با موفقییت رزرو شد";
             }
@@ -427,7 +478,7 @@ namespace WepApi.Controllers
                 return Ok(new ResultContract<int> { statuse = false, message = "یافت نشد" });
 
             }
-            var parrent =await _context.StudentParents.FirstOrDefaultAsync(c => c.Token == model.Token);
+            var parrent = await _context.StudentParents.FirstOrDefaultAsync(c => c.Token == model.Token);
             if (parrent != null)
             {
                 var serviceRequset = _context.ServiceRequsets.Find(model.RequsetId);
@@ -436,7 +487,7 @@ namespace WepApi.Controllers
                     serviceRequset.RequsetState = model.RequsetState;
                     _context.Update(serviceRequset);
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
-                   
+
                     return Ok(new ResultContract<int> { statuse = true, message = message });
 
                 }

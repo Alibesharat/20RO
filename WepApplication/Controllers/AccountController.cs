@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WepApplication.Util;
 
 namespace WepApplication.Controllers
 {
@@ -53,16 +54,12 @@ namespace WepApplication.Controllers
                 return View();
             }
             string token = Const.GeneratRandomNumber();
-
-
-            var options = new DistributedCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.Now.AddMinutes(3)
-            };
-            await _cache.SetStringAsync(phoneNumber, token, options);
+            await AddCashAsync(phoneNumber, token, 3);
             await _notify.SendNotifyWithTemplateAsync(phoneNumber, token, MessageTemplate.Bisroverify);
             return RedirectToAction(nameof(ValidateingNumber), new { phoneNumber });
         }
+
+
 
         public IActionResult ValidateingNumber(string phoneNumber)
         {
@@ -87,11 +84,10 @@ namespace WepApplication.Controllers
             {
                 var model = new RegisterStudentParrentViewModel()
                 {
-                    PhoneNubmber = phoneNumber,
+                    PhoneNumber = phoneNumber,
                     Name = "user",
-                    LastName = "Name",
-                    TelNumber="00"
-                    
+                    TelNumber = "00"
+
                 };
                 var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
            (model, Const.IsExistStudentparrent, ApiMethode.Post);
@@ -109,7 +105,7 @@ namespace WepApplication.Controllers
                     return RedirectToLocal("");
                 }
                 model.Name = "";
-                model.LastName = "";
+                await AddCashAsync("number", phoneNumber, 3);
                 return RedirectToAction(nameof(Complete), model);
             }
             ViewBag.msg = "کد وارد شده معتبر نمی باشد";
@@ -117,21 +113,24 @@ namespace WepApplication.Controllers
             return View();
         }
 
-       
+
 
 
 
         [AllowAnonymous]
         public async Task<IActionResult> Complete(RegisterStudentParrentViewModel model)
         {
-            if (!model.TelNumber.IsValidIranianPhoneNumber())
+            var s = _cache.GetString("number");
+            if (string.IsNullOrWhiteSpace(s))
             {
-                ModelState.AddModelError(nameof(model.TelNumber),"شماره تلفن وارد شده صحیح نیست" );
-             
+                ModelState.AddModelError("", "اعتبار زمانی تمام شده است دوباره  ثبت نام کنید");
+                return View(model);
+
             }
+            model.PhoneNumber = s;
             if (ModelState.IsValid)
             {
-                
+
                 var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
              (model, Const.RegisterStudentParent, ApiMethode.Post);
                 if (data == null)
@@ -153,9 +152,48 @@ namespace WepApplication.Controllers
 
 
 
+        [Authorize(Roles = nameof(RolName.Parrent))]
+        [HttpGet]
+        public IActionResult EditProfile()
+        {
+            var parrent = User.Getparrent();
+            EditStudentParrentViewModel model = new EditStudentParrentViewModel()
+            {
+                Name = parrent.Name,
+                TelNumber = parrent.telNumber
+            };
+
+            return View(model);
+        }
 
 
-       
+        [Authorize(Roles = nameof(RolName.Parrent))]
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(EditStudentParrentViewModel model)
+        {
+            var parrent = User.Getparrent();
+            model.PhoneNubmber = parrent.PhoneNubmber;
+            if (ModelState.IsValid)
+            {
+
+                var data = await ConnectApi.GetDataFromHttpClientAsync<ResultContract<StudentParent>>
+             (model, Const.EditStudentParent, ApiMethode.Post);
+                if (data == null)
+                {
+
+                    ModelState.AddModelError("", "ارتباط با سرور میسر نشد !");
+                    return View(model);
+                }
+                ModelState.AddModelError("", data.message);
+            }
+            return View(model);
+        }
+
+
+
+
+
+
 
 
         public IActionResult Denied()
@@ -206,12 +244,19 @@ namespace WepApplication.Controllers
                            ExpiresUtc = DateTime.UtcNow.AddDays(15),
                            IsPersistent = true,
                            AllowRefresh = true,
-                          
+
                        });
         }
 
 
-
+        private async Task AddCashAsync(string key, string value, int minute)
+        {
+            var options = new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTime.Now.AddMinutes(minute)
+            };
+            await _cache.SetStringAsync(key, value, options);
+        }
 
     }
 }
