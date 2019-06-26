@@ -65,6 +65,9 @@ namespace WepApi.Controllers
                 var parrent = _context.StudentParents.FirstOrDefault(c => c.PhoneNubmber == model.PhoneNumber);
                 if (parrent != null)
                 {
+                    parrent.Token = Const.Generatetoken();
+                    _context.Update(parrent);
+                    _context.SaveChanges();
                     return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent });
                 }
                 return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "این شماره موبایل از قبل ثبت نام کرده است" });
@@ -169,27 +172,27 @@ namespace WepApi.Controllers
 
 
 
-        /// <summary>
-        /// ورود والدین
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost("LoginStudentParrent")]
-        public async Task<IActionResult> LoginStudentParrent([FromBody]LoginStudentParrentViewModel model)
-        {
-            var parrent = await _context.StudentParents.Undelited()
-                .FirstOrDefaultAsync(c => c.PhoneNubmber == model.PhoneNubmber
-                 && c.Password == model.Password);
+        ///// <summary>
+        ///// ورود والدین
+        ///// </summary>
+        ///// <param name="model"></param>
+        ///// <returns></returns>
+        //[HttpPost("LoginStudentParrent")]
+        //public async Task<IActionResult> LoginStudentParrent([FromBody]LoginStudentParrentViewModel model)
+        //{
+        //    var parrent = await _context.StudentParents.Undelited()
+        //        .FirstOrDefaultAsync(c => c.PhoneNubmber == model.PhoneNubmber
+        //         && c.Password == model.Password);
 
-            if (parrent == null)
-                return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "نام کاربری یا رمز عبور اشتباه است" });
-            parrent.Token = Const.Generatetoken();
-            _context.Update(parrent);
-            _context.SaveChanges();
-            return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent, });
+        //    if (parrent == null)
+        //        return Ok(new ResultContract<StudentParent>() { statuse = false, Data = null, message = "نام کاربری یا رمز عبور اشتباه است" });
+        //    parrent.Token = Const.Generatetoken();
+        //    _context.Update(parrent);
+        //    _context.SaveChanges();
+        //    return Ok(new ResultContract<StudentParent>() { statuse = true, Data = parrent, });
 
 
-        }
+        //}
 
 
 
@@ -354,12 +357,7 @@ namespace WepApi.Controllers
             }
         }
 
-
-
-
-
-
-
+        
 
         /// <summary>
         /// دریافت آموزشگاه ها
