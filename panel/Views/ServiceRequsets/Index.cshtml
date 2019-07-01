@@ -64,11 +64,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Address)
                         </th>
+                        
                         <th>
-                            دوره
-                        </th>
-                        <th>
-                            مدرسه
+                            قیمت
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.RequsetState)
@@ -79,34 +77,36 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StudentParent.PhoneNubmber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FullName)
-                            </td>
-                            <td>
-                                @item?.TaxiService?.Driver?.Name
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Age)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Address)
-                            </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentParent.PhoneNubmber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @item?.TaxiService?.Driver?.Name
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Age)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequsetState)
+                        </td>
+                        <td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RequsetState)
-                            </td>
-                            <td>
+                            <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
 
-                                <a title="ویرایش" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                            <a title="اطلاعات بیشتر" asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.Id"><i class="fa fa-info-circle "></i></a>
 
-                                <a title="اطلاعات بیشتر" asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.Id"><i class="fa fa-info-circle "></i></a>
-
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
