@@ -25,7 +25,7 @@ namespace DAL
         [Display(Name = "شهر")]
         public virtual City City { get; set; }
 
-        [Display(Name = "لیست آموزشگاه ها")]
+        [Display(Name = "لیست مدرسه ها")]
         public virtual ICollection<Academy> Academies { get; set; }
 
         [Display(Name = "ضریب منطقه")]

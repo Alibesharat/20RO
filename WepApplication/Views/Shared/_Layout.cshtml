@@ -71,6 +71,12 @@
                 <i class="material-icons">edit</i>
             </a>
         </li>
+        <li>
+            <a onclick="Logoff()">
+                خروج
+                <i class="material-icons">close</i>
+            </a>
+        </li>
 
 
     </ul>
@@ -80,7 +86,7 @@
     <div class="navbarmenu">
         <a id="menu" href="#" data-target="slide-out" class="sidenav-trigger btn-small waves-effect waves-light teal lighten-2"><i class="material-icons">menu</i></a>
     </div>
-   
+
     <div id="modalmessage" class="modal ">
 
         <div class="modal-content">
@@ -107,6 +113,8 @@
 
 
     </div>
+
+    <form asp-action="Logout" asp-controller="Account" id="frmlogout"></form>
     <!-- #endregion -->
 
     @RenderBody()
@@ -117,11 +125,11 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.min.js'></script>
     <script src="~/js/initmatrailcss.js?v5"></script>
     <script src="~/js/fastclick.js"></script>
-   
+
 
     <script>
 
-     
+
 
         if ('serviceWorker' in navigator) {
             // Register a service worker hosted at the root of the
@@ -169,7 +177,7 @@
 
         }
 
-       
+
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -181,7 +189,7 @@
             $('#modalmessage').modal('open');
         }
 
-   
+
 
          function Logoff()
          {

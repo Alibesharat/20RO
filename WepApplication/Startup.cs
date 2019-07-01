@@ -102,20 +102,7 @@ namespace WepApplication
                 }
             });
             app.UseCookiePolicy();
-            app.Use(async (context, next) =>
-            {
-                // For GetTypedHeaders, add: using Microsoft.AspNetCore.Http;
-                context.Response.GetTypedHeaders().CacheControl =
-                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-                    {
-                        Public = true,
-                        MaxAge = TimeSpan.FromDays(30)
-                    };
-                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-                    new string[] { "Accept-Encoding" };
-
-                await next();
-            });
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

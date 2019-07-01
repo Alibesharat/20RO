@@ -76,7 +76,51 @@ namespace Panel.Controllers
             return View();
         }
 
-     
+
+        //// POST: Drivers/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("CarName,CarType,CarColor,IranianIdCode,DrivingLicense,DriverCode,PelakNumber,CityId,IsMaried,HasPlan,Id,Name,LastName,Age,Gender,Password,PhoneNubmber,IsMobielVerifed,Email,IsEmailVerified,BirthDay,BeginDate,AllowActivity")] Driver driver, IFormFile AvatarPath)
+        //{
+        //    var contractor = User.GetAdmin();
+        //    if (contractor == null)
+        //        return Unauthorized();
+        //    driver.ContractorId = contractor.Id;
+
+        //    if (AvatarPath == null)
+        //    {
+        //        ModelState.AddModelError(nameof(AvatarPath), "تصویر راننده وارد شود");
+        //    }
+        //    if (AvatarPath != null && AvatarPath.Length > (500 * 1024))
+        //    {
+        //        ModelState.AddModelError(nameof(AvatarPath), "حجم تصویر نباید بیش از 500 کیلو بایت باشد");
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        List<string> AllowedExtention = new List<string>()
+        //            {
+        //               ".jpg",
+        //               ".png"
+        //            };
+        //        var data = await AlphaRest.File.SendFileAsync(AvatarPath, AllowedExtention, (500 * 1024), $"{Const.StudentparrentPath}/api/api/Getdriverpic");
+        //        if (data != null && data != "false")
+        //        {
+        //            driver.AvatarPath = data;
+        //        }
+
+
+        //        _context.Add(driver);
+        //        await _context.SaveChangesWithHistoryAsync(HttpContext);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(driver);
+        //}
+
+
+
+
         [Authorize(Roles = nameof(RolName.Admin))]
         public async Task<IActionResult> Edit(int? id)
         {

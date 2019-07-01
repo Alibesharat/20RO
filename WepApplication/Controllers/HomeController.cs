@@ -107,11 +107,11 @@ namespace WepApplication.Controllers
                     return Unauthorized();
                 ResultContract<int> res = await ConnectApi.
                  GetDataFromHttpClientAsync<ResultContract<int>>
-                 (new CancelAndAcceptRequsetViewModel() { RequsetState = model.RequsetState, Token = parrent.Token,RequsetId=model.RequsetId }, Const.CancelAndAcceptRequset, ApiMethode.Post);
-               
+                 (new CancelAndAcceptRequsetViewModel() { RequsetState = model.RequsetState, Token = parrent.Token, RequsetId = model.RequsetId }, Const.CancelAndAcceptRequset, ApiMethode.Post);
+
                 if (res != null && res.statuse == true)
                 {
-                    return Json(new ResultContract<int>() { statuse = true, message =res.message  });
+                    return Json(new ResultContract<int>() { statuse = true, message = res.message });
                 }
                 else
                 {

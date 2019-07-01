@@ -139,11 +139,22 @@
 
     <div class="modal-content">
         <div class="center">
-            <a class="waves-effect  btn corner  no-action">  نام و نام خانوادگی   </a>
+            <a class="waves-effect  btn corner  no-action">   نام و نام خانوداگی دانش آموز   </a>
             <div class="form-group">
                 <div class="row">
                     <div class="input-field  col s12 ">
-                        <input type="text" placeholder="نام ونام خانوداگی " id="name" />
+                        <input type="text" placeholder=" نام و نام خانوداگی دانش آموز " id="name" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="input-field  col s12 ">
+                        <select class="browser-default" id="servicetype">
+                            <option value="0">سواری</option>
+                            <option value="1">ون</option>
+                        </select>
                     </div>
 
                 </div>
@@ -194,7 +205,8 @@
             CourseId: "0",
             latitue: "",
             Longtude: "",
-            AcademyId: "0"
+            AcademyId: "0",
+            ServiceType: "0"
 
         };
         $(document).ready(function () {
@@ -285,6 +297,7 @@
             reqdata.FullName = $("#name").val();
             reqdata.Address = $("#address").val();
             reqdata.AcademyId = $("#academy").val();
+            reqdata.ServiceType = $("#servicetype").val();
             console.log(reqdata);
             $.ajax({
                 type: "POST",

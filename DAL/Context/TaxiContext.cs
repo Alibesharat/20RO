@@ -39,7 +39,7 @@ namespace DAL
              .Property(C => C.AllowActivity).HasDefaultValue(true);
 
 
-            //آموزشگاه
+            //مدرسه
             modelBuilder.Entity<Academy>()
               .Property(C => C.BeginDate).HasDefaultValueSql("GETDATE()");
             modelBuilder.Entity<Academy>()

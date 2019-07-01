@@ -209,12 +209,13 @@ namespace WepApi.Controllers
 
 
                 var requset = model.Adapt<ServiceRequset>();
+               
                 if (requset != null)
                 {
                     requset.Price = CalcPrice(requset);
                     if (requset.Price == 0)
                     {
-                        return Ok(new ResultContract<string> { message = "در حال حاضر امکان ارایه سرویس برای آموزشگاه شما وجود ندارد", statuse = false, Data = null });
+                        return Ok(new ResultContract<string> { message = "در حال حاضر امکان ارایه سرویس برای مدرسه شما وجود ندارد", statuse = false, Data = null });
 
                     }
                     requset.Id = Const.Generatetoken();
@@ -293,7 +294,7 @@ namespace WepApi.Controllers
         /// دریافت سرویس ها با توجه به وضعیت  
         /// </summary>
         /// <param name="model"></param>
-        /// <returns>مقدار بازگشتی برای حالات آموزشگاه و  پیمانکار بیکسان باشد</returns>
+        /// <returns>مقدار بازگشتی برای حالات مدرسه و  پیمانکار بیکسان باشد</returns>
         [HttpPost("ServiceHistory")]
         public async Task<IActionResult> ServiceHistory([FromBody] GetServiceHistoryViewModel model)
         {
@@ -360,7 +361,7 @@ namespace WepApi.Controllers
         
 
         /// <summary>
-        /// دریافت آموزشگاه ها
+        /// دریافت مدرسه ها
         /// </summary>
         /// <returns></returns>
         [HttpPost("GetAcademies")]
@@ -385,7 +386,7 @@ namespace WepApi.Controllers
 
 
         /// <summary>
-        /// دریافت یک آموزشگاه 
+        /// دریافت یک مدرسه 
         /// </summary>
         /// <returns></returns>
         [HttpPost("GetAcademy")]
@@ -427,7 +428,7 @@ namespace WepApi.Controllers
 
 
         /// <summary>
-        /// دریافت لیست  گروه های آموزشگاه
+        /// دریافت لیست  گروه های مدرسه
         /// </summary>
         /// <returns></returns>
         [HttpPost(nameof(GetAcademyCategories))]
@@ -443,7 +444,7 @@ namespace WepApi.Controllers
 
 
         /// <summary>
-        /// دریافت لیست  فیلتر شده آموزشگاه ها بر اساس مقطع و منطقه 
+        /// دریافت لیست  فیلتر شده مدرسه ها بر اساس مقطع و منطقه 
         /// </summary>
         /// <returns></returns>
         [HttpPost(nameof(GetFiltredAcademeis))]

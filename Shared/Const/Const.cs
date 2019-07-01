@@ -12,8 +12,8 @@ public class Const
     /// <summary>
     /// آدرس وبسایت
     /// </summary>
-    //public const string Apirootpath = "https://localhost:44353";
-    public const string Apirootpath = "http://Api.20ro.net";
+    public const string Apirootpath = "https://localhost:44353";
+   // public const string Apirootpath = "http://Api.20ro.net";
 
     public const string StudentparrentPath = "https://web.20ro.net";
     public const string Driverpath = "https://driver.20ro.net";
@@ -141,14 +141,14 @@ public class Const
 
 
     /// <summary>
-    /// دریافت لیست  آموزشگاه ها
+    /// دریافت لیست  مدرسه ها
     /// </summary>
     public const string GetAcademies = Apirootpath + "/api/Parent/GetAcademies";
 
 
 
     /// <summary>
-    /// دریافت یک آموزشگاه
+    /// دریافت یک مدرسه
     /// </summary>
     public const string GetAcademy = Apirootpath + "/api/Parent/GetAcademy";
 
@@ -161,14 +161,14 @@ public class Const
 
 
     /// <summary>
-    /// دریافت لیست   گروه های آموزشگاه
+    /// دریافت لیست   گروه های مدرسه
     /// </summary>
     public const string GetAcademyCategories = Apirootpath + "/api/Parent/GetAcademyCategories";
 
 
 
     /// <summary>
-    /// دریافت لیست    فیلتر شده آموزشگاه ها بر اساس مقطع و منطقه 
+    /// دریافت لیست    فیلتر شده مدرسه ها بر اساس مقطع و منطقه 
     /// </summary>
     public const string GetFiltredAcademeis = Apirootpath + "/api/Parent/GetFiltredAcademeis";
 

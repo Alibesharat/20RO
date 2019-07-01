@@ -1,4 +1,5 @@
 ﻿@model DAL.ServiceRequset
+@using DAL;
 @{
     ViewData["Title"] = "جزییات درخواست";
 
@@ -70,7 +71,14 @@
                 <div class="row">
                     <div class="col s12 m8">
                         <span class="btn contant">
-                            <span class="small-info">آموزشگاه  @Model?.Academy?.Name</span>  @Model?.Academy?.Address
+                            <span class="small-info">مدرسه  @Model?.Academy?.Name</span>  @Model?.Academy?.Address
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m3">
+                        <span class="btn contant">
+                            <span class="small-info">نوع سرویس </span>   @Model?.ServiceType.GetDisplayName()
                         </span>
                     </div>
                 </div>
@@ -104,7 +112,7 @@
                 <div class="row">
                     <div class="col s12 m3">
                         <span class="btn contant">
-                            <span class="small-info"> هزینه یک سال تحصیلی  :</span> طبق تعرفه آموزشگاه
+                            <span class="small-info"> هزینه یک سال تحصیلی  :</span> طبق تعرفه مدرسه
                         </span>
                     </div>
                 </div>
@@ -309,8 +317,7 @@
                 data: JSON.stringify(Reqdata),
                 success: function (response) {
                     LoadingEnd();
-                        ShowMessage(response.message);
-
+                    location.replace('/');
                 },
                 failure: function (response) {
                     console.log(response);

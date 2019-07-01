@@ -163,15 +163,17 @@ namespace DAL.ViewModels
         [Display(Name = "طول جغرافیایی")]
         public string Longtude { get; set; }
 
+
+        [Display(Name = "نوع سوریس درخواستی")]
+        public ServiceType ServiceType { get; set; }
+
         /// <summary>
         /// فاصله در Ui  در نمایش داده نمی شود
         /// </summary>
         public Decimal Distance { get; set; }
     }
 
-    /// <summary>
-    /// ویو مدل جزییات سرویس
-    /// </summary>
+
 
 
 

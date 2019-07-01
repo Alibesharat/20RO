@@ -207,7 +207,7 @@ namespace WepApplication.Controllers
         public IActionResult Logout()
         {
             return SignOut(
-                new AuthenticationProperties() { RedirectUri = "/Account/login" },
+                new AuthenticationProperties() { RedirectUri = "/Account/UserChalenge" },
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
         }

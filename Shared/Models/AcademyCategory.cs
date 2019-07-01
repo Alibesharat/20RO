@@ -22,7 +22,7 @@ namespace DAL
         public virtual ICollection<Academy> Academies { get; set; }
 
         [NotMapped]
-        [Display(Name = "نوع آموزشگاه")]
+        [Display(Name = "نوع مدرسه")]
         public string ClassName { get; }
     }
 }

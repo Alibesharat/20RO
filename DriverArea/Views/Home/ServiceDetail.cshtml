@@ -17,7 +17,7 @@
 
             <div class="card-content">
                 <button class="btn card-header">
-                    آموزشگاه  @Model.Passnegers?.FirstOrDefault()?.Academy?.Name
+                    مدرسه  @Model.Passnegers?.FirstOrDefault()?.Academy?.Name
                     <i class="fa fa-empire"></i>
                 </button>
                 <br />
@@ -50,13 +50,13 @@
                                             </p>
                                             <p class="center">
                                                 <a class="btn btn-block waves-effect blue" onclick="getLocation('@item.Academy?.FullGeo')">
-                                                    مسیر آموزشگاه
+                                                    مسیر مدرسه
                                                     <i class="fa fa-map-o"></i>
                                                 </a>
                                             </p>
                                             <p class="center">
                                                 <a class="btn btn-block waves-effect blue" onclick="ShowMessage('@item.Academy?.Address')">
-                                                    آدرس پستی آموزشگاه
+                                                    آدرس پستی مدرسه
                                                     <i class="fa fa-envelope-o"></i>
                                                 </a>
                                             </p>

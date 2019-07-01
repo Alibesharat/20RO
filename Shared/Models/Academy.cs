@@ -42,10 +42,10 @@ namespace DAL
         }
 
 
-        [Display(Name = "نوع آموزشگاه")]
+        [Display(Name = "نوع مدرسه")]
         [ForeignKey(nameof(Category))]
         public int AcademyCategoryId { get; set; }
-        [Display(Name = "نوع آموزشگاه")]
+        [Display(Name = "نوع مدرسه")]
         public AcademyCategory Category { get; set; }
 
       

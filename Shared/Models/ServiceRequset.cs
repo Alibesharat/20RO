@@ -79,10 +79,10 @@ namespace DAL
       
 
         
-        [Display(Name = "آموزشگاه")]
+        [Display(Name = "مدرسه")]
         [ForeignKey(nameof(Academy))]
         public int AcademyId { get; set; }
-        [Display(Name = "آموزشگاه")]
+        [Display(Name = "مدرسه")]
         public Academy Academy { get; set; }
 
 
