@@ -203,21 +203,21 @@ namespace Contracorpanel.Controllers
             {
                 return NotFound();
             }
-            if (TaxiService.ServiceType == ServiceType.taxi && TaxiService.Passnegers.Count() >= 4)
+            if (TaxiService.ServiceType == ServiceType.taxi && TaxiService.Passnegers.Count() >= 5)
             {
-                ViewBag.msg = "برای خودروی سواری ، بیش از چهار مسافر مجاز نمی باشد";
-                return View(nameof(Passengers), new { id = Id });
+                ViewBag.msg = "برای خودروی سواری ، بیش از پنج مسافر مجاز نمی باشد";
+                return View(nameof(Passengers), TaxiService);
             }
-            if (TaxiService.ServiceType == ServiceType.van && TaxiService.Passnegers.Count() >= 8)
+            if (TaxiService.ServiceType == ServiceType.van && TaxiService.Passnegers.Count() >= 10)
             {
-                ViewBag.msg = "برای خودروی ون ، بیش از هشت مسافر مجاز نمی باشد";
-                return View(nameof(Passengers), new { id = Id });
+                ViewBag.msg = "برای خودروی ون ، بیش از ده مسافر مجاز نمی باشد";
+                return View(nameof(Passengers), TaxiService);
             }
             var passnger = await _context.ServiceRequsets.Undelited().FirstOrDefaultAsync(c => c.Id == PassngerId);
             if (passnger == null)
             {
                 ViewBag.msg = "مسافری با این مشخصات  یافت نشد";
-                return View(nameof(Passengers), new { id = Id });
+                return View(nameof(Passengers), TaxiService);
             }
             TaxiService.Passnegers.Add(passnger);
             _context.Update(TaxiService);

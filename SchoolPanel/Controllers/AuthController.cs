@@ -31,11 +31,11 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string PhoneNumber, string Password)
         {
+            var s = _context.Academies.ToList();
 
             var academy =await _context.Academies.Undelited().FirstOrDefaultAsync
                (c => c.PhoneNubmber == PhoneNumber
                 && c.Password == Password
-                && c.AllowActivity == true
                 );
 
 

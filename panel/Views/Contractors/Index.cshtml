@@ -52,7 +52,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.PhoneNubmber)
                         </th>
-
+                        <th>
+                            @Html.DisplayNameFor(model => model.AllowActivity)
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -63,13 +65,14 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-
-
                             <td>
                                 @Html.DisplayFor(modelItem => item.Password)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.PhoneNubmber)
+                            </td>  
+                            <td class="@(item.AllowActivity?"success":"")">
+                                @(item.AllowActivity?"بله":"خیر")
                             </td>
 
                             <td>

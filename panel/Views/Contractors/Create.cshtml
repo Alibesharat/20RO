@@ -25,7 +25,7 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
-         
+
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
@@ -37,7 +37,7 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
                 <span asp-validation-for="PhoneNubmber" class="text-danger"></span>
             </div>
 
-          
+
 
             <div class="form-group">
                 <label asp-for="RelaseDate" class="control-label"></label>
@@ -56,7 +56,14 @@ ViewData["ClassName"]=@Html.DisplayNameFor(c=>c.ClassName);
                 <span asp-validation-for="NIdCode" class="text-danger"></span>
             </div>
 
-
+            <div class="form-group">
+                <label asp-for="AllowActivity" class="control-label"></label>
+                <select class="form-control" asp-for="AllowActivity">
+                    <option value="true">بله</option>
+                    <option value="false">خیر</option>
+                </select>
+                <span asp-validation-for="AllowActivity" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <label asp-for="RegisterCompanyNumber" class="control-label"></label>

@@ -102,7 +102,7 @@ namespace SchoolPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //تغییر وضعیت درخواست
-        public async Task<IActionResult> ChangeState(string id, RequsetSate requsetSate)
+        public async Task<IActionResult> ChangeState(string id, RequsetSate RequsetState)
         {
             var serviceRequset = await _context.ServiceRequsets
                .FirstOrDefaultAsync(m => m.Id == id && m.AcademyId == User.GetAcademy().Id);
@@ -110,7 +110,7 @@ namespace SchoolPanel.Controllers
                 return NotFound();
             try
             {
-                serviceRequset.RequsetState = requsetSate;
+                serviceRequset.RequsetState = RequsetState;
                 _context.Update(serviceRequset);
                 await _context.SaveChangesWithHistoryAsync(HttpContext);
                 ViewBag.msg = "تغییر وضعیت با موفقیت انجام شد";

@@ -26,7 +26,7 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
-       
+
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
@@ -38,7 +38,7 @@
                 <span asp-validation-for="PhoneNubmber" class="text-danger"></span>
             </div>
 
-          
+
 
             <div class="form-group">
                 <label asp-for="RelaseDate" class="control-label"></label>
@@ -56,7 +56,23 @@
                 <input asp-for="NIdCode" class="form-control" />
                 <span asp-validation-for="NIdCode" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="AllowActivity" class="control-label"></label>
+                <select class="form-control" asp-for="AllowActivity">
+                    @if (Model.AllowActivity)
+                    {
+                        <option value="true" selected="selected">بله</option>
+                        <option value="false">خیر</option>
+                    }
+                    else
+                    {
+                        <option value="true">بله</option>
+                        <option value="false" selected="selected">خیر</option>
+                    }
 
+                </select>
+                <span asp-validation-for="AllowActivity" class="text-danger"></span>
+            </div>
 
 
             <div class="form-group">
