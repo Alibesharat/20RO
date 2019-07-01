@@ -11,12 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Contracorpanel.Controllers
 {
     [Authorize(Roles = nameof(RolName.Contractor))]
     public class TaxiServicesController : Controller
     {
         private readonly TaxiContext _context;
+
 
         public TaxiServicesController(TaxiContext context)
         {
@@ -111,7 +113,17 @@ namespace Contracorpanel.Controllers
                 try
                 {
                     _context.Update(taxiService);
+                    if (taxiService.TaxiCabState == TaxiCabState.Ready)
+                    {
+                        var passengers = _context.TaxiServices.Include(c => c.Passnegers).FirstOrDefault(c=>c.Id==taxiService.Id)?.Passnegers;
+                        foreach (var item in passengers)
+                        {
+                            item.RequsetState = RequsetSate.Servicing;
+                            _context.Update(item);
+                        }
+                    }
                     await _context.SaveChangesWithHistoryAsync(HttpContext);
+                    
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {

@@ -40,9 +40,11 @@ namespace Web.Controllers
 
             if (contractor != null)
             {
-                var claimes = new List<Claim>();
-                claimes.Add(new Claim(ClaimTypes.Name, $"{contractor.Name}"));
-                claimes.Add(new Claim(ClaimTypes.Role, nameof(RolName.Contractor)));
+                var claimes = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, $"{contractor.Name}"),
+                    new Claim(ClaimTypes.Role, nameof(RolName.Contractor))
+                };
 
                 string userdata = JsonConvert.SerializeObject(contractor);
                 claimes.Add(new Claim(ClaimTypes.UserData, userdata));
