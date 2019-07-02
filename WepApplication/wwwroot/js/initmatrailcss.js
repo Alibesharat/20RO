@@ -5,11 +5,11 @@
     $('.modal').modal();
     $('select').formSelect();
 });
-function ShowMessage(message) {
+//function ShowMessage(message) {
 
-    $("#message").text(message);
-    $('#modalmessage').modal('open');
-}
+//    $("#message").text(message);
+//    $('#modalmessage').modal('open');
+//}
 
 function Close() {
     $('.sidenav').sidenav('close');

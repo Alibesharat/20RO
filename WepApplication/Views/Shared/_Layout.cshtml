@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/css/site.css?v9" rel="stylesheet" />
     <link href="~/css/materialize-rtl.css?v8" rel="stylesheet" />
+    <link href="~/css/iziModal.css" rel="stylesheet" />
     <link href="~/manifest.json?v8" rel="manifest" />
 
 </head>
@@ -77,6 +78,12 @@
                 <i class="material-icons">close</i>
             </a>
         </li>
+        <li>
+            <a onclick="ShowMessage('نمایش متن تست')">
+                باز کردن
+                <i class="material-icons">close</i>
+            </a>
+        </li>
 
 
     </ul>
@@ -87,16 +94,16 @@
         <a id="menu" href="#" data-target="slide-out" class="sidenav-trigger btn-small waves-effect waves-light teal lighten-2"><i class="material-icons">menu</i></a>
     </div>
 
-    <div id="modalmessage" class="modal ">
+    <div id="modalmessage" data-iziModal-fullscreen="true"  data-iziModal-title="پیام از طرف"  data-iziModal-subtitle="بیسترو"  >
 
-        <div class="modal-content">
-            <p>پیام سیستم</p>
-            <p id="message"></p>
-        </div>
+        
+            <p id="message">test</p>
+        
 
 
 
     </div>
+
 
 
     <div id="modalLoader" class="modal bottom-sheet">
@@ -118,6 +125,8 @@
     <!-- #endregion -->
 
     @RenderBody()
+
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -125,6 +134,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.min.js'></script>
     <script src="~/js/initmatrailcss.js?v5"></script>
     <script src="~/js/fastclick.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js" integrity="sha256-vVnwgKyq3pIb4XdL91l1EC8j7URqDRK8BAWvSnKX0U8=" crossorigin="anonymous"></script>
 
 
     <script>
@@ -186,14 +196,16 @@
         function ShowMessage(message) {
 
             $("#message").text(message);
-            $('#modalmessage').modal('open');
+            var modalmsg = $('#modalmessage').iziModal();
+
+            modalmsg.iziModal('open', {
+                transitionIn: 'bounceInDown',
+            });
+
         }
-
-
 
          function Logoff()
          {
-
              $("#frmlogout").submit();
          }
 

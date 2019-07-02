@@ -6005,6 +6005,7 @@ table.text-center th {
         text-align: center;
         color: white !important;
     }
+
 @media only screen and (max-width: 1357px) {
     .box-product p {
         font-size: 9px;
@@ -6722,12 +6723,15 @@ table.text-center th {
 .box-cod-12 {
     background-color: #6D6565;
 }
-.box-cod-true{
-    background-color:lawngreen;
+
+.box-cod-true {
+    background-color: lawngreen;
 }
-.box-cod-false{
-    background-color:hotpink;
+
+.box-cod-false {
+    background-color: hotpink;
 }
+
 .blink_me {
     animation: blinker 1.5s linear infinite;
 }
@@ -6741,4 +6745,8 @@ table.text-center th {
 .Ready {
     background-color: #18cb53;
     color: white;
+}
+
+.iziModal-header-subtitle, .iziModal .iziModal-header-title {
+    text-align: right !important;
 }
