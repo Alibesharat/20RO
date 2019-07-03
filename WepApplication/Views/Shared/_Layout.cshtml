@@ -14,7 +14,7 @@
 
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.2/mapbox-gl-geocoder.css' type='text/css' />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link href="~/css/site.css?v9" rel="stylesheet" />
     <link href="~/css/materialize-rtl.css?v8" rel="stylesheet" />
     <link href="~/css/iziModal.css" rel="stylesheet" />
@@ -79,11 +79,26 @@
             </a>
         </li>
         <li>
-            <a onclick="ShowMessage('نمایش متن تست')">
-                باز کردن
+            <a onclick="ShowMessage('پرداخت شما با موفقیت انجام شد')">
+                نمایش پیام
                 <i class="material-icons">close</i>
             </a>
         </li>
+        <li>
+            <a onclick="startloading()">
+                loader
+                <i class="material-icons">close</i>
+            </a>
+        </li>
+        <li>
+            <a onclick="stepone()">
+                فرم
+                <i class="material-icons">close</i>
+            </a>
+        </li>
+
+
+
 
 
     </ul>
@@ -94,32 +109,25 @@
         <a id="menu" href="#" data-target="slide-out" class="sidenav-trigger btn-small waves-effect waves-light teal lighten-2"><i class="material-icons">menu</i></a>
     </div>
 
-    <div id="modalmessage" data-iziModal-fullscreen="true"  data-iziModal-title="پیام از طرف"  data-iziModal-subtitle="بیسترو"  >
-
-        
-            <p id="message">test</p>
-        
+    <div id="modalmessage" data-iziModal-fullscreen="true" data-iziModal-title="پیام از طرف" data-iziModal-subtitle="بیسترو">
+        <p id="message"></p>
+    </div>
 
 
+
+    <div id="modalloader" class="header-fix" data-iziModal-subtitle="بیسترو">
+        <!-- Modal content -->
+
+    </div>
+
+    <div id="modalform" class="header-fix" data-iziModal-subtitle="اطلاعات هویتی">
+        <!-- Modal content -->
 
     </div>
 
 
 
-    <div id="modalLoader" class="modal bottom-sheet">
-        <div class="modal-content">
-            <div class="center">
-                <div class="row">
-                    <div id="loader" class="progress">
-                        <div class="indeterminate"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-
-
-    </div>
 
     <form asp-action="Logout" asp-controller="Account" id="frmlogout"></form>
     <!-- #endregion -->
@@ -136,10 +144,9 @@
     <script src="~/js/fastclick.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js" integrity="sha256-vVnwgKyq3pIb4XdL91l1EC8j7URqDRK8BAWvSnKX0U8=" crossorigin="anonymous"></script>
 
-
     <script>
 
-
+       
 
         if ('serviceWorker' in navigator) {
             // Register a service worker hosted at the root of the
@@ -183,35 +190,81 @@
         if (!navigator.onLine) {
             window.location.href = "/offline.html";
         }
-        function help() {
-
-        }
-
 
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
 
+       
+
+            function Logoff()
+            {
+                $("#frmlogout").submit();
+            }
+
+            $(function () {
+                FastClick.attach(document.body);
+            });
+    </script>
+
+    <script>
+        var modalloader = $('#modalloader').iziModal({
+            closeOnEscape: false,
+            closeButton: false,
+            overlayClose: false,
+            headerColor: '#141b1e',
+            width: 200,
+        });
+        var modalmsg = $('#modalmessage').iziModal();
+        var modalform = $('#modalform').iziModal();
+
         function ShowMessage(message) {
 
             $("#message").text(message);
-            var modalmsg = $('#modalmessage').iziModal();
 
             modalmsg.iziModal('open', {
                 transitionIn: 'bounceInDown',
             });
 
+
         }
 
-         function Logoff()
-         {
-             $("#frmlogout").submit();
-         }
+        function startloading() {
+            modalloader.iziModal('setContent', '<p class="text-center alertContent">' + 'Wait' + '</p>');
 
-         $(function () {
-             FastClick.attach(document.body);
-         });
+            modalloader.iziModal('setHeader', false);
+            modalloader.iziModal('setTitle', 'لطفا منتظر بمانید');
+            modalloader.iziModal('open', {
+                transition: 'bounceInDown' // Here transitionIn is the same property.
+            });
+            modalloader.iziModal('startLoading');
+        }
+        function stoploading() {
+            modalloader.iziModal('stopLoading');
+            modalloader.iziModal('close');
+        }
+
+        function stepone() {
+            modalform.iziModal('setContent',
+                '<label>' + 'نام و نام خانوادگی' + '</label>'
+                + '<input type="text" class="formbox" id="name"/>'
+                + '</br>'
+                 + '<label>' + 'نام پدر' + '</label>'
+                + '<input type="text" class="formbox" id="fatehename"/>'
+                
+                 + '</br></br></br>'
+                 + '<a class="waves-effect waves-light btn">مرحله بعد</a>'
+                    + '<a class="waves-effect waves-light btn">مرحله قبل</a>'
+                );
+
+            modalform.iziModal('setHeader', false);
+            modalform.iziModal('setTitle', 'مرحله اول');
+            modalform.iziModal('open', {
+                transition: 'pulse' // Here transitionIn is the same property.
+            });
+
+        }
     </script>
 
     @RenderSection("Scripts", required: false)
