@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "website", "website\website.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolPanel", "SchoolPanel\SchoolPanel.csproj", "{C0CD32D2-EA95-4AD6-84E6-DE970D3014F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracorpanel", "Contracorpanel\Contracorpanel.csproj", "{ED65F46F-CAFF-4F1C-8150-F990C069619C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracorpanel", "Contracorpanel\Contracorpanel.csproj", "{ED65F46F-CAFF-4F1C-8150-F990C069619C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
