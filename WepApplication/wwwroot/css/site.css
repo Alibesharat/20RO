@@ -326,6 +326,27 @@ body {
     width:90%;
 }
 
+.btn-block
+{
+ width: 70%;
+ height: 3rem;
+    border-radius: 6px !important;
+}
+
+.entry {
+    border-radius: 6px !important;
+    width: 65% !important;
+    margin-right: 15% !important;
+}
+
+.box
+{
+    width: 83% !important;
+    margin-right: 6% !important;   
+}
+
+   
+
 /*.tap-target {
     left: 0px !important;
     top: 0px !important;

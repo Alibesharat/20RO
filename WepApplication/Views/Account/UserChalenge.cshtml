@@ -15,33 +15,36 @@
 <div class="row">
     <div class="col s12 m4 offset-m4">
         <div class="card white lighten-1">
-            <div class="center">
+            <p class="center">
                 <p class="red-text">@ViewBag.msg</p>
-            </div>
+            </p>
 
             <div class="card-content white-text">
                 <div asp-validation-summary="ModelOnly" class="red-text"></div>
 
                 <form asp-action="Register" asp-controller="Account" method="post">
-                    <div class="form-group">
-                        <div class=" col s12 ">
-                            <p  class="black-text">شماره تلفن همراه خود را وارد کنید</p>
-                          <br/>
+                 
+                    <p class=" center">
+                        
+                        <p class="black-text">شماره تلفن همراه خود را وارد کنید</p>
+                        <br/>
 
-                            <input class="entry" name="phoneNumber" placeholder="تلفن همراه">
+                        <input class="entry" name="phoneNumber" placeholder="تلفن همراه">
 
 
-                        </div>
-                    </div>
+                    </p>
+                  
 
 
 
                     <p class="center">
-                        <button class="waves-effect btn corner" type="submit">
+                        <button class="waves-effect btn corner btn-block" type="submit">
                             دریافت کد
 
                         </button>
                     </p>
+                    
+                    
                 </form>
 
             </div>
