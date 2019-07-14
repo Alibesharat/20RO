@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 @font-face {
     font-family: Shabnam;
     src: url('../fonts/Shabnam-Bold-FD.eot');
@@ -345,12 +345,58 @@ body {
     margin-right: 6% !important;   
 }
 
-.b
+.color-bottom-bordr 
 {
 
     border-bottom: 1px solid #ff9800 !important;
 }
-   
+
+.box-border
+{
+    border: 1px solid #ff9800 !important;
+    border-radius: 6px;
+}
+.after-drop::after
+{
+    content: "^";
+    background-color: yellow;
+    color: red;
+    font-weight: bold;
+    
+}
+
+.edit
+{
+    width: 70%;
+    height: 3rem;
+    border-radius: 6px;
+    background-color: #ff9800;
+}
+
+#partitioned {
+    padding-left: 15px;
+    letter-spacing: 42px;
+    border: 0;
+    background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom;
+    background-size: 50px 1px;
+    background-repeat: repeat-x;
+    background-position-x: 35px;
+    width: 220px;
+    min-width: 220px;
+}
+
+#divInner{
+    left: 0;
+    position: sticky;
+}
+
+#divOuter{
+    width: 190px;
+    overflow: hidden;
+    direction: ltr;
+    margin-right: 38px;
+}
 
 /*.tap-target {
     left: 0px !important;
@@ -359,3 +405,11 @@ body {
     height: 51% !important;
   
 }*/
+
+input:focus
+{
+    -webkit-box-shadow: none !important;
+}
+
+
+
