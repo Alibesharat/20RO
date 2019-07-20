@@ -1,28 +1,35 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "ValidateingNumber";
 }
 <div class="row">
     <div class="col s12 m4 offset-m4">
         <div class="card white lighten-1">
             <div class="center">
-                <br />
-                <p>کد تایید برای شماره @ViewBag.phoneNumber  پیامک شد</p>
-                <p>این کد فقط سه دقیقه اعتبار دارد</p>
+                <br/>
+                <p>کد تایید برای شماره @ViewBag.phoneNumber پیامک شد</p>
+                <p id="textfinal">این کد فقط تا  <span id="number">180</span> ثانیه دیگر اعتبار دارد</p>
                 <p class="red-text">@ViewBag.msg</p>
             </div>
 
             <div class="card-content white-text">
                 <form asp-action="ValidateingNumber" method="post">
-                    <input type="hidden" value="@ViewBag.phoneNumber" name="phoneNumber" />
+
+
+                    <input type="hidden" value="@ViewBag.phoneNumber" name="phoneNumber"/>
                     <div class="form-group">
-                        <div class=" col s12 ">
-                            <lable>کد تایید را اینجا وارد کنید</lable>
-                            <input class="entry box" name="vierfiyCode" placeholder="کد تایید ">
+                    <div class=" col s12 ">
+                        <label> کد تایید را اینجا وارد کنید </label>
+
+                        <div id="divOuter">
+                            <div id="divInner">
+                                <input id="partitioned" onkeypress="return isNumberKey(event)" type="text" name="vierfiyCode" maxlength="4"onkeyup="massage(this)" />
+                            </div>
                         </div>
+
                     </div>
+                   
                     <p class="center">
-                        <button class="waves-effect btn corner btn-block" type="submit">
+                        <button class="waves-effect btn corner btn-block" type="submit" id="btnform" disabled> 
                             تایید
                         </button>
                     </p>
@@ -38,6 +45,109 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+var obj = document.getElementById('partitioned');
+obj.addEventListener('keydown', stopCarret); 
+obj.addEventListener('keyup', stopCarret); 
+
+function stopCarret() {
+	if (obj.value.length > 3){
+		setCaretPosition(obj, 3);
+	}
+}
+
+function setCaretPosition(elem, caretPos) {
+    if(elem != null) {
+        if(elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', caretPos);
+            range.select();
+        }
+        else {
+            if(elem.selectionStart) {
+                elem.focus();
+                elem.setSelectionRange(caretPos, caretPos);
+            }
+            else
+                elem.focus();
+        }
+    }
+}
+</script>
+
+<script>
+window.onload = function() {
+    var input = document.getElementById("partitioned").focus();
+}
+
+</script>
+
+<script>
+function massage(el) {
+    
+             var x = document.getElementById("btnform"); 
+
+    if(el.value.length==4){ 
+         x.removeAttribute('disabled');
+    
+    }
+    
+    else {
+         x.setAttribute("disabled", "disabled");
+        
+                
+    } 
+}
+
+</script>
+
+<script>
+
+ function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+         return true;
+      }
+   
+</script>
+
+<script>
+
+
+ 
+ var timer=setInterval( down,1000);
+
+
+var  mynumber=180;
+var spannumber=document.getElementById("number");
+
+
+function down()
+{
+    mynumber-=1;
+  
+   
+   spannumber.innerHTML= mynumber;
+   
+ 
+   
+   if(mynumber == 0 ) {
+       clearInterval(timer);
+        document.getElementById("textfinal").innerHTML = "دوباره سعی کنید";
+        
+   }
+}
+
+
+
+</script>
+
 
 
 
