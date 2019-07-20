@@ -348,7 +348,8 @@ body {
 .color-bottom-bordr 
 {
 
-    border-bottom: 1px solid #ff9800 !important;
+    border: 1px solid #ff9800 !important;
+    border-radius: 6px !important;
 }
 
 .box-border
@@ -412,5 +413,14 @@ input:focus
     -webkit-box-shadow: none !important;
 }
 
+#number
+{
+    
+    color:red;
+}
 
-
+#name
+{
+    border: 1px solid #ff9800 !important;
+    border-radius: 6px !important;
+}
