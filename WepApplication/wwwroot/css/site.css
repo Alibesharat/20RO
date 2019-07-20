@@ -424,3 +424,11 @@ input:focus
     border: 1px solid #ff9800 !important;
     border-radius: 6px !important;
 }
+
+.small-info, .large-info {
+    background-color: #ff9800;
+}
+
+.teal.lighten-2 {
+    background-color: #ff9800 !important;
+}
